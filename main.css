@@ -1,11 +1,11 @@
 /**
  * ==================================================================================
- * main.css - Estilos de Layout e Estrutura da "änalitks" (Versão com Layout Amplo)
+ * main.css - Estilos de Layout e Estrutura da "änalitks" (Versão "Wall Street")
  * ----------------------------------------------------------------------------------
  * Responsabilidades:
- * 1. Definir o layout principal da página de forma eficiente.
+ * 1. Definir o layout principal da página de forma eficiente e centralizada.
  * 2. Gerenciar a visibilidade das "telas".
- * 3. Estruturar os formulários e botões para performance.
+ * 3. Estruturar os botões para performance.
  * 4. Adicionar a estrutura de layout para o modal "Sobre".
  * ==================================================================================
  */
@@ -36,17 +36,17 @@ body {
 /* --- Estrutura do Conteúdo Principal (Layout Amplo) --- */
 .calculator-card {
     width: 100%;
-    /* ATUALIZAÇÃO: Aumentamos a largura para criar o layout de "página inteira". */
-    max-width: 800px; /* Aumentado para acomodar cartões maiores */
+    /* ATUALIZAÇÃO: Aumentado para um layout mais imponente, "Wall Street" */
+    max-width: 960px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px; /* Aumentado o espaçamento geral */
 }
 
 .card-header {
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 16px; /* Aumentado o espaçamento */
 }
 
 /* --- Estrutura do Logo --- */
@@ -67,16 +67,13 @@ body {
     flex-direction: column;
     gap: 15px; 
     width: 100%;
+    max-width: 400px; /* Limita a largura na tela de auth */
+    margin: 0 auto; /* Centraliza */
 }
 
 
 /* --- Estrutura Interna dos Cards e Seções --- */
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 100%;
-}
+/* A regra .input-group foi movida para o style.css para centralizar os estilos de componentes e evitar conflitos. */
 
 .results-section {
     display: flex;
