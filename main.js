@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const investimentosElements = { form: { valorInicial: document.getElementById('valor-inicial'), aporteMensal: document.getElementById('aporte-mensal'), taxaJurosAnual: document.getElementById('taxa-juros-anual'), periodoAnos: document.getElementById('periodo-anos') }, buttons: { calcular: document.getElementById('calcular-investimentos-btn'), voltar: document.getElementById('back-to-dashboard-from-investimentos') }, results: { container: document.getElementById('investimentos-results-section'), valorFinal: document.getElementById('resultado-valor-final'), totalInvestido: document.getElementById('resultado-total-investido'), totalJuros: document.getElementById('resultado-total-juros') } };
     const feriasElements = { form: { salarioBruto: document.getElementById('ferias-salario-bruto'), dias: document.getElementById('ferias-dias'), venderDias: document.getElementById('ferias-vender-dias'), adiantar13: document.getElementById('ferias-adiantar-13') }, buttons: { calcular: document.getElementById('calcular-ferias-btn'), voltar: document.getElementById('back-to-dashboard-from-ferias') }, results: { container: document.getElementById('ferias-results-section'), feriasBrutas: document.getElementById('resultado-ferias-brutas'), tercoConstitucional: document.getElementById('resultado-terco-constitucional'), abonoPecuniario: document.getElementById('resultado-abono-pecuniario'), totalBruto: document.getElementById('resultado-total-bruto-ferias'), inss: document.getElementById('resultado-inss-ferias'), irrf: document.getElementById('resultado-irrf-ferias'), adiantamento13: document.getElementById('resultado-adiantamento-13'), liquido: document.getElementById('resultado-liquido-ferias'), abonoLine: document.getElementById('abono-pecuniario-line'), adiantamento13Line: document.getElementById('adiantamento-13-line') } };
     const decimoTerceiroElements = { form: { salarioBruto: document.getElementById('decimo-terceiro-salario-bruto'), meses: document.getElementById('decimo-terceiro-meses'), dependentes: document.getElementById('decimo-terceiro-dependentes') }, buttons: { calcular: document.getElementById('calcular-decimo-terceiro-btn'), voltar: document.getElementById('back-to-dashboard-from-decimo-terceiro') }, results: { container: document.getElementById('decimo-terceiro-results-section'), bruto: document.getElementById('resultado-13-bruto'), primeiraParcela: document.getElementById('resultado-13-primeira-parcela'), segundaParcelaBruta: document.getElementById('resultado-13-segunda-parcela-bruta'), inss: document.getElementById('resultado-inss-13'), irrf: document.getElementById('resultado-irrf-13'), segundaParcelaLiquida: document.getElementById('resultado-13-segunda-parcela-liquida'), liquidoTotal: document.getElementById('resultado-13-liquido-total') } };
-    // ATUALIZAÇÃO: Adicionado o botão de salvar aos seletores
     const horaValorElements = { form: { salario: document.getElementById('hora-valor-salario'), horasDia: document.getElementById('hora-valor-horas-dia'), diasSemana: document.getElementById('hora-valor-dias-semana') }, buttons: { calcular: document.getElementById('calcular-hora-valor-btn'), voltar: document.getElementById('back-to-dashboard-from-hora-valor'), salvar: document.getElementById('salvar-hora-valor-btn') }, results: { container: document.getElementById('hora-valor-results-section'), valorHora: document.getElementById('resultado-hora-valor'), explicacao: document.getElementById('explicacao-hora-valor') } };
     const irpfElements = { form: { rendimentosAnuais: document.getElementById('rendimentos-anuais'), despesasSaude: document.getElementById('despesas-saude'), despesasEducacao: document.getElementById('despesas-educacao'), dependentes: document.getElementById('dependentes') }, buttons: { calcular: document.getElementById('calcular-irpf-btn'), voltar: document.getElementById('back-to-dashboard-from-irpf') }, results: { container: document.getElementById('irpf-results-section'), completa: document.getElementById('resultado-irpf-completa'), simplificada: document.getElementById('resultado-irpf-simplificada'), recomendacao: document.getElementById('recomendacao-irpf').querySelector('p') } };
 
@@ -89,43 +88,86 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // PARTE 6: LÓGICA DAS FERRAMENTAS
     // ----------------------------------------------------------------------------------
-    function executarCalculoSalario() { const salarioBruto = parseFloat(salarioElements.form.salarioBruto.value) || 0; const numDependentes = parseInt(salarioElements.form.dependentes.value) || 0; if (salarioBruto <= 0) { alert('Por favor, insira um valor de salário bruto válido.'); return; } const descontoINSS = calcularINSS(salarioBruto); const baseCalculoIRRF = salarioBruto - descontoINSS; const descontoIRRF = calcularIRRF(baseCalculoIRRF, numDependentes); const salarioLiquido = salarioBruto - descontoINSS - descontoIRRF; salarioElements.results.salarioBruto.textContent = `R$ ${salarioBruto.toFixed(2)}`; salarioElements.results.inss.textContent = `- R$ ${descontoINSS.toFixed(2)}`; salarioElements.results.baseIrrf.textContent = `R$ ${(baseCalculoIRRF - (numDependentes * 189.59)).toFixed(2)}`; salarioElements.results.irrf.textContent = `- R$ ${descontoIRRF.toFixed(2)}`; salarioElements.results.salarioLiquido.textContent = `R$ ${salarioLiquido.toFixed(2)}`; salarioElements.results.container.classList.remove('hidden'); }
-    function executarSimulacaoInvestimentos() { const valorInicial = parseFloat(investimentosElements.form.valorInicial.value) || 0; const aporteMensal = parseFloat(investimentosElements.form.aporteMensal.value) || 0; const taxaJurosAnual = parseFloat(investimentosElements.form.taxaJurosAnual.value) || 0; const periodoAnos = parseInt(investimentosElements.form.periodoAnos.value) || 0; if (taxaJurosAnual <= 0 || periodoAnos <= 0) { alert('Por favor, insira uma taxa de juros e um período em anos válidos.'); return; } const taxaMensal = (taxaJurosAnual / 100) / 12; const periodoMeses = periodoAnos * 12; let valorAcumulado = valorInicial; for (let i = 0; i < periodoMeses; i++) { valorAcumulado *= (1 + taxaMensal); valorAcumulado += aporteMensal; } const totalInvestido = valorInicial + (aporteMensal * periodoMeses); const totalJuros = valorAcumulado - totalInvestido; investimentosElements.results.valorFinal.textContent = `R$ ${valorAcumulado.toFixed(2)}`; investimentosElements.results.totalInvestido.textContent = `R$ ${totalInvestido.toFixed(2)}`; investimentosElements.results.totalJuros.textContent = `R$ ${totalJuros.toFixed(2)}`; investimentosElements.results.container.classList.remove('hidden'); }
-    function executarCalculoFerias() { const salarioBruto = parseFloat(feriasElements.form.salarioBruto.value) || 0; const diasFerias = parseInt(feriasElements.form.dias.value) || 0; const venderDias = feriasElements.form.venderDias.checked; const adiantar13 = feriasElements.form.adiantar13.checked; if (salarioBruto <= 0 || diasFerias <= 0) { alert('Por favor, insira valores válidos para salário e dias de férias.'); return; } const feriasBrutas = (salarioBruto / 30) * diasFerias; const tercoConstitucional = feriasBrutas / 3; const totalBrutoFerias = feriasBrutas + tercoConstitucional; const abonoPecuniario = venderDias ? (salarioBruto / 30) * 10 : 0; const adiantamento13 = adiantar13 ? salarioBruto / 2 : 0; const descontoINSS = calcularINSS(totalBrutoFerias); const baseIRRF = totalBrutoFerias - descontoINSS; const descontoIRRF = calcularIRRF(baseIRRF); const liquidoReceber = (totalBrutoFerias - descontoINSS - descontoIRRF) + abonoPecuniario + adiantamento13; feriasElements.results.feriasBrutas.textContent = `R$ ${feriasBrutas.toFixed(2)}`; feriasElements.results.tercoConstitucional.textContent = `R$ ${tercoConstitucional.toFixed(2)}`; feriasElements.results.totalBruto.textContent = `R$ ${totalBrutoFerias.toFixed(2)}`; feriasElements.results.inss.textContent = `- R$ ${descontoINSS.toFixed(2)}`; feriasElements.results.irrf.textContent = `- R$ ${descontoIRRF.toFixed(2)}`; feriasElements.results.liquido.textContent = `R$ ${liquidoReceber.toFixed(2)}`; if (venderDias) { feriasElements.results.abonoPecuniario.textContent = `R$ ${abonoPecuniario.toFixed(2)}`; feriasElements.results.abonoLine.classList.remove('hidden'); } else { feriasElements.results.abonoLine.classList.add('hidden'); } if (adiantar13) { feriasElements.results.adiantamento13.textContent = `R$ ${adiantamento13.toFixed(2)}`; feriasElements.results.adiantamento13Line.classList.remove('hidden'); } else { feriasElements.results.adiantamento13Line.classList.add('hidden'); } feriasElements.results.container.classList.remove('hidden'); }
-    function executarCalculo13Salario() { const salarioBruto = parseFloat(decimoTerceiroElements.form.salarioBruto.value) || 0; const mesesTrabalhados = parseInt(decimoTerceiroElements.form.meses.value) || 0; const numDependentes = parseInt(decimoTerceiroElements.form.dependentes.value) || 0; if (salarioBruto <= 0 || mesesTrabalhados <= 0 || mesesTrabalhados > 12) { alert('Por favor, insira valores válidos para salário e meses trabalhados (1 a 12).'); return; } const decimoTerceiroBruto = (salarioBruto / 12) * mesesTrabalhados; const primeiraParcela = decimoTerceiroBruto / 2; const segundaParcelaBruta = decimoTerceiroBruto - primeiraParcela; const descontoINSS = calcularINSS(decimoTerceiroBruto); const baseIRRF = decimoTerceiroBruto - descontoINSS; const descontoIRRF = calcularIRRF(baseIRRF, numDependentes); const segundaParcelaLiquida = segundaParcelaBruta - descontoINSS - descontoIRRF; const totalLiquido = primeiraParcela + segundaParcelaLiquida; decimoTerceiroElements.results.bruto.textContent = `R$ ${decimoTerceiroBruto.toFixed(2)}`; decimoTerceiroElements.results.primeiraParcela.textContent = `R$ ${primeiraParcela.toFixed(2)}`; decimoTerceiroElements.results.segundaParcelaBruta.textContent = `R$ ${segundaParcelaBruta.toFixed(2)}`; decimoTerceiroElements.results.inss.textContent = `- R$ ${descontoINSS.toFixed(2)}`; decimoTerceiroElements.results.irrf.textContent = `- R$ ${descontoIRRF.toFixed(2)}`; decimoTerceiroElements.results.segundaParcelaLiquida.textContent = `R$ ${segundaParcelaLiquida.toFixed(2)}`; decimoTerceiroElements.results.liquidoTotal.textContent = `R$ ${totalLiquido.toFixed(2)}`; decimoTerceiroElements.results.container.classList.remove('hidden'); }
-    function executarCalculoHoraValor() { const salario = parseFloat(horaValorElements.form.salario.value) || 0; const horasDia = parseFloat(horaValorElements.form.horasDia.value) || 0; const diasSemana = parseInt(horaValorElements.form.diasSemana.value) || 0; if (salario <= 0 || horasDia <= 0 || diasSemana <= 0 || diasSemana > 7) { alert('Por favor, insira valores válidos para salário, horas por dia e dias por semana (1 a 7).'); return; } const horasTrabalhadasMes = horasDia * diasSemana * 4.5; const valorHora = salario / horasTrabalhadasMes; const explicacao = `Baseado no salário de R$ ${salario.toFixed(2)} que você informou, o cálculo é: R$ ${salario.toFixed(2)} / (${horasTrabalhadasMes.toFixed(1)} horas/mês).`; horaValorElements.results.valorHora.textContent = `R$ ${valorHora.toFixed(2)}`; horaValorElements.results.explicacao.textContent = explicacao; horaValorElements.results.container.classList.remove('hidden'); }
-    function executarCalculoIRPFAnual() { const rendimentos = parseFloat(irpfElements.form.rendimentosAnuais.value) || 0; const saude = parseFloat(irpfElements.form.despesasSaude.value) || 0; const educacao = parseFloat(irpfElements.form.despesasEducacao.value) || 0; const dependentes = parseInt(irpfElements.form.dependentes.value) || 0; if (rendimentos <= 0) { alert('Por favor, insira o total de rendimentos anuais.'); return; } const DEDUCAO_POR_DEPENDENTE = 2275.08; const LIMITE_DEDUCAO_EDUCACAO = 3561.50; const LIMITE_DESCONTO_SIMPLIFICADO = 16754.34; const deducaoDependentes = dependentes * DEDUCAO_POR_DEPENDENTE; const deducaoEducacao = Math.min(educacao, LIMITE_DEDUCAO_EDUCACAO); const totalDeducoes = deducaoDependentes + deducaoEducacao + saude; const baseCalculoCompleta = rendimentos - totalDeducoes; const impostoDevidoCompleta = calcularImpostoAnual(baseCalculoCompleta); const descontoSimplificado = rendimentos * 0.20; const descontoAplicado = Math.min(descontoSimplificado, LIMITE_DESCONTO_SIMPLIFICADO); const baseCalculoSimplificada = rendimentos - descontoAplicado; const impostoDevidoSimplificada = calcularImpostoAnual(baseCalculoSimplificada); irpfElements.results.completa.textContent = `R$ ${impostoDevidoCompleta.toFixed(2)}`; irpfElements.results.simplificada.textContent = `R$ ${impostoDevidoSimplificada.toFixed(2)}`; if (impostoDevidoCompleta < impostoDevidoSimplificada) { irpfElements.results.recomendacao.textContent = "Recomendação: A Declaração COMPLETA é mais vantajosa!"; } else if (impostoDevidoSimplificada < impostoDevidoCompleta) { irpfElements.results.recomendacao.textContent = "Recomendação: A Declaração SIMPLIFICADA é mais vantajosa!"; } else { irpfElements.results.recomendacao.textContent = "Recomendação: Ambos os modelos resultam no mesmo valor de imposto."; } irpfElements.results.container.classList.remove('hidden'); }
-    function executarCalculoSimplesNacional() { const faturamentoMensal = parseFloat(simplesNacionalElements.form.faturamentoMensal.value) || 0; const anexo = simplesNacionalElements.form.anexo.value; if (faturamentoMensal <= 0) { alert('Por favor, insira um valor de faturamento mensal válido.'); return; } const rbt12 = faturamentoMensal * 12; const tabelas = { anexo3: [ { ate: 180000, aliquota: 0.06, deduzir: 0 }, { ate: 360000, aliquota: 0.112, deduzir: 9360 }, { ate: 720000, aliquota: 0.135, deduzir: 17640 }, { ate: 1800000, aliquota: 0.16, deduzir: 35640 }, { ate: 3600000, aliquota: 0.21, deduzir: 125640 }, { ate: 4800000, aliquota: 0.33, deduzir: 648000 } ], anexo5: [ { ate: 180000, aliquota: 0.155, deduzir: 0 }, { ate: 360000, aliquota: 0.18, deduzir: 4500 }, { ate: 720000, aliquota: 0.195, deduzir: 9900 }, { ate: 1800000, aliquota: 0.205, deduzir: 17100 }, { ate: 3600000, aliquota: 0.23, deduzir: 62100 }, { ate: 4800000, aliquota: 0.305, deduzir: 540000 } ] }; const tabelaSelecionada = tabelas[anexo]; let faixaEncontrada = null; for (const faixa of tabelaSelecionada) { if (rbt12 <= faixa.ate) { faixaEncontrada = faixa; break; } } if (!faixaEncontrada) { alert('Faturamento anual excede o limite do Simples Nacional (R$ 4.800.000,00).'); return; } const { aliquota, deduzir } = faixaEncontrada; const aliquotaEfetiva = ((rbt12 * aliquota) - deduzir) / rbt12; const valorDAS = faturamentoMensal * aliquotaEfetiva; simplesNacionalElements.results.rbt12.textContent = `R$ ${rbt12.toFixed(2)}`; simplesNacionalElements.results.aliquotaEfetiva.textContent = `${(aliquotaEfetiva * 100).toFixed(2)}%`; simplesNacionalElements.results.valorDas.textContent = `R$ ${valorDAS.toFixed(2)}`; simplesNacionalElements.results.explicacao.textContent = `Cálculo: ((R$${rbt12.toFixed(2)} * ${aliquota * 100}%) - R$${deduzir}) / R$${rbt12.toFixed(2)} = Alíquota Efetiva de ${(aliquotaEfetiva * 100).toFixed(2)}%.`; simplesNacionalElements.results.container.classList.remove('hidden'); }
+    function executarCalculoSalario() { /* ... código existente ... */ }
+    function executarSimulacaoInvestimentos() { /* ... código existente ... */ }
+    function executarCalculoFerias() { /* ... código existente ... */ }
+    function executarCalculo13Salario() { /* ... código existente ... */ }
     
-    // NOVA FUNÇÃO (ETAPA 3)
-    function executarCalculoPjHoraValor() {
-        const salarioDesejado = parseFloat(pjHoraValorElements.form.salarioDesejado.value) || 0;
-        const custosFixos = parseFloat(pjHoraValorElements.form.custosFixos.value) || 0;
-        const feriasAno = parseInt(pjHoraValorElements.form.feriasAno.value) || 0;
-        const horasDia = parseFloat(pjHoraValorElements.form.horasDia.value) || 0;
-        const diasSemana = parseInt(pjHoraValorElements.form.diasSemana.value) || 0;
+    function executarCalculoHoraValor() {
+        const salario = parseFloat(horaValorElements.form.salario.value) || 0;
+        const horasDia = parseFloat(horaValorElements.form.horasDia.value) || 0;
+        const diasSemana = parseInt(horaValorElements.form.diasSemana.value) || 0;
 
-        if (salarioDesejado <= 0 || horasDia <= 0 || diasSemana <= 0) {
-            alert('Por favor, preencha o salário desejado, horas por dia e dias por semana.');
+        if (salario <= 0 || horasDia <= 0 || diasSemana <= 0 || diasSemana > 7) {
+            alert('Por favor, insira valores válidos para salário, horas por dia e dias por semana (1 a 7).');
             return;
         }
 
-        const custoAnualTotal = (salarioDesejado * 12) + (custosFixos * 12);
-        const diasTrabalhaveisAno = (diasSemana * 52) - feriasAno;
-        if (diasTrabalhaveisAno <= 0) {
-            alert('O número de dias de férias não pode ser maior ou igual ao total de dias de trabalho no ano.');
+        const horasTrabalhadasMes = horasDia * diasSemana * 4.5;
+        const valorHora = salario / horasTrabalhadasMes;
+        const explicacao = `Baseado no salário de R$ ${salario.toFixed(2)} que você informou, o cálculo é: R$ ${salario.toFixed(2)} / (${horasTrabalhadasMes.toFixed(1)} horas/mês).`;
+
+        horaValorElements.results.valorHora.textContent = `R$ ${valorHora.toFixed(2)}`;
+        horaValorElements.results.explicacao.textContent = explicacao;
+        horaValorElements.results.container.classList.remove('hidden');
+
+        // ATUALIZAÇÃO (ETAPA 2): Mostrar o botão de salvar após o cálculo.
+        horaValorElements.buttons.salvar.classList.remove('hidden');
+    }
+
+    function executarCalculoIRPFAnual() { /* ... código existente ... */ }
+    function executarCalculoSimplesNacional() { /* ... código existente ... */ }
+    function executarCalculoPjHoraValor() { /* ... código existente ... */ }
+
+    // ==================================================================================
+    // NOVA PARTE: LÓGICA DE BACKEND (SALVAR HISTÓRICO)
+    // ==================================================================================
+    async function handleSalvarHoraValor() {
+        console.log('Botão de salvar "Valor da Hora" clicado.');
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) {
+            alert('Você precisa de estar autenticado para salvar um resultado.');
             return;
         }
-        const horasTrabalhaveisAno = diasTrabalhaveisAno * horasDia;
-        const valorHora = custoAnualTotal / horasTrabalhaveisAno;
 
-        pjHoraValorElements.results.valorHora.textContent = `R$ ${valorHora.toFixed(2)}`;
-        pjHoraValorElements.results.explicacao.textContent = `Custo Anual de R$ ${custoAnualTotal.toFixed(2)} / ${horasTrabalhaveisAno.toFixed(0)} horas úteis no ano.`;
-        pjHoraValorElements.results.container.classList.remove('hidden');
+        // 1. Obter os dados do formulário e dos resultados
+        const salarioInformado = parseFloat(horaValorElements.form.salario.value) || 0;
+        const horasDia = parseFloat(horaValorElements.form.horasDia.value) || 0;
+        const diasSemana = parseInt(horaValorElements.form.diasSemana.value) || 0;
+        const valorHoraCalculado = parseFloat(horaValorElements.results.valorHora.textContent.replace('R$ ', '')) || 0;
+
+        // 2. Montar o objeto para enviar ao Supabase
+        const calculoParaSalvar = {
+            user_id: user.id,
+            salario_informado: salarioInformado,
+            horas_dia: horasDia,
+            dias_semana: diasSemana,
+            valor_hora_calculado: valorHoraCalculado
+        };
+
+        console.log('A enviar os seguintes dados para o Supabase:', calculoParaSalvar);
+
+        // 3. Enviar (insert) os dados para a tabela
+        const { error } = await supabaseClient
+            .from('historico_valor_hora')
+            .insert(calculoParaSalvar);
+
+        if (error) {
+            console.error('Erro ao salvar o cálculo:', error);
+            alert(`Ocorreu um erro ao salvar: ${error.message}`);
+        } else {
+            console.log('Cálculo salvo com sucesso!');
+            alert('Resultado salvo com sucesso!');
+            horaValorElements.buttons.salvar.textContent = 'Salvo!';
+            setTimeout(() => {
+                horaValorElements.buttons.salvar.textContent = 'Salvar Resultado';
+            }, 2000);
+        }
     }
 
     // PARTE 7: REGISTO DE EVENT LISTENERS
     // ----------------------------------------------------------------------------------
+    // ... todos os seus event listeners existentes ...
     if(authButtons.showLogin) authButtons.showLogin.addEventListener('click', () => { authForms.choices.classList.add('hidden'); authForms.login.classList.remove('hidden'); });
     if(authButtons.showSignup) authButtons.showSignup.addEventListener('click', () => { authForms.choices.classList.add('hidden'); authForms.signup.classList.remove('hidden'); });
     if(authButtons.showLoginLink) authButtons.showLoginLink.addEventListener('click', (e) => { e.preventDefault(); authForms.signup.classList.add('hidden'); authForms.login.classList.remove('hidden'); });
@@ -148,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', () => { renderSalaryChart(); renderInvestmentChart(); renderSummaryCards(); showScreen('reports'); });
     
     if(pjDashboardButtons.simples) pjDashboardButtons.simples.addEventListener('click', () => showScreen('simplesNacional'));
-    if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListener('click', () => showScreen('pjHoraValor')); // ATUALIZADO
+    if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListener('click', () => showScreen('pjHoraValor'));
     if(pjDashboardButtons.backToWelcome) pjDashboardButtons.backToWelcome.addEventListener('click', () => showScreen('welcome'));
 
     if(salarioElements.buttons.calcular) salarioElements.buttons.calcular.addEventListener('click', executarCalculoSalario);
@@ -168,9 +210,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if(reportsElements.backButton) reportsElements.backButton.addEventListener('click', () => showScreen('dashboard'));
     if(simplesNacionalElements.buttons.calcular) simplesNacionalElements.buttons.calcular.addEventListener('click', executarCalculoSimplesNacional);
     if(simplesNacionalElements.buttons.voltar) simplesNacionalElements.buttons.voltar.addEventListener('click', () => showScreen('pjDashboard'));
-    if(pjHoraValorElements.buttons.calcular) pjHoraValorElements.buttons.calcular.addEventListener('click', executarCalculoPjHoraValor); // NOVO
-    if(pjHoraValorElements.buttons.voltar) pjHoraValorElements.buttons.voltar.addEventListener('click', () => showScreen('pjDashboard')); // NOVO
+    if(pjHoraValorElements.buttons.calcular) pjHoraValorElements.buttons.calcular.addEventListener('click', executarCalculoPjHoraValor);
+    if(pjHoraValorElements.buttons.voltar) pjHoraValorElements.buttons.voltar.addEventListener('click', () => showScreen('pjDashboard'));
     
+    // ATUALIZAÇÃO: Adicionar o event listener para o novo botão de salvar
+    if(horaValorElements.buttons.salvar) horaValorElements.buttons.salvar.addEventListener('click', handleSalvarHoraValor);
+
     if(dashboardButtons.showAbout) dashboardButtons.showAbout.addEventListener('click', () => { modalElements.overlay.classList.remove('hidden'); });
     if(modalElements.closeBtn) modalElements.closeBtn.addEventListener('click', () => { modalElements.overlay.classList.add('hidden'); });
     if(modalElements.overlay) modalElements.overlay.addEventListener('click', (event) => { if (event.target === modalElements.overlay) { modalElements.overlay.classList.add('hidden'); } });
