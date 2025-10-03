@@ -82,17 +82,14 @@ a { color: var(--cor-primaria); text-decoration: none; font-weight: 500; transit
 a:hover { text-decoration: underline; color: var(--cor-primaria-hover); }
 
 /* --- Estilo dos Formulários --- */
-.input-group {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 24px;
-}
+/* A regra estrutural do .input-group foi movida para main.css */
+
 label {
     font-family: 'Inter', sans-serif; /* Manter labels mais "utilitárias" */
     font-size: 14px;
     font-weight: 500;
     color: var(--cor-texto-secundario);
-    margin-bottom: -15px;
+    text-align: right; /* Alinha a label à direita, perto do input */
 }
 .input-field { width: 100%; padding: 12px; border: 1px solid var(--cor-borda); border-radius: 0; /* Design quadrado */ font-size: 16px; background-color: var(--cor-fundo); color: var(--cor-texto-primario); transition: border-color 0.2s ease, box-shadow 0.2s ease; box-sizing: border-box; }
 .input-field:focus { outline: none; border-color: var(--cor-primaria); box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.15); }
@@ -206,5 +203,13 @@ hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
 
 @media (max-width: 768px) {
     .reports-grid, .summary-cards-grid { grid-template-columns: 1fr; }
+}
+
+/* ATUALIZAÇÃO: Ajusta o alinhamento das labels em telas pequenas */
+@media (max-width: 640px) {
+    label {
+        text-align: left;
+        margin-bottom: 2px;
+    }
 }
 

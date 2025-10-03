@@ -5,7 +5,7 @@
  * Responsabilidades:
  * 1. Definir o layout principal da página de forma eficiente e centralizada.
  * 2. Gerenciar a visibilidade das "telas".
- * 3. Estruturar os botões para performance.
+ * 3. Estruturar os formulários e botões para performance.
  * 4. Adicionar a estrutura de layout para o modal "Sobre".
  * ==================================================================================
  */
@@ -73,13 +73,32 @@ body {
 
 
 /* --- Estrutura Interna dos Cards e Seções --- */
-/* A regra .input-group foi movida para o style.css para centralizar os estilos de componentes e evitar conflitos. */
+/* ATUALIZAÇÃO: Estilo para os formulários das calculadoras, agora em um layout de 2 colunas. */
+.input-group {
+    display: grid;
+    grid-template-columns: auto 1fr; /* Coluna de label (auto) e input (flexível) */
+    gap: 16px 20px; /* Espaçamento vertical e horizontal */
+    align-items: center; /* Alinha verticalmente label e input */
+    max-width: 600px; /* Limita a largura para melhor legibilidade */
+    margin: 20px auto 0; /* Centraliza o grupo de inputs e adiciona margem no topo */
+}
+
+/* Em telas menores, os campos ficam um abaixo do outro */
+@media (max-width: 640px) {
+    .input-group {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+}
+
 
 .results-section {
     display: flex;
     flex-direction: column;
     gap: 15px;
     width: 100%;
+    max-width: 600px; /* Alinha com a largura do formulário */
+    margin: 0 auto; /* Centraliza a seção de resultados */
 }
 
 .result-line {
