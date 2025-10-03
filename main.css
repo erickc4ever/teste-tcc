@@ -1,0 +1,127 @@
+/**
+ * ==================================================================================
+ * main.css - Estilos de Layout e Estrutura da "änalitks" (Versão com Layout Amplo)
+ * ----------------------------------------------------------------------------------
+ * Responsabilidades:
+ * 1. Definir o layout principal da página de forma eficiente.
+ * 2. Gerenciar a visibilidade das "telas".
+ * 3. Estruturar os formulários e botões para performance.
+ * 4. Adicionar a estrutura de layout para o modal "Sobre".
+ * ==================================================================================
+ */
+
+/* --- Configurações Globais de Layout --- */
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box; 
+}
+
+/* --- Gerenciamento de Telas (Otimizado) --- */
+.screen {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none !important; 
+}
+
+/* --- Estrutura do Conteúdo Principal (Layout Amplo) --- */
+.calculator-card {
+    width: 100%;
+    /* ATUALIZAÇÃO: Aumentamos a largura para criar o layout de "página inteira". */
+    max-width: 700px; 
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* --- Estrutura do Logo --- */
+.logo-container {
+    text-align: center;
+    margin-bottom: -10px;
+}
+
+.logo-img {
+    max-width: 100px;
+    height: auto;
+}
+
+
+/* --- Formulários e Botões de Autenticação --- */
+.auth-form, .auth-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    width: 100%;
+}
+
+
+/* --- Estrutura Interna dos Cards e Seções --- */
+.input-group,
+.results-section,
+.dashboard-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.result-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.dashboard-footer {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+
+/* --- Botão Fixo de Troca de Tema --- */
+.theme-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+/* --- ESTRUTURA DO MODAL --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+

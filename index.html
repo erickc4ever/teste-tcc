@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>änalitks - A sua suíte financeira</title>
+    <!-- CSS de Estrutura -->
+    <link rel="stylesheet" href="main.css">
+    <!-- CSS de Estilo e Tema -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Biblioteca do Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <!-- Botão de Troca de Tema -->
+    <button id="theme-toggle-btn" class="theme-toggle-btn">🌙</button>
+
+    <!-- TELA DE AUTENTICAÇÃO -->
+    <div id="auth-screen" class="screen">
+        <div class="calculator-card">
+            <div class="logo-container">
+                <img src="logo.png" alt="Logo da änalitks" class="logo-img">
+            </div>
+            <div class="card-header">
+                <h1>Bem-vindo(a)</h1>
+                <p>Entre para aceder à sua suíte financeira.</p>
+            </div>
+            <div id="auth-choices" class="auth-choices">
+                <button id="show-signup-btn" class="btn btn-primary">Sou novo aqui</button>
+                <button id="show-login-btn" class="btn btn-secondary">Já tenho cadastro</button>
+            </div>
+            <form id="login-form" class="auth-form hidden">
+                <input type="email" id="login-email" class="input-field" placeholder="Seu e-mail" required>
+                <input type="password" id="login-password" class="input-field" placeholder="Sua senha" required>
+                <button type="submit" class="btn btn-primary">Entrar</button>
+                <p>Não tem uma conta? <a href="#" id="show-signup-link">Registre-se</a></p>
+            </form>
+            <form id="signup-form" class="auth-form hidden">
+                <input type="email" id="signup-email" class="input-field" placeholder="Seu melhor e-mail" required>
+                <input type="password" id="signup-password" class="input-field" placeholder="Crie uma senha forte" required>
+                <button type="submit" class="btn btn-primary">Criar conta</button>
+                <p>Já tem uma conta? <a href="#" id="show-login-link">Faça login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- TELA DE ESCOLHA DE PERFIL -->
+    <div id="welcome-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1 id="welcome-message-choice">Olá!</h1>
+                <p>O seu perfil de trabalho ajuda-nos a personalizar as ferramentas. Como você trabalha?</p>
+            </div>
+            <div class="auth-choices">
+                <button id="goto-clt-dashboard-btn" class="btn btn-primary">Sou CLT</button>
+                <button id="goto-pj-dashboard-btn" class="btn btn-secondary">Sou PJ / Freelancer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DA DASHBOARD (CLT) -->
+    <div id="dashboard-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1 id="welcome-message">Dashboard CLT</h1>
+                <p>Selecione uma ferramenta para começar.</p>
+                <p id="dashboard-quote" class="explanation-text"></p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <button id="goto-salario-btn" class="btn btn-secondary">Cálculo de Salário</button>
+                <button id="goto-investimentos-btn" class="btn btn-secondary">Simulador de Investimentos</button>
+                <button id="goto-ferias-btn" class="btn btn-secondary">Cálculo de Férias</button>
+                <button id="goto-decimo-terceiro-btn" class="btn btn-secondary">Cálculo de 13º Salário</button>
+                <button id="goto-hora-valor-btn" class="btn btn-secondary">Quanto vale a minha hora?</button>
+                <button id="goto-irpf-btn" class="btn btn-primary">Simulador Anual de IRPF</button>
+            </div>
+
+            <div class="dashboard-footer">
+                <button id="goto-profile-btn" class="btn btn-secondary">Meu Perfil</button>
+                <button id="goto-reports-btn" class="btn btn-secondary">Minha Visão Geral</button>
+                <button id="show-about-btn" class="btn btn-secondary">Sobre o Projeto</button>
+                <button id="logout-btn" class="btn btn-primary">Sair</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- TELA DA DASHBOARD PJ -->
+    <div id="pj-dashboard-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1>Dashboard PJ / Freelancer</h1>
+                <p>Ferramentas para simplificar a sua vida financeira.</p>
+            </div>
+            <div class="dashboard-grid">
+                <button id="goto-simples-nacional-btn" class="btn btn-secondary">Calcular Imposto (Simples Nacional)</button>
+                <button id="goto-pj-hora-valor-btn" class="btn btn-secondary">Calcular Valor da Hora Freelancer</button>
+            </div>
+            <div class="dashboard-footer">
+                <button id="back-to-welcome-from-pj" class="btn btn-secondary">Voltar para a Escolha</button>
+                <button id="logout-btn-pj" class="btn btn-primary">Sair</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DE CÁLCULO DO SIMPLES NACIONAL -->
+    <div id="simples-nacional-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1>Cálculo do Simples Nacional (DAS)</h1>
+                <p>Estime o imposto mensal para a sua empresa de serviços.</p>
+            </div>
+            <div class="input-group">
+                <label for="faturamento-mensal">Faturamento Mensal (R$)</label>
+                <input type="number" id="faturamento-mensal" class="input-field" placeholder="Ex: 6000.00">
+                
+                <label for="anexo-simples">Anexo da sua Atividade</label>
+                <select id="anexo-simples" class="input-field">
+                    <option value="anexo3">Anexo III (Ex: dentistas, médicos, academias)</option>
+                    <option value="anexo5">Anexo V (Ex: consultoria, publicidade, engenharia)</option>
+                </select>
+            </div>
+            <button id="calcular-simples-btn" class="btn btn-primary">Calcular Imposto</button>
+            <button id="back-to-pj-dashboard-from-simples" class="btn btn-secondary">Voltar para a Dashboard PJ</button>
+            
+            <div id="simples-results-section" class="results-section hidden">
+                <div class="result-line">
+                    <span>Faturamento Bruto Anual (RBT12) Estimado:</span>
+                    <span id="resultado-rbt12" class="font-bold">R$ 0,00</span>
+                </div>
+                <div class="result-line">
+                    <span>Alíquota Efetiva:</span>
+                    <span id="resultado-aliquota-efetiva" class="font-bold">0.00%</span>
+                </div>
+                <hr>
+                <div class="result-line final-result">
+                    <span>Valor do Imposto (DAS):</span>
+                    <span id="resultado-valor-das" class="font-bold success-text">R$ 0,00</span>
+                </div>
+                <p class="explanation-text" id="explicacao-simples">Cálculo detalhado do imposto.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- TELA DE CÁLCULO DE VALOR DA HORA PJ (NOVA - ETAPA 3)                    -->
+    <!-- Este é o contentor principal para a nova ferramenta.                   -->
+    <!-- ======================================================================= -->
+    <div id="pj-hora-valor-screen" class="screen hidden">
+        <!-- O 'calculator-card' mantém a consistência visual com as outras telas. -->
+        <div class="calculator-card">
+            
+            <!-- Bloco do cabeçalho: Título e subtítulo da ferramenta. -->
+            <div class="card-header">
+                <h1>Valor da Hora para Freelancer/PJ</h1>
+                <p>Calcule quanto cobrar pela sua hora de trabalho, incluindo custos e tempo livre.</p>
+            </div>
+
+            <!-- Bloco de inputs: Agrupa todos os campos que o utilizador precisa de preencher. -->
+            <div class="input-group">
+                <!-- Campo para o salário/pró-labore líquido desejado. -->
+                <label for="pj-salario-desejado">Salário Mensal Desejado (Líquido)</label>
+                <input type="number" id="pj-salario-desejado" class="input-field" placeholder="Ex: 5000.00">
+                
+                <!-- Campo para os custos fixos mensais do negócio. -->
+                <label for="pj-custos-fixos">Custos Fixos Mensais (R$)</label>
+                <input type="number" id="pj-custos-fixos" class="input-field" placeholder="Aluguer, software, etc.">
+
+                <!-- Campo para os dias de férias que o freelancer planeia tirar no ano. -->
+                <label for="pj-ferias-ano">Dias de Férias por Ano</label>
+                <input type="number" id="pj-ferias-ano" class="input-field" placeholder="Ex: 30" value="30">
+
+                <!-- Campo para as horas de trabalho diárias. -->
+                <label for="pj-horas-dia">Horas Trabalhadas por Dia</label>
+                <input type="number" id="pj-horas-dia" class="input-field" placeholder="Ex: 8" value="8">
+
+                <!-- Campo para os dias de trabalho semanais. -->
+                <label for="pj-dias-semana">Dias Trabalhados por Semana</label>
+                <input type="number" id="pj-dias-semana" class="input-field" placeholder="Ex: 5" value="5">
+            </div>
+
+            <!-- Bloco de botões: Ações principais da tela. -->
+            <button id="calcular-pj-hora-valor-btn" class="btn btn-primary">Calcular Valor da Hora</button>
+            <button id="back-to-pj-dashboard-from-hora" class="btn btn-secondary">Voltar para a Dashboard PJ</button>
+            
+            <!-- Bloco de resultados: Fica escondido até que o cálculo seja feito. -->
+            <div id="pj-hora-valor-results-section" class="results-section hidden">
+                <div class="result-line final-result">
+                    <span>O valor mínimo da sua hora deve ser:</span>
+                    <span id="resultado-pj-hora-valor" class="font-bold success-text">R$ 0,00</span>
+                </div>
+                <p class="explanation-text" id="explicacao-pj-hora-valor">Este valor cobre o seu salário desejado, custos, férias e impostos.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DE CÁLCULO DE SALÁRIO -->
+    <div id="salario-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1>Cálculo de Salário Completo</h1>
+                <p>Insira os valores para ver o detalhamento.</p>
+            </div>
+            <div class="input-group">
+                <label for="salario-bruto">Salário Bruto Mensal</label>
+                <input type="number" id="salario-bruto" class="input-field" placeholder="Ex: 3500.00">
+                <label for="salario-dependentes">Número de Dependentes</label>
+                <input type="number" id="salario-dependentes" class="input-field" placeholder="Ex: 1" value="0">
+            </div>
+            <button id="calcular-salario-btn" class="btn btn-primary">Calcular Salário</button>
+            <button id="back-to-dashboard-from-salario" class="btn btn-secondary">Voltar para a Dashboard CLT</button>
+            <div id="salario-results-section" class="results-section hidden">
+                <div class="result-line">
+                    <span>Salário Bruto:</span>
+                    <span id="resultado-salario-bruto" class="font-bold">R$ 0,00</span>
+                </div>
+                <hr>
+                <div class="result-line">
+                    <span>Desconto INSS:</span>
+                    <span id="resultado-inss" class="font-bold">- R$ 0,00</span>
+                </div>
+                <p class="explanation-text" id="explicacao-inss">Cálculo detalhado do INSS.</p>
+                <div class="result-line">
+                    <span>Base de Cálculo IRRF:</span>
+                    <span id="resultado-base-irrf" class="font-bold">R$ 0,00</span>
+                </div>
+                <div class="result-line">
+                    <span>Desconto IRRF:</span>
+                    <span id="resultado-irrf" class="font-bold">- R$ 0,00</span>
+                </div>
+                <p class="explanation-text" id="explicacao-irrf">Cálculo detalhado do IRRF.</p>
+                <hr>
+                <div class="result-line final-result">
+                    <span>Salário Líquido:</span>
+                    <span id="resultado-salario-liquido" class="font-bold success-text">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DO SIMULADOR DE INVESTIMENTOS -->
+    <div id="investimentos-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1>Simulador de Investimentos</h1>
+                <p>Veja o poder dos juros compostos em ação.</p>
+            </div>
+            <div class="input-group">
+                <label for="valor-inicial">Valor Inicial (R$)</label>
+                <input type="number" id="valor-inicial" class="input-field" placeholder="Ex: 1000.00">
+                <label for="aporte-mensal">Aporte Mensal (R$)</label>
+                <input type="number" id="aporte-mensal" class="input-field" placeholder="Ex: 300.00">
+                <label for="taxa-juros-anual">Taxa de Juros Anual (%)</label>
+                <input type="number" id="taxa-juros-anual" class="input-field" placeholder="Ex: 10">
+                <label for="periodo-anos">Período (em anos)</label>
+                <input type="number" id="periodo-anos" class="input-field" placeholder="Ex: 5">
+            </div>
+            <button id="calcular-investimentos-btn" class="btn btn-primary">Simular</button>
+            <button id="back-to-dashboard-from-investimentos" class="btn btn-secondary">Voltar para a Dashboard CLT</button>
+            <div id="investimentos-results-section" class="results-section hidden">
+                <div class="result-line final-result">
+                    <span>Valor Final Acumulado:</span>
+                    <span id="resultado-valor-final" class="font-bold success-text">R$ 0,00</span>
+                </div>
+                <hr>
+                <div class="result-line">
+                    <span>Total Investido:</span>
+                    <span id="resultado-total-investido" class="font-bold">R$ 0,00</span>
+                </div>
+                <div class="result-line">
+                    <span>Total em Juros:</span>
+                    <span id="resultado-total-juros" class="font-bold">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DE CÁLCULO DE FÉRIAS -->
+    <div id="ferias-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1>Cálculo de Férias</h1>
+                <p>Planeie o seu descanso e saiba quanto irá receber.</p>
+            </div>
+            <div class="input-group">
+                <label for="ferias-salario-bruto">Salário Bruto Mensal</label>
+                <input type="number" id="ferias-salario-bruto" class="input-field" placeholder="Ex: 3500.00">
+                <label for="ferias-dias">Dias de Férias a Tirar</label>
+                <input type="number" id="ferias-dias" class="input-field" placeholder="Ex: 30" value="30">
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="ferias-vender-dias">
+                    <label for="ferias-vender-dias">Vender 10 dias de férias (abono pecuniário)?</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="ferias-adiantar-13">
+                    <label for="ferias-adiantar-13">Adiantar a 1ª parcela do 13º salário?</label>
+                </div>
+            </div>
+            <button id="calcular-ferias-btn" class="btn btn-primary">Calcular Férias</button>
+            <button id="back-to-dashboard-from-ferias" class="btn btn-secondary">Voltar para a Dashboard CLT</button>
+            
+            <div id="ferias-results-section" class="results-section hidden">
+                <div class="result-line">
+                    <span>Férias Brutas:</span>
+                    <span id="resultado-ferias-brutas" class="font-bold">R$ 0,00</span>
+                </div>
+                <div class="result-line">
+                    <span>Terço Constitucional (1/3):</span>
+                    <span id="resultado-terco-constitucional" class="font-bold">R$ 0,00</span>
+                </div>
+                <div class="result-line" id="abono-pecuniario-line">
+                    <span>Abono Pecuniário (venda de 10 dias):</span>
+                    <span id="resultado-abono-pecuniario" class="font-bold">R$ 0,00</span>
+                </div>
+                <hr>
+                 <div class="result-line">
+                    <span>Total Bruto (Férias + 1/3):</span>
+                    <span id="resultado-total-bruto-ferias" class="font-bold">R$ 0,00</span>
+                </div>
+                <div class="result-line">
+                    <span>Desconto INSS sobre Férias:</span>
+                    <span id="resultado-inss-ferias" class="font-bold">- R$ 0,00</span>
+                </div>
+                <div class="result-line">
+                    <span>Desconto IRRF sobre Férias:</span>
+                    <span id="resultado-irrf-ferias" class="font-bold">- R$ 0,00</span>
+                </div>
+                <div class="result-line" id="adiantamento-13-line">
+                    <span>Adiantamento 13º Salário:</span>
+                    <span id="resultado-adiantamento-13" class="font-bold">R$ 0,00</span>
+                </div>
+                <hr>
+                <div class="result-line final-result">
+                    <span>Líquido a Receber:</span>
+                    <span id="resultado-liquido-ferias" class="font-bold success-text">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DE CÁLCULO DO 13º SALÁRIO -->
+    <div id="decimo-terceiro-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1>Cálculo de 13º Salário</h1>
+                <p>Veja o valor do seu 13º salário e os descontos.</p>
+            </div>
+            <div class="input-group">
+                <label for="decimo-terceiro-salario-bruto">Salário Bruto Mensal</label>
+                <input type="number" id="decimo-terceiro-salario-bruto" class="input-field" placeholder="Ex: 3500.00">
+                <label for="decimo-terceiro-meses">Meses Trabalhados no Ano</label>
+                <input type="number" id="decimo-terceiro-meses" class="input-field" placeholder="Ex: 12" value="12">
+                <label for="decimo-terceiro-dependentes">Número de Dependentes (para IRRF)</label>
+                <input type="number" id="decimo-terceiro-dependentes" class="input-field" placeholder="Ex: 1" value="0">
+            </div>
+            <button id="calcular-decimo-terceiro-btn" class="btn btn-primary">Calcular 13º Salário</button>
+            <button id="back-to-dashboard-from-decimo-terceiro" class="btn btn-secondary">Voltar para a Dashboard CLT</button>
+            
+            <div id="decimo-terceiro-results-section" class="results-section hidden">
+                <div class="result-line">
+                    <span>13º Salário Bruto:</span>
+                    <span id="resultado-13-bruto" class="font-bold">R$ 0,00</span>
+                </div>
+                <hr>
+                <p class="explanation-text">A primeira parcela é paga sem descontos.</p>
+                <div class="result-line">
+                    <span>1ª Parcela (Líquida):</span>
+                    <span id="resultado-13-primeira-parcela" class="font-bold">R$ 0,00</span>
+                </div>
+                <hr>
+                <p class="explanation-text">A segunda parcela tem os descontos de INSS e IRRF.</p>
+                <div class="result-line">
+                    <span>2ª Parcela (Valor Bruto):</span>
+                    <span id="resultado-13-segunda-parcela-bruta" class="font-bold">R$ 0,00</span>
+                </div>
+                <div class="result-line">
+                    <span>Desconto INSS:</span>
+                    <span id="resultado-inss-13" class="font-bold">- R$ 0,00</span>
+                </div>
+                <div class="result-line">
+                    <span>Desconto IRRF:</span>
+                    <span id="resultado-irrf-13" class="font-bold">- R$ 0,00</span>
+                </div>
+                 <div class="result-line">
+                    <span>2ª Parcela (Líquida):</span>
+                    <span id="resultado-13-segunda-parcela-liquida" class="font-bold">R$ 0,00</span>
+                </div>
+                <hr>
+                <div class="result-line final-result">
+                    <span>Total Líquido do 13º:</span>
+                    <span id="resultado-13-liquido-total" class="font-bold success-text">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA "QUANTO VALE A MINHA HORA?" -->
+    <div id="hora-valor-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1>Quanto Vale a Minha Hora?</h1>
+                <p>Descubra o valor real do seu tempo de trabalho.</p>
+            </div>
+            <div class="input-group">
+                <label for="hora-valor-salario">Salário Mensal (Líquido ou Bruto)</label>
+                <input type="number" id="hora-valor-salario" class="input-field" placeholder="Ex: 3500.00">
+                <label for="hora-valor-horas-dia">Horas Trabalhadas por Dia</label>
+                <input type="number" id="hora-valor-horas-dia" class="input-field" placeholder="Ex: 8" value="8">
+                <label for="hora-valor-dias-semana">Dias Trabalhados na Semana</label>
+                <input type="number" id="hora-valor-dias-semana" class="input-field" placeholder="Ex: 5" value="5">
+            </div>
+            <button id="calcular-hora-valor-btn" class="btn btn-primary">Calcular Valor da Hora</button>
+            <button id="back-to-dashboard-from-hora-valor" class="btn btn-secondary">Voltar para a Dashboard CLT</button>
+            
+            <div id="hora-valor-results-section" class="results-section hidden">
+                <div class="result-line final-result">
+                    <span>O valor da sua hora é:</span>
+                    <span id="resultado-hora-valor" class="font-bold success-text">R$ 0,00</span>
+                </div>
+                <p class="explanation-text" id="explicacao-hora-valor"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DO SIMULADOR DE IRPF ANUAL -->
+    <div id="irpf-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1>Simulador de IRPF Anual</h1>
+                <p>Preencha os campos para simular a sua declaração.</p>
+            </div>
+            <div class="input-group">
+                <label for="rendimentos-anuais">Total de Rendimentos Anuais (salário, etc.)</label>
+                <input type="number" id="rendimentos-anuais" class="input-field" placeholder="Ex: 50000.00">
+                <label for="despesas-saude">Total de Despesas com Saúde</label>
+                <input type="number" id="despesas-saude" class="input-field" placeholder="Ex: 3000.00">
+                <label for="despesas-educacao">Total de Despesas com Educação</label>
+                <input type="number" id="despesas-educacao" class="input-field" placeholder="Ex: 5000.00">
+                <label for="dependentes">Número de Dependentes</label>
+                <input type="number" id="dependentes" class="input-field" placeholder="Ex: 2">
+            </div>
+            <button id="calcular-irpf-btn" class="btn btn-primary">Calcular IRPF Anual</button>
+            <button id="back-to-dashboard-from-irpf" class="btn btn-secondary">Voltar para a Dashboard CLT</button>
+            <div id="irpf-results-section" class="results-section hidden">
+                <div class="result-line">
+                    <span>Resultado (Declaração Completa):</span>
+                    <span id="resultado-irpf-completa" class="font-bold">R$ 0,00</span>
+                </div>
+                <div class="result-line">
+                    <span>Resultado (Declaração Simplificada):</span>
+                    <span id="resultado-irpf-simplificada" class="font-bold">R$ 0,00</span>
+                </div>
+                <hr>
+                <div id="recomendacao-irpf" class="text-center font-bold">
+                    <p>Recomendação: -</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DE PERFIL DO UTILIZADOR -->
+    <div id="profile-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1>Meu Perfil</h1>
+                <p>Guarde as suas informações padrão para preencher as calculadoras automaticamente.</p>
+            </div>
+            <div class="input-group">
+                <label for="profile-salario-bruto">Salário Bruto Mensal Padrão</label>
+                <input type="number" id="profile-salario-bruto" class="input-field" placeholder="Ex: 4500.00">
+                <label for="profile-dependentes">Número de Dependentes</label>
+                <input type="number" id="profile-dependentes" class="input-field" placeholder="Ex: 2" value="0">
+                <label for="profile-horas-dia">Horas Trabalhadas por Dia</label>
+                <input type="number" id="profile-horas-dia" class="input-field" placeholder="Ex: 8" value="8">
+                <label for="profile-dias-semana">Dias Trabalhados na Semana</label>
+                <input type="number" id="profile-dias-semana" class="input-field" placeholder="Ex: 5" value="5">
+            </div>
+            <button id="salvar-perfil-btn" class="btn btn-primary">Salvar Perfil</button>
+            <button id="back-to-dashboard-from-profile" class="btn btn-secondary">Voltar para a Dashboard CLT</button>
+            <p id="profile-status-message" class="explanation-text text-center hidden"></p>
+        </div>
+    </div>
+
+    <!-- TELA DE RELATÓRIOS / VISÃO GERAL -->
+    <div id="reports-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1>Minha Visão Geral</h1>
+                <p>Um resumo visual das suas finanças com base nos dados do seu perfil.</p>
+            </div>
+            <div id="reports-content">
+                <div class="reports-grid">
+                    <div class="chart-container">
+                        <h2>Composição do Salário</h2>
+                        <canvas id="salary-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h2>Projeção de Investimentos</h2>
+                        <canvas id="investment-chart"></canvas>
+                    </div>
+                </div>
+                <div class="summary-cards-grid">
+                    <div class="summary-card">
+                        <h3>Valor do Dia de Trabalho (Líquido)</h3>
+                        <p id="summary-daily-value" class="font-bold">R$ 0,00</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>13º Salário Estimado (Líquido)</h3>
+                        <p id="summary-13th-value" class="font-bold">R$ 0,00</p>
+                    </div>
+                </div>
+            </div>
+            <p id="reports-notice" class="explanation-text text-center hidden">
+                Para ver os seus relatórios, primeiro salve as suas informações na tela 'Meu Perfil'.
+            </p>
+            <button id="back-to-dashboard-from-reports" class="btn btn-secondary">Voltar para a Dashboard CLT</button>
+        </div>
+    </div>
+
+    <!-- MODAL SOBRE NÓS -->
+    <div id="about-modal-overlay" class="modal-overlay hidden">
+        <div class="calculator-card">
+            <div class="modal-header">
+                <h1>Sobre a änalitks</h1>
+                <button id="close-about-btn" class="close-btn">&times;</button>
+            </div>
+            <p class="brasao">"aqui o futuro e o passado tem a mesma frase"</p>
+            <h2>A Nossa Missão</h2>
+            <p>A "änalitks" nasceu de uma pergunta simples: como podemos dar ao trabalhador brasileiro as mesmas ferramentas de análise financeira que os grandes especialistas usam, mas de forma simples, transparente e gratuita?</p>
+            <p>A nossa missão é descodificar o "financês". Acreditamos que, ao entender exatamente para onde vai cada cêntimo do seu salário, como os seus investimentos podem crescer e como se planear para o futuro, você ganha o poder de tomar as melhores decisões.</p>
+            <h2>Desenvolvimento</h2>
+            <ul>
+                <li><strong>Criado por:</strong> Sandro V. Lima, Kauan S. Mota e Erick C. Cardoso</li>
+                <li><strong>Projeto:</strong> Trabalho de Conclusão de Curso - Análise e Desenvolvimento de Sistemas (ADS)</li>
+                <li><strong>Tecnologias:</strong> Construído com HTML, CSS e JavaScript puros, com o Supabase a potenciar a gestão segura de utilizadores.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="main.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
+
