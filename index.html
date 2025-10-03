@@ -58,7 +58,6 @@
             </div>
         </div>
     </div>
-
     <!-- TELA DA DASHBOARD (CLT) - ATUALIZADA COM CARTÕES FLIP -->
     <div id="dashboard-screen" class="screen hidden">
         <div class="calculator-card">
@@ -74,7 +73,6 @@
                     <div class="flipping-card-inner">
                         <div class="card-front card-clt">
                             <h3>Cálculo de Salário</h3>
-                            <!-- Ícone virá aqui -->
                         </div>
                         <div class="card-back card-clt">
                             <p>Descubra o valor líquido do seu salário após todos os descontos de INSS e IRRF.</p>
@@ -157,55 +155,40 @@
             </div>
         </div>
     </div>
-       <!-- TELA DA DASHBOARD PJ -->
+    
+    <!-- TELA DA DASHBOARD PJ - ATUALIZADA COM CARTÕES FLIP -->
     <div id="pj-dashboard-screen" class="screen hidden">
         <div class="calculator-card">
             <div class="card-header">
                 <h1>Dashboard PJ / Freelancer</h1>
-                <p>Ferramentas para simplificar a sua vida financeira.</p>
+                <p>Passe o rato sobre um cartão para saber mais.</p>
             </div>
-
-            <!-- ESTRUTURA CORRIGIDA COM FLIPPING CARDS -->
             <div class="dashboard-grid">
-                
                 <!-- Card 1: Simples Nacional -->
-                <div class="card-container"> 
-                    <!-- A classe 'flipping-card-inner' foi adicionada aqui -->
-                    <div class="card flipping-card-inner">
-                        <!-- Frente do cartão -->
+                <div class="card-container">
+                    <div class="flipping-card-inner">
                         <div class="card-front card-pj">
-                            <h2>Simples Nacional</h2>
-                            <p class="flip-hint">Passe o mouse para saber mais</p>
+                            <h3>Calcular Simples Nacional</h3>
                         </div>
-                        <!-- Costas do cartão -->
                         <div class="card-back card-pj">
-                            <h3>Cálculo de Imposto</h3>
-                            <p class="card-explanation">Estime o imposto mensal (DAS) para sua empresa de serviços.</p>
-                            <button id="goto-simples-nacional-btn" class="action-btn">Abrir Calculadora</button>
+                            <p>Estime o valor do seu imposto mensal (DAS) com base no seu faturamento e anexo de serviço.</p>
+                            <button id="goto-simples-nacional-btn" class="btn btn-primary">Calcular Imposto</button>
                         </div>
                     </div>
                 </div>
-
                 <!-- Card 2: Valor da Hora Freelancer -->
                 <div class="card-container">
-                    <!-- A classe 'flipping-card-inner' foi adicionada aqui -->
-                    <div class="card flipping-card-inner">
-                        <!-- Frente do cartão -->
+                    <div class="flipping-card-inner">
                         <div class="card-front card-pj">
-                            <h2>Valor da Hora</h2>
-                            <p class="flip-hint">Passe o mouse para saber mais</p>
-                        </div>
-                        <!-- Costas do cartão -->
-                        <div class="card-back card-pj">
                             <h3>Valor da Hora Freelancer</h3>
-                            <p class="card-explanation">Calcule quanto cobrar pela sua hora, incluindo custos e tempo livre.</p>
-                            <button id="goto-pj-hora-valor-btn" class="action-btn">Abrir Calculadora</button>
+                        </div>
+                        <div class="card-back card-pj">
+                            <p>Defina o preço da sua hora de trabalho incluindo seu salário, custos fixos e dias de descanso.</p>
+                            <button id="goto-pj-hora-valor-btn" class="btn btn-primary">Definir Preço</button>
                         </div>
                     </div>
                 </div>
-
             </div>
-
             <div class="dashboard-footer">
                 <button id="back-to-welcome-from-pj" class="btn btn-secondary">Voltar para a Escolha</button>
                 <button id="logout-btn-pj" class="btn btn-primary">Sair</button>
