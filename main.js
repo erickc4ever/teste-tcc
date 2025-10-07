@@ -2,8 +2,7 @@
  * ==================================================================================
  * main.js - Cérebro da "änalitks"
  * ----------------------------------------------------------------------------------
- * Este ficheiro foi modificado para implementar a lógica de salvar o resultado
- * da CALCULADORA DE SALÁRIO no Supabase.
+ * Este ficheiro foi modificado para implementar a ESTRUTURA da tela de Histórico.
  * ==================================================================================
  */
 
@@ -33,20 +32,24 @@ document.addEventListener('DOMContentLoaded', () => {
         irpf: document.getElementById('irpf-screen'),
         profile: document.getElementById('profile-screen'),
         reports: document.getElementById('reports-screen'),
+        historico: document.getElementById('historico-screen'), // ADICIONADO: Nova tela de histórico
     };
 
     // --- Seletores ---
     const authForms = { login: document.getElementById('login-form'), signup: document.getElementById('signup-form'), choices: document.getElementById('auth-choices') };
     const authButtons = { showLogin: document.getElementById('show-login-btn'), showSignup: document.getElementById('show-signup-btn'), showLoginLink: document.getElementById('show-login-link'), showSignupLink: document.getElementById('show-signup-link'), logout: document.getElementById('logout-btn'), logoutPj: document.getElementById('logout-btn-pj') };
     const welcomeScreenElements = { welcomeMessage: document.getElementById('welcome-message-choice'), buttons: { clt: document.getElementById('goto-clt-dashboard-btn'), pj: document.getElementById('goto-pj-dashboard-btn') } };
-    const dashboardButtons = { salario: document.getElementById('goto-salario-btn'), investimentos: document.getElementById('goto-investimentos-btn'), ferias: document.getElementById('goto-ferias-btn'), decimoTerceiro: document.getElementById('goto-decimo-terceiro-btn'), horaValor: document.getElementById('goto-hora-valor-btn'), irpf: document.getElementById('goto-irpf-btn'), showAbout: document.getElementById('show-about-btn'), profile: document.getElementById('goto-profile-btn'), reports: document.getElementById('goto-reports-btn') };
+    // ADICIONADO: Novo botão de histórico
+    const dashboardButtons = { salario: document.getElementById('goto-salario-btn'), investimentos: document.getElementById('goto-investimentos-btn'), ferias: document.getElementById('goto-ferias-btn'), decimoTerceiro: document.getElementById('goto-decimo-terceiro-btn'), horaValor: document.getElementById('goto-hora-valor-btn'), irpf: document.getElementById('goto-irpf-btn'), showAbout: document.getElementById('show-about-btn'), profile: document.getElementById('goto-profile-btn'), reports: document.getElementById('goto-reports-btn'), historico: document.getElementById('goto-historico-btn') };
     const pjDashboardButtons = { simples: document.getElementById('goto-simples-nacional-btn'), horaValorPj: document.getElementById('goto-pj-hora-valor-btn'), backToWelcome: document.getElementById('back-to-welcome-from-pj') };
     const dashboardElements = { quote: document.getElementById('dashboard-quote') };
     const modalElements = { overlay: document.getElementById('about-modal-overlay'), closeBtn: document.getElementById('close-about-btn') };
     const profileElements = { form: { salarioBruto: document.getElementById('profile-salario-bruto'), dependentes: document.getElementById('profile-dependentes'), horasDia: document.getElementById('profile-horas-dia'), diasSemana: document.getElementById('profile-dias-semana'), }, buttons: { salvar: document.getElementById('salvar-perfil-btn'), voltar: document.getElementById('back-to-dashboard-from-profile'), }, statusMessage: document.getElementById('profile-status-message'), };
     const reportsElements = { salaryChart: document.getElementById('salary-chart'), investmentChart: document.getElementById('investment-chart'), notice: document.getElementById('reports-notice'), content: document.getElementById('reports-content'), backButton: document.getElementById('back-to-dashboard-from-reports'), summary: { dailyValue: document.getElementById('summary-daily-value'), thirteenthValue: document.getElementById('summary-13th-value') } };
+    
+    // ADICIONADO: Seletores para a nova tela de histórico
+    const historicoElements = { lista: document.getElementById('historico-lista'), voltar: document.getElementById('back-to-dashboard-from-historico') };
 
-    // ATUALIZAÇÃO: Adicionados seletores para os novos botões "Salvar".
     const salarioElements = { form: { salarioBruto: document.getElementById('salario-bruto'), dependentes: document.getElementById('salario-dependentes') }, buttons: { calcular: document.getElementById('calcular-salario-btn'), voltar: document.getElementById('back-to-dashboard-from-salario'), salvar: document.getElementById('salvar-salario-btn') }, results: { container: document.getElementById('salario-results-section'), salarioBruto: document.getElementById('resultado-salario-bruto'), inss: document.getElementById('resultado-inss'), baseIrrf: document.getElementById('resultado-base-irrf'), irrf: document.getElementById('resultado-irrf'), salarioLiquido: document.getElementById('resultado-salario-liquido'), explicacaoInss: document.getElementById('explicacao-inss'), explicacaoIrrf: document.getElementById('explicacao-irrf') } };
     const investimentosElements = { form: { valorInicial: document.getElementById('valor-inicial'), aporteMensal: document.getElementById('aporte-mensal'), taxaJurosAnual: document.getElementById('taxa-juros-anual'), periodoAnos: document.getElementById('periodo-anos') }, buttons: { calcular: document.getElementById('calcular-investimentos-btn'), voltar: document.getElementById('back-to-dashboard-from-investimentos'), salvar: document.getElementById('salvar-investimentos-btn') }, results: { container: document.getElementById('investimentos-results-section'), valorFinal: document.getElementById('resultado-valor-final'), totalInvestido: document.getElementById('resultado-total-investido'), totalJuros: document.getElementById('resultado-total-juros') } };
     const feriasElements = { form: { salarioBruto: document.getElementById('ferias-salario-bruto'), dias: document.getElementById('ferias-dias'), venderDias: document.getElementById('ferias-vender-dias'), adiantar13: document.getElementById('ferias-adiantar-13') }, buttons: { calcular: document.getElementById('calcular-ferias-btn'), voltar: document.getElementById('back-to-dashboard-from-ferias'), salvar: document.getElementById('salvar-ferias-btn') }, results: { container: document.getElementById('ferias-results-section'), feriasBrutas: document.getElementById('resultado-ferias-brutas'), tercoConstitucional: document.getElementById('resultado-terco-constitucional'), abonoPecuniario: document.getElementById('resultado-abono-pecuniario'), totalBruto: document.getElementById('resultado-total-bruto-ferias'), inss: document.getElementById('resultado-inss-ferias'), irrf: document.getElementById('resultado-irrf-ferias'), adiantamento13: document.getElementById('resultado-adiantamento-13'), liquido: document.getElementById('resultado-liquido-ferias'), abonoLine: document.getElementById('abono-pecuniario-line'), adiantamento13Line: document.getElementById('adiantamento-13-line') } };
@@ -102,65 +105,142 @@ document.addEventListener('DOMContentLoaded', () => {
         salarioElements.results.irrf.textContent = `- R$ ${descontoIRRF.toFixed(2)}`; 
         salarioElements.results.salarioLiquido.textContent = `R$ ${salarioLiquido.toFixed(2)}`; 
         salarioElements.results.container.classList.remove('hidden'); 
-        
-        // ATUALIZAÇÃO: Mostrar o botão de salvar do salário.
         salarioElements.buttons.salvar.classList.remove('hidden');
     }
     function executarSimulacaoInvestimentos() { /* ... código existente ... */ }
     function executarCalculoFerias() { /* ... código existente ... */ }
     function executarCalculo13Salario() { /* ... código existente ... */ }
-    function executarCalculoHoraValor() { /* ... código existente ... */ }
+    function executarCalculoHoraValor() { 
+        const salario = parseFloat(horaValorElements.form.salario.value) || 0;
+        const horasDia = parseFloat(horaValorElements.form.horasDia.value) || 0;
+        const diasSemana = parseInt(horaValorElements.form.diasSemana.value) || 0;
+        if (salario <= 0 || horasDia <= 0 || diasSemana <= 0 || diasSemana > 7) { alert('Por favor, insira valores válidos para salário, horas por dia e dias por semana (1 a 7).'); return; }
+        const horasTrabalhadasMes = horasDia * diasSemana * 4.5;
+        const valorHora = salario / horasTrabalhadasMes;
+        const explicacao = `Baseado no salário de R$ ${salario.toFixed(2)} que você informou, o cálculo é: R$ ${salario.toFixed(2)} / (${horasTrabalhadasMes.toFixed(1)} horas/mês).`;
+        horaValorElements.results.valorHora.textContent = `R$ ${valorHora.toFixed(2)}`;
+        horaValorElements.results.explicacao.textContent = explicacao;
+        horaValorElements.results.container.classList.remove('hidden');
+        horaValorElements.buttons.salvar.classList.remove('hidden');
+    }
     function executarCalculoIRPFAnual() { /* ... código existente ... */ }
     function executarCalculoSimplesNacional() { /* ... código existente ... */ }
     function executarCalculoPjHoraValor() { /* ... código existente ... */ }
 
     // ==================================================================================
-    // NOVA PARTE: LÓGICA DE BACKEND (SALVAR HISTÓRICO)
+    // NOVA PARTE: LÓGICA DE BACKEND (SALVAR E CARREGAR HISTÓRICO)
     // ==================================================================================
-    async function handleSalvarHoraValor() { /* ... código existente ... */ }
+    async function handleSalvarHoraValor() {
+        console.log('Botão de salvar "Valor da Hora" clicado.');
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) { alert('Você precisa de estar autenticado para salvar um resultado.'); return; }
+        const salarioInformado = parseFloat(horaValorElements.form.salario.value) || 0;
+        const horasDia = parseFloat(horaValorElements.form.horasDia.value) || 0;
+        const diasSemana = parseInt(horaValorElements.form.diasSemana.value) || 0;
+        const valorHoraCalculado = parseFloat(horaValorElements.results.valorHora.textContent.replace('R$ ', '')) || 0;
+        const calculoParaSalvar = { user_id: user.id, salario_informado: salarioInformado, horas_dia: horasDia, dias_semana: diasSemana, valor_hora_calculado: valorHoraCalculado };
+        console.log('A enviar os seguintes dados para o Supabase:', calculoParaSalvar);
+        const { error } = await supabaseClient.from('historico_valor_hora').insert(calculoParaSalvar);
+        if (error) { console.error('Erro ao salvar o cálculo:', error); alert(`Ocorreu um erro ao salvar: ${error.message}`); } else { console.log('Cálculo salvo com sucesso!'); alert('Resultado salvo com sucesso!'); horaValorElements.buttons.salvar.textContent = 'Salvo!'; setTimeout(() => { horaValorElements.buttons.salvar.textContent = 'Salvar Resultado'; }, 2000); }
+    }
 
-    // ATUALIZAÇÃO: Nova função para salvar o cálculo de salário.
     async function handleSalvarSalario() {
         console.log('Botão de salvar "Salário" clicado.');
         const { data: { user } } = await supabaseClient.auth.getUser();
-        if (!user) {
-            alert('Você precisa de estar autenticado para salvar um resultado.');
-            return;
-        }
-
+        if (!user) { alert('Você precisa de estar autenticado para salvar um resultado.'); return; }
         const salarioBruto = parseFloat(salarioElements.form.salarioBruto.value) || 0;
         const dependentes = parseInt(salarioElements.form.dependentes.value) || 0;
         const inss = parseFloat(salarioElements.results.inss.textContent.replace('- R$ ', '')) || 0;
         const irrf = parseFloat(salarioElements.results.irrf.textContent.replace('- R$ ', '')) || 0;
         const liquido = parseFloat(salarioElements.results.salarioLiquido.textContent.replace('R$ ', '')) || 0;
-
-        const calculoParaSalvar = {
-            user_id: user.id,
-            salario_bruto_informado: salarioBruto,
-            dependentes_informado: dependentes,
-            desconto_inss_calculado: inss,
-            desconto_irrf_calculado: irrf,
-            salario_liquido_calculado: liquido
-        };
-
+        const calculoParaSalvar = { user_id: user.id, salario_bruto_informado: salarioBruto, dependentes_informado: dependentes, desconto_inss_calculado: inss, desconto_irrf_calculado: irrf, salario_liquido_calculado: liquido };
         console.log('A enviar os seguintes dados para o Supabase:', calculoParaSalvar);
-
-        const { error } = await supabaseClient
-            .from('historico_salarios')
-            .insert(calculoParaSalvar);
-
-        if (error) {
-            console.error('Erro ao salvar o cálculo de salário:', error);
-            alert(`Ocorreu um erro ao salvar: ${error.message}`);
-        } else {
-            console.log('Cálculo de salário salvo com sucesso!');
-            alert('Resultado salvo com sucesso!');
-            salarioElements.buttons.salvar.textContent = 'Salvo!';
-            setTimeout(() => {
-                salarioElements.buttons.salvar.textContent = 'Salvar Resultado';
-            }, 2000);
-        }
+        const { error } = await supabaseClient.from('historico_salarios').insert(calculoParaSalvar);
+        if (error) { console.error('Erro ao salvar o cálculo de salário:', error); alert(`Ocorreu um erro ao salvar: ${error.message}`); } else { console.log('Cálculo de salário salvo com sucesso!'); alert('Resultado salvo com sucesso!'); salarioElements.buttons.salvar.textContent = 'Salvo!'; setTimeout(() => { salarioElements.buttons.salvar.textContent = 'Salvar Resultado'; }, 2000); }
     }
+
+    // ATUALIZAÇÃO: Função para carregar e exibir o histórico de MÚLTIPLAS tabelas.
+    async function carregarHistorico() {
+        console.log('A carregar o histórico de cálculos...');
+        historicoElements.lista.innerHTML = '<p class="explanation-text text-center">A carregar o seu histórico...</p>';
+        showScreen('historico');
+
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) {
+            historicoElements.lista.innerHTML = '<p class="explanation-text text-center">Você precisa de estar autenticado para ver o histórico.</p>';
+            return;
+        }
+
+        // 1. Buscar dados de todas as tabelas em paralelo
+        const [salariosRes, horaValorRes] = await Promise.all([
+            supabaseClient.from('historico_salarios').select('*').eq('user_id', user.id),
+            supabaseClient.from('historico_valor_hora').select('*').eq('user_id', user.id)
+        ]);
+        
+        // 2. Verificar erros e combinar os resultados
+        if (salariosRes.error || horaValorRes.error) {
+            console.error('Erro ao buscar histórico:', salariosRes.error || horaValorRes.error);
+            historicoElements.lista.innerHTML = `<p class="explanation-text text-center error-text">Ocorreu um erro ao carregar o seu histórico.</p>`;
+            return;
+        }
+
+        // Adiciona um campo "type" para sabermos qual template usar
+        const salarios = salariosRes.data.map(item => ({ ...item, type: 'salario' }));
+        const horasValor = horaValorRes.data.map(item => ({ ...item, type: 'horaValor' }));
+        
+        const todosOsCalculos = [...salarios, ...horasValor];
+
+        // 3. Ordenar os resultados pela data de criação (do mais recente para o mais antigo)
+        todosOsCalculos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        historicoElements.lista.innerHTML = ''; 
+
+        if (todosOsCalculos.length === 0) {
+            historicoElements.lista.innerHTML = '<p class="explanation-text text-center">Você ainda não salvou nenhum cálculo.</p>';
+            return;
+        }
+        
+        // 4. Exibir os dados encontrados, usando o template correto para cada um
+        todosOsCalculos.forEach(calculo => {
+            const dataFormatada = new Date(calculo.created_at).toLocaleDateString('pt-BR');
+            let itemHtml = '';
+
+            switch (calculo.type) {
+                case 'salario':
+                    itemHtml = `
+                        <div class="historico-item">
+                            <h3>Cálculo de Salário</h3>
+                            <p class="explanation-text">Salvo em: ${dataFormatada}</p>
+                            <div class="result-line">
+                                <span>Salário Bruto Informado:</span>
+                                <span>R$ ${calculo.salario_bruto_informado.toFixed(2)}</span>
+                            </div>
+                            <div class="result-line final-result">
+                                <span>Salário Líquido Calculado:</span>
+                                <span class="font-bold">R$ ${calculo.salario_liquido_calculado.toFixed(2)}</span>
+                            </div>
+                        </div>`;
+                    break;
+                case 'horaValor':
+                    itemHtml = `
+                        <div class="historico-item">
+                            <h3>Cálculo de Valor da Hora</h3>
+                            <p class="explanation-text">Salvo em: ${dataFormatada}</p>
+                            <div class="result-line">
+                                <span>Salário Informado:</span>
+                                <span>R$ ${calculo.salario_informado.toFixed(2)}</span>
+                            </div>
+                            <div class="result-line final-result">
+                                <span>Valor da Hora Calculado:</span>
+                                <span class="font-bold">R$ ${calculo.valor_hora_calculado.toFixed(2)}</span>
+                            </div>
+                        </div>`;
+                    break;
+            }
+            historicoElements.lista.innerHTML += itemHtml;
+        });
+    }
+
 
     // PARTE 7: REGISTO DE EVENT LISTENERS
     // ----------------------------------------------------------------------------------
@@ -173,7 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(authButtons.logout) authButtons.logout.addEventListener('click', handleLogout);
     if(authButtons.logoutPj) authButtons.logoutPj.addEventListener('click', handleLogout);
 
-    // CORREÇÃO: Restaurada a lógica completa do event listener.
     if(welcomeScreenElements.buttons.clt) welcomeScreenElements.buttons.clt.addEventListener('click', async () => { 
         const { data: { user } } = await supabaseClient.auth.getUser(); 
         const welcomeMessage = document.getElementById('welcome-message'); 
@@ -193,8 +272,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if(dashboardButtons.horaValor) dashboardButtons.horaValor.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('horaValor'); });
     if(dashboardButtons.irpf) dashboardButtons.irpf.addEventListener('click', () => showScreen('irpf'));
     if(dashboardButtons.profile) dashboardButtons.profile.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('profile'); });
-    if(reportsElements.backButton) reportsElements.backButton.addEventListener('click', () => showScreen('dashboard'));
+    if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', () => { renderSalaryChart(); renderInvestmentChart(); renderSummaryCards(); showScreen('reports'); });
     
+    // ADICIONADO: Event listener para o novo botão de histórico
+    if(dashboardButtons.historico) dashboardButtons.historico.addEventListener('click', carregarHistorico);
+
     if(pjDashboardButtons.simples) pjDashboardButtons.simples.addEventListener('click', () => showScreen('simplesNacional'));
     if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListener('click', () => showScreen('pjHoraValor'));
     if(pjDashboardButtons.backToWelcome) pjDashboardButtons.backToWelcome.addEventListener('click', () => showScreen('welcome'));
@@ -219,6 +301,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if(pjHoraValorElements.buttons.calcular) pjHoraValorElements.buttons.calcular.addEventListener('click', executarCalculoPjHoraValor);
     if(pjHoraValorElements.buttons.voltar) pjHoraValorElements.buttons.voltar.addEventListener('click', () => showScreen('pjDashboard'));
     
+    // ADICIONADO: Event listener para o botão de voltar da tela de histórico
+    if(historicoElements.voltar) historicoElements.voltar.addEventListener('click', () => showScreen('dashboard'));
+
     // ATUALIZAÇÃO: Adicionar os event listeners para os novos botões de salvar.
     if(horaValorElements.buttons.salvar) horaValorElements.buttons.salvar.addEventListener('click', handleSalvarHoraValor);
     if(salarioElements.buttons.salvar) salarioElements.buttons.salvar.addEventListener('click', handleSalvarSalario);

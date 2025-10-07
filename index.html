@@ -152,6 +152,7 @@
                 <button id="goto-reports-btn" class="btn btn-secondary">Minha Visão Geral</button>
                 <button id="show-about-btn" class="btn btn-secondary">Sobre o Projeto</button>
                 <button id="logout-btn" class="btn btn-primary">Sair</button>
+                <button id="goto-historico-btn" class="btn btn-secondary">Meu Histórico</button>
             </div>
         </div>
     </div>
@@ -618,6 +619,40 @@
             <button id="back-to-dashboard-from-reports" class="btn btn-secondary">Voltar para a Dashboard CLT</button>
         </div>
     </div>
+
+        <!-- ======================================================= -->
+    <!-- NOVA TELA DE HISTÓRICO (ETAPA 3)                        -->
+    <!-- ======================================================= -->
+    <div id="historico-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1>Meu Histórico de Cálculos</h1>
+                <p>Aqui ficam registados todos os resultados que você salvou.</p>
+            </div>
+            
+            <!-- A lista de resultados salvos será inserida aqui pelo JavaScript -->
+            <div id="historico-lista" class="results-section">
+                <!-- Exemplo de como um item ficará (será gerado dinamicamente):
+                <div class="historico-item">
+                    <h3>Cálculo de Salário</h3>
+                    <p>Salvo em: 07/10/2025</p>
+                    <div class="result-line">
+                        <span>Salário Bruto:</span>
+                        <span>R$ 3500,00</span>
+                    </div>
+                    <div class="result-line final-result">
+                        <span>Salário Líquido:</span>
+                        <span class="font-bold">R$ 2980,50</span>
+                    </div>
+                </div>
+                -->
+                <p class="explanation-text text-center">A carregar o seu histórico...</p>
+            </div>
+
+            <button id="back-to-dashboard-from-historico" class="btn btn-secondary">Voltar para a Dashboard</button>
+        </div>
+    </div>
+
 
     <!-- MODAL SOBRE NÓS -->
     <div id="about-modal-overlay" class="modal-overlay hidden">
