@@ -2,8 +2,8 @@
  * ==================================================================================
  * main.js - Cérebro da "änalitks"
  * ----------------------------------------------------------------------------------
- * Este ficheiro foi modificado para implementar a lógica de salvar o resultado
- * do CÁLCULO DE FÉRIAS e exibi-lo no Histórico.
+ * Este ficheiro foi CORRIGIDO e ATUALIZADO para implementar a lógica de salvar 
+ * o resultado do CÁLCULO DE FÉRIAS e exibi-lo no Histórico.
  * ==================================================================================
  */
 
@@ -158,7 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
             feriasElements.results.adiantamento13Line.classList.add('hidden');
         }
         feriasElements.results.container.classList.remove('hidden');
-        // ADICIONADO: Mostrar o botão de salvar do cálculo de férias.
         feriasElements.buttons.salvar.classList.remove('hidden');
     }
 
@@ -211,6 +210,49 @@ document.addEventListener('DOMContentLoaded', () => {
         if (error) { console.error('Erro ao salvar a simulação:', error); alert(`Ocorreu um erro ao salvar: ${error.message}`); } else { console.log('Simulação salva com sucesso!'); alert('Simulação salva com sucesso!'); investimentosElements.buttons.salvar.textContent = 'Salvo!'; setTimeout(() => { investimentosElements.buttons.salvar.textContent = 'Salvar Simulação'; }, 2000); }
     }
 
+    // ADICIONADO: Nova função para salvar o cálculo de férias.
+    async function handleSalvarFerias() {
+        console.log('Botão de salvar "Férias" clicado.');
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) {
+            alert('Você precisa de estar autenticado para salvar um resultado.');
+            return;
+        }
+
+        const salarioBruto = parseFloat(feriasElements.form.salarioBruto.value) || 0;
+        const diasFerias = parseInt(feriasElements.form.dias.value) || 0;
+        const vendeuDias = feriasElements.form.venderDias.checked;
+        const adiantou13 = feriasElements.form.adiantar13.checked;
+        const liquidoReceber = parseFloat(feriasElements.results.liquido.textContent.replace('R$ ', '')) || 0;
+
+        const calculoParaSalvar = {
+            user_id: user.id,
+            salario_bruto_informado: salarioBruto,
+            dias_ferias_informado: diasFerias,
+            vendeu_dias: vendeuDias,
+            adiantou_13: adiantou13,
+            liquido_receber_calculado: liquidoReceber
+        };
+
+        console.log('A enviar os seguintes dados para o Supabase:', calculoParaSalvar);
+
+        const { error } = await supabaseClient
+            .from('historico_ferias')
+            .insert(calculoParaSalvar);
+
+        if (error) {
+            console.error('Erro ao salvar o cálculo de férias:', error);
+            alert(`Ocorreu um erro ao salvar: ${error.message}`);
+        } else {
+            console.log('Cálculo de férias salvo com sucesso!');
+            alert('Cálculo salvo com sucesso!');
+            feriasElements.buttons.salvar.textContent = 'Salvo!';
+            setTimeout(() => {
+                feriasElements.buttons.salvar.textContent = 'Salvar Cálculo';
+            }, 2000);
+        }
+    }
+
     async function carregarHistorico() {
         console.log('A carregar o histórico de cálculos...');
         historicoElements.lista.innerHTML = '<p class="explanation-text text-center">A carregar o seu histórico...</p>';
@@ -222,14 +264,17 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const [salariosRes, horaValorRes, investimentosRes] = await Promise.all([
+        // ADICIONADO: Buscar dados de férias junto com os outros.
+        const [salariosRes, horaValorRes, investimentosRes, feriasRes] = await Promise.all([
             supabaseClient.from('historico_salarios').select('*').eq('user_id', user.id),
             supabaseClient.from('historico_valor_hora').select('*').eq('user_id', user.id),
-            supabaseClient.from('historico_investimentos').select('*').eq('user_id', user.id)
+            supabaseClient.from('historico_investimentos').select('*').eq('user_id', user.id),
+            supabaseClient.from('historico_ferias').select('*').eq('user_id', user.id)
         ]);
         
-        if (salariosRes.error || horaValorRes.error || investimentosRes.error) {
-            console.error('Erro ao buscar histórico:', salariosRes.error || horaValorRes.error || investimentosRes.error);
+        const errorFound = salariosRes.error || horaValorRes.error || investimentosRes.error || feriasRes.error;
+        if (errorFound) {
+            console.error('Erro ao buscar histórico:', errorFound);
             historicoElements.lista.innerHTML = `<p class="explanation-text text-center error-text">Ocorreu um erro ao carregar o seu histórico.</p>`;
             return;
         }
@@ -237,8 +282,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const salarios = salariosRes.data.map(item => ({ ...item, type: 'salario' }));
         const horasValor = horaValorRes.data.map(item => ({ ...item, type: 'horaValor' }));
         const investimentos = investimentosRes.data.map(item => ({ ...item, type: 'investimento' }));
+        // ADICIONADO: Mapear os dados de férias.
+        const ferias = feriasRes.data.map(item => ({ ...item, type: 'ferias' }));
         
-        const todosOsCalculos = [...salarios, ...horasValor, ...investimentos];
+        const todosOsCalculos = [...salarios, ...horasValor, ...investimentos, ...ferias];
 
         todosOsCalculos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
@@ -296,6 +343,22 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="result-line final-result">
                                 <span>Valor Final Acumulado:</span>
                                 <span class="font-bold">R$ ${calculo.valor_final_calculado.toFixed(2)}</span>
+                            </div>
+                        </div>`;
+                    break;
+                // ADICIONADO: Template para exibir o histórico de férias.
+                case 'ferias':
+                    itemHtml = `
+                        <div class="historico-item">
+                            <h3>Cálculo de Férias</h3>
+                            <p class="explanation-text">Salvo em: ${dataFormatada}</p>
+                            <div class="result-line">
+                                <span>Salário Bruto:</span>
+                                <span>R$ ${calculo.salario_bruto_informado.toFixed(2)} para ${calculo.dias_ferias_informado} dias</span>
+                            </div>
+                            <div class="result-line final-result">
+                                <span>Líquido a Receber:</span>
+                                <span class="font-bold">R$ ${calculo.liquido_receber_calculado.toFixed(2)}</span>
                             </div>
                         </div>`;
                     break;
@@ -364,6 +427,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if(horaValorElements.buttons.salvar) horaValorElements.buttons.salvar.addEventListener('click', handleSalvarHoraValor);
     if(salarioElements.buttons.salvar) salarioElements.buttons.salvar.addEventListener('click', handleSalvarSalario);
     if(investimentosElements.buttons.salvar) investimentosElements.buttons.salvar.addEventListener('click', handleSalvarInvestimentos);
+    // ADICIONADO: Event listener para o novo botão de salvar de férias.
+    if(feriasElements.buttons.salvar) feriasElements.buttons.salvar.addEventListener('click', handleSalvarFerias);
     
     if(dashboardButtons.showAbout) dashboardButtons.showAbout.addEventListener('click', () => { modalElements.overlay.classList.remove('hidden'); });
     if(modalElements.closeBtn) modalElements.closeBtn.addEventListener('click', () => { modalElements.overlay.classList.add('hidden'); });
