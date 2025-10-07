@@ -164,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // PARTE 7: REGISTO DE EVENT LISTENERS
     // ----------------------------------------------------------------------------------
-    // ... todos os seus event listeners existentes ...
     if(authButtons.showLogin) authButtons.showLogin.addEventListener('click', () => { authForms.choices.classList.add('hidden'); authForms.login.classList.remove('hidden'); });
     if(authButtons.showSignup) authButtons.showSignup.addEventListener('click', () => { authForms.choices.classList.add('hidden'); authForms.signup.classList.remove('hidden'); });
     if(authButtons.showLoginLink) authButtons.showLoginLink.addEventListener('click', (e) => { e.preventDefault(); authForms.signup.classList.add('hidden'); authForms.login.classList.remove('hidden'); });
@@ -174,7 +173,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if(authButtons.logout) authButtons.logout.addEventListener('click', handleLogout);
     if(authButtons.logoutPj) authButtons.logoutPj.addEventListener('click', handleLogout);
 
-    if(welcomeScreenElements.buttons.clt) welcomeScreenElements.buttons.clt.addEventListener('click', async () => { /* ... */ });
+    // CORREÇÃO: Restaurada a lógica completa do event listener.
+    if(welcomeScreenElements.buttons.clt) welcomeScreenElements.buttons.clt.addEventListener('click', async () => { 
+        const { data: { user } } = await supabaseClient.auth.getUser(); 
+        const welcomeMessage = document.getElementById('welcome-message'); 
+        if (welcomeMessage && user) { 
+            welcomeMessage.textContent = `Bem-vindo(a), ${user.email}!`; 
+        } 
+        const randomIndex = Math.floor(Math.random() * dashboardQuotes.length); 
+        dashboardElements.quote.textContent = dashboardQuotes[randomIndex]; 
+        showScreen('dashboard'); 
+    });
     if(welcomeScreenElements.buttons.pj) welcomeScreenElements.buttons.pj.addEventListener('click', () => showScreen('pjDashboard'));
 
     if(dashboardButtons.salario) dashboardButtons.salario.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('salario'); });
@@ -184,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(dashboardButtons.horaValor) dashboardButtons.horaValor.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('horaValor'); });
     if(dashboardButtons.irpf) dashboardButtons.irpf.addEventListener('click', () => showScreen('irpf'));
     if(dashboardButtons.profile) dashboardButtons.profile.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('profile'); });
-    if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', () => { /* ... */ });
+    if(reportsElements.backButton) reportsElements.backButton.addEventListener('click', () => showScreen('dashboard'));
     
     if(pjDashboardButtons.simples) pjDashboardButtons.simples.addEventListener('click', () => showScreen('simplesNacional'));
     if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListener('click', () => showScreen('pjHoraValor'));
