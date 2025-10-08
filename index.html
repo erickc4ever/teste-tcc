@@ -150,7 +150,7 @@
             <div class="dashboard-footer">
                 <button id="goto-profile-btn" class="btn btn-secondary">Meu Perfil</button>
                 <button id="goto-reports-btn" class="btn btn-secondary">Minha Visão Geral</button>
-                <button id="show-about-btn" class="btn btn-secondary">Sobre o Projeto</button>
+<button id="show-about-btn" class="btn btn-secondary">Sobre e Parâmetros</button>
                                 <button id="goto-historico-btn" class="btn btn-secondary">Meu Histórico</button>
                                                       <button id="back-to-welcome-from-pj" class="btn btn-secondary">Voltar para a Escolha</button>
                 <button id="logout-btn" class="btn btn-primary">Sair</button>
@@ -192,6 +192,7 @@
                 </div>
             </div>
             <div class="dashboard-footer">
+                <button id="show-about-btn" class="btn btn-secondary">Sobre e Parâmetros</button>
                       <button id="goto-historico-btn" class="btn btn-secondary">Meu Histórico</button>
                       <button id="back-to-welcome-from-pj" class="btn btn-secondary">Voltar para a Escolha</button>
                 <button id="logout-btn-pj" class="btn btn-primary">Sair</button>
@@ -660,24 +661,63 @@
 
 
     <!-- MODAL SOBRE NÓS -->
+        <!-- MODAL SOBRE NÓS E PARÂMETROS -->
     <div id="about-modal-overlay" class="modal-overlay hidden">
         <div class="calculator-card">
             <div class="modal-header">
                 <h1>Sobre a änalitks</h1>
                 <button id="close-about-btn" class="close-btn">&times;</button>
             </div>
-            <p class="brasao">"aqui o futuro e o passado tem a mesma frase"</p>
-            <h2>A Nossa Missão</h2>
-            <p>A "änalitks" nasceu de uma pergunta simples: como podemos dar ao trabalhador brasileiro as mesmas ferramentas de análise financeira que os grandes especialistas usam, mas de forma simples, transparente e gratuita?</p>
-            <p>A nossa missão é descodificar o "financês". Acreditamos que, ao entender exatamente para onde vai cada cêntimo do seu salário, como os seus investimentos podem crescer e como se planear para o futuro, você ganha o poder de tomar as melhores decisões.</p>
-            <h2>Desenvolvimento</h2>
-            <ul>
-                <li><strong>Criado por:</strong> Sandro V. Lima, Kauan S. Mota e Erick C. Cardoso</li>
-                <li><strong>Projeto:</strong> Trabalho de Conclusão de Curso - Análise e Desenvolvimento de Sistemas (ADS)</li>
-                <li><strong>Tecnologias:</strong> Construído com HTML, CSS e JavaScript puros, com o Supabase a potenciar a gestão segura de utilizadores.</li>
-            </ul>
+
+            <!-- Navegação das Abas -->
+            <div class="modal-tabs">
+                <button id="tab-sobre-btn" class="tab-btn active">Sobre</button>
+                <button id="tab-parametros-btn" class="tab-btn">Parâmetros de Cálculo</button>
+            </div>
+
+            <!-- Conteúdo da Aba "Sobre" -->
+            <div id="tab-sobre-content">
+                <p class="brasao">"aqui o futuro e o passado tem a mesma frase"</p>
+                <h2>A Nossa Missão</h2>
+                <p>A "änalitks" nasceu de uma pergunta simples: como podemos dar ao trabalhador brasileiro as mesmas ferramentas de análise financeira que os grandes especialistas usam, mas de forma simples, transparente e gratuita?</p>
+                <p>A nossa missão é descodificar o "financês". Acreditamos que, ao entender exatamente para onde vai cada cêntimo do seu salário, como os seus investimentos podem crescer e como se planear para o futuro, você ganha o poder de tomar as melhores decisões.</p>
+                <h2>Desenvolvimento</h2>
+                <ul>
+                    <li><strong>Criado por:</strong> Sandro V. Lima, Kauan S. Mota e Erick C. Cardoso</li>
+                    <li><strong>Projeto:</strong> Trabalho de Conclusão de Curso - Análise e Desenvolvimento de Sistemas (ADS)</li>
+                    <li><strong>Tecnologias:</strong> Construído com HTML, CSS e JavaScript puros, com o Supabase a potenciar a gestão segura de utilizadores.</li>
+                </ul>
+            </div>
+
+            <!-- Conteúdo da Aba "Parâmetros" -->
+            <div id="tab-parametros-content" class="hidden">
+                <h2>INSS (Instituto Nacional do Seguro Social)</h2>
+                <p>O INSS é um desconto progressivo. Isto significa que quem ganha mais, contribui com uma percentagem maior, mas apenas sobre cada "fatia" do salário. A nossa calculadora usa a tabela oficial mais recente para estimar este valor.</p>
+                <div class="param-chart">
+                    <div class="chart-bar inss-bar-1"><span>Até R$ 1.412,00</span><span>7,5%</span></div>
+                    <div class="chart-bar inss-bar-2"><span>De R$ 1.412,01 até R$ 2.666,68</span><span>9%</span></div>
+                    <div class="chart-bar inss-bar-3"><span>De R$ 2.666,69 até R$ 4.000,03</span><span>12%</span></div>
+                    <div class="chart-bar inss-bar-4"><span>De R$ 4.000,04 até R$ 7.786,02</span><span>14%</span></div>
+                </div>
+
+                <h2>IRRF (Imposto de Renda Retido na Fonte)</h2>
+                <p>Similar ao INSS, o IRRF também é progressivo. O cálculo é feito sobre o salário bruto menos o desconto do INSS e um valor fixo por cada dependente legal.</p>
+                 <div class="param-chart">
+                    <div class="chart-bar irrf-bar-1"><span>Até R$ 2.259,20</span><span>Isento</span></div>
+                    <div class="chart-bar irrf-bar-2"><span>De R$ 2.259,21 até R$ 2.826,65</span><span>7,5%</span></div>
+                    <div class="chart-bar irrf-bar-3"><span>De R$ 2.826,66 até R$ 3.751,05</span><span>15%</span></div>
+                    <div class="chart-bar irrf-bar-4"><span>De R$ 3.751,06 até R$ 4.664,68</span><span>22,5%</span></div>
+                    <div class="chart-bar irrf-bar-5"><span>Acima de R$ 4.664,68</span><span>27,5%</span></div>
+                </div>
+                
+                <h2>A Regra da Aposentadoria (A Regra dos 4%)</h2>
+                <p>Para planear a sua independência financeira, usamos um princípio universal: para saber quanto dinheiro você precisa de ter investido (o seu "Número Mágico"), basta multiplicar a **renda ANUAL** que você deseja por **25**.</p>
+                <p class="explanation-text">Exemplo: Para uma renda de R$ 5.000/mês (R$ 60.000/ano), a sua meta é R$ 60.000 x 25 = R$ 1.500.000,00.</p>
+            </div>
+
         </div>
     </div>
+
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -695,7 +695,44 @@ function renderSummaryCards() {
     // ADICIONADO: Event listener para o novo botão de salvar de IRPF.
     if(irpfElements.buttons.salvar) irpfElements.buttons.salvar.addEventListener('click', handleSalvarIRPF);
     
-    if(dashboardButtons.showAbout) dashboardButtons.showAbout.addEventListener('click', () => { modalElements.overlay.classList.remove('hidden'); });
+   if(dashboardButtons.showAbout) {
+    // Seletores para os elementos das abas
+    const tabSobreBtn = document.getElementById('tab-sobre-btn');
+    const tabParametrosBtn = document.getElementById('tab-parametros-btn');
+    const tabSobreContent = document.getElementById('tab-sobre-content');
+    const tabParametrosContent = document.getElementById('tab-parametros-content');
+
+    // Abre o modal
+    dashboardButtons.showAbout.addEventListener('click', () => {
+        // Garante que o modal sempre abra na primeira aba
+        tabSobreContent.classList.remove('hidden');
+        tabParametrosContent.classList.add('hidden');
+        tabSobreBtn.classList.add('active');
+        tabParametrosBtn.classList.remove('active');
+        
+        modalElements.overlay.classList.remove('hidden');
+    });
+
+    // Fecha o modal
+    modalElements.closeBtn.addEventListener('click', () => { modalElements.overlay.classList.add('hidden'); });
+    modalElements.overlay.addEventListener('click', (event) => { if (event.target === modalElements.overlay) { modalElements.overlay.classList.add('hidden'); } });
+
+    // Lógica de troca de abas
+    tabSobreBtn.addEventListener('click', () => {
+        tabSobreContent.classList.remove('hidden');
+        tabParametrosContent.classList.add('hidden');
+        tabSobreBtn.classList.add('active');
+        tabParametrosBtn.classList.remove('active');
+    });
+
+    tabParametrosBtn.addEventListener('click', () => {
+        tabSobreContent.classList.add('hidden');
+        tabParametrosContent.classList.remove('hidden');
+        tabSobreBtn.classList.remove('active');
+        tabParametrosBtn.classList.add('active');
+    });
+}
+
     if(modalElements.closeBtn) modalElements.closeBtn.addEventListener('click', () => { modalElements.overlay.classList.add('hidden'); });
     if(modalElements.overlay) modalElements.overlay.addEventListener('click', (event) => { if (event.target === modalElements.overlay) { modalElements.overlay.classList.add('hidden'); } });
 
