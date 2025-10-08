@@ -619,7 +619,26 @@ function renderSummaryCards() {
     if(dashboardButtons.horaValor) dashboardButtons.horaValor.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('horaValor'); });
     if(dashboardButtons.irpf) dashboardButtons.irpf.addEventListener('click', () => showScreen('irpf'));
     if(dashboardButtons.profile) dashboardButtons.profile.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('profile'); });
-    if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', () => { renderSalaryChart(); renderInvestmentChart(); renderSummaryCards(); showScreen('reports'); });
+   if(dashboardButtons.reports) {
+    dashboardButtons.reports.addEventListener('click', async () => {
+        // Primeiro, verifica se o perfil existe para mostrar ou esconder o conteúdo principal
+        if (!userProfile) {
+            reportsElements.content.classList.add('hidden');
+            reportsElements.notice.classList.remove('hidden');
+        } else {
+            reportsElements.content.classList.remove('hidden');
+            reportsElements.notice.classList.add('hidden');
+            
+            // Agora, chama as novas funções assíncronas para desenhar os gráficos e os cartões
+            await renderSalaryChart();
+            await renderInvestmentChart();
+            renderSummaryCards();
+        }
+        // Só depois de tudo pronto, mostra a tela
+        showScreen('reports');
+    });
+}
+
     if(dashboardButtons.historico) dashboardButtons.historico.addEventListener('click', carregarHistorico);
 
     if(pjDashboardButtons.simples) pjDashboardButtons.simples.addEventListener('click', () => showScreen('simplesNacional'));
