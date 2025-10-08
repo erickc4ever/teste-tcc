@@ -609,6 +609,60 @@ function renderSummaryCards() {
             }
             historicoElements.lista.innerHTML += itemHtml;
         });
+        function executarCalculoAposentadoria() {
+    // 1. Ler os dados do formulário
+    const idadeAtual = parseInt(aposentadoriaElements.form.idadeAtual.value) || 0;
+    const idadeObjetivo = parseInt(aposentadoriaElements.form.idadeObjetivo.value) || 0;
+    const patrimonioAtual = parseFloat(aposentadoriaElements.form.patrimonioAtual.value) || 0;
+    const aporteMensal = parseFloat(aposentadoriaElements.form.aporteMensal.value) || 0;
+    const rendaDesejada = parseFloat(aposentadoriaElements.form.rendaDesejada.value) || 0;
+
+    // 2. Validar os dados
+    if (idadeAtual <= 0 || idadeObjetivo <= idadeAtual || aporteMensal <= 0 || rendaDesejada <= 0) {
+        alert('Por favor, preencha todos os campos com valores válidos.');
+        return;
+    }
+
+    // 3. Calcular o "Número Mágico" (Objetivo Total)
+    const rendaAnualDesejada = rendaDesejada * 12;
+    const objetivoTotal = rendaAnualDesejada * 25; // Baseado na Regra dos 4%
+
+    // 4. Projetar o crescimento do património (Juros Compostos)
+    const anosParaAposentar = idadeObjetivo - idadeAtual;
+    const periodoMeses = anosParaAposentar * 12;
+    // Assumimos uma taxa de juros real (acima da inflação) conservadora de 6% ao ano.
+    const taxaJurosAnual = 0.06;
+    const taxaMensal = Math.pow(1 + taxaJurosAnual, 1/12) - 1;
+
+    let projecaoTotal = patrimonioAtual;
+    for (let i = 0; i < periodoMeses; i++) {
+        projecaoTotal = projecaoTotal * (1 + taxaMensal) + aporteMensal;
+    }
+
+    // 5. Gerar a recomendação
+    let recomendacao = '';
+    let corRecomendacao = '';
+    if (projecaoTotal >= objetivoTotal) {
+        recomendacao = 'Parabéns! Com este plano, você está no caminho certo para atingir a sua meta de aposentadoria.';
+        corRecomendacao = 'success-text';
+    } else {
+        const falta = objetivoTotal - projecaoTotal;
+        recomendacao = `Você está quase lá! Faltam aproximadamente R$ ${falta.toFixed(2)} para atingir a sua meta. Considere aumentar o seu aporte mensal.`;
+        corRecomendacao = 'error-text'; // Podemos usar a classe de erro para dar destaque
+    }
+
+    // 6. Exibir os resultados na tela
+    aposentadoriaElements.results.objetivo.textContent = `R$ ${objetivoTotal.toFixed(2)}`;
+    aposentadoriaElements.results.projecao.textContent = `R$ ${projecaoTotal.toFixed(2)}`;
+    aposentadoriaElements.results.recomendacao.textContent = recomendacao;
+    
+    // Limpa cores antigas e adiciona a nova
+    aposentadoriaElements.results.recomendacao.classList.remove('success-text', 'error-text');
+    aposentadoriaElements.results.recomendacao.classList.add(corRecomendacao);
+
+    aposentadoriaElements.results.container.classList.remove('hidden');
+}
+
     }
 
     // PARTE 7: REGISTO DE EVENT LISTENERS
@@ -732,6 +786,22 @@ function renderSummaryCards() {
         tabParametrosBtn.classList.add('active');
     });
 }
+    // =======================================================
+    // NOVOS EVENT LISTENERS - PROJEÇÃO DE APOSENTADORIA
+    // =======================================================
+    const gotoAposentadoriaBtn = document.getElementById('goto-aposentadoria-btn');
+    const gotoAposentadoriaBtnPj = document.getElementById('goto-aposentadoria-btn-pj');
+
+    if (gotoAposentadoriaBtn) {
+        gotoAposentadoriaBtn.addEventListener('click', () => showScreen('aposentadoria'));
+    }
+    if (gotoAposentadoriaBtnPj) {
+        gotoAposentadoriaBtnPj.addEventListener('click', () => showScreen('aposentadoria'));
+    }
+    if (aposentadoriaElements.buttons.calcular) {
+        aposentadoriaElements.buttons.calcular.addEventListener('click', executarCalculoAposentadoria);
+    }
+
 
     if(modalElements.closeBtn) modalElements.closeBtn.addEventListener('click', () => { modalElements.overlay.classList.add('hidden'); });
     if(modalElements.overlay) modalElements.overlay.addEventListener('click', (event) => { if (event.target === modalElements.overlay) { modalElements.overlay.classList.add('hidden'); } });
