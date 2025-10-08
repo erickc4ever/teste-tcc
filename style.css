@@ -284,6 +284,13 @@ hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
     background-color: var(--cor-fundo);
 }
 
+dashboard-footer .btn {
+    width: auto; /* Remove a largura de 100% */
+    padding-left: 28px;  /* Adiciona um espaçamento horizontal */
+    padding-right: 28px; /* para um visual mais equilibrado */
+}
+
+
 .chart-bar span:last-child {
     font-weight: 700;
 }
