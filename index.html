@@ -586,41 +586,44 @@
         </div>
     </div>
 
-    <!-- TELA DE RELATÓRIOS / VISÃO GERAL -->
-    <div id="reports-screen" class="screen hidden">
-        <div class="calculator-card">
-            <div class="card-header">
-                <h1>Minha Visão Geral</h1>
-                <p>Um resumo visual das suas finanças com base nos dados do seu perfil.</p>
-            </div>
-            <div id="reports-content">
-                <div class="reports-grid">
-                    <div class="chart-container">
-                        <h2>Composição do Salário</h2>
-                        <canvas id="salary-chart"></canvas>
-                    </div>
-                    <div class="chart-container">
-                        <h2>Projeção de Investimentos</h2>
-                        <canvas id="investment-chart"></canvas>
-                    </div>
-                </div>
-                <div class="summary-cards-grid">
-                    <div class="summary-card">
-                        <h3>Valor do Dia de Trabalho (Líquido)</h3>
-                        <p id="summary-daily-value" class="font-bold">R$ 0,00</p>
-                    </div>
-                    <div class="summary-card">
-                        <h3>13º Salário Estimado (Líquido)</h3>
-                        <p id="summary-13th-value" class="font-bold">R$ 0,00</p>
-                    </div>
-                </div>
-            </div>
-            <p id="reports-notice" class="explanation-text text-center hidden">
-                Para ver os seus relatórios, primeiro salve as suas informações na tela 'Meu Perfil'.
-            </p>
-            <button id="back-to-dashboard-from-reports" class="btn btn-secondary">Voltar para a Dashboard CLT</button>
+ <!-- TELA DE RELATÓRIOS / VISÃO GERAL -->
+<div id="reports-screen" class="screen hidden">
+    <div class="calculator-card">
+        <div class="card-header">
+            <h1>Minha Visão Geral</h1>
+            <!-- ATUALIZAÇÃO: Descrição mais precisa, já que agora usaremos o histórico. -->
+            <p>Um resumo visual da sua evolução financeira com base nos seus cálculos salvos.</p>
         </div>
+        <div id="reports-content">
+            <div class="reports-grid">
+                <div class="chart-container">
+                    <!-- ATUALIZAÇÃO: Título do gráfico alterado para refletir a nova funcionalidade. -->
+                    <h2>Evolução do Salário Líquido Salvo</h2>
+                    <canvas id="salary-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <!-- ATUALIZAÇÃO: Título do gráfico alterado para refletir a nova funcionalidade. -->
+                    <h2>Projeções de Investimento Salvas</h2>
+                    <canvas id="investment-chart"></canvas>
+                </div>
+            </div>
+            <div class="summary-cards-grid">
+                <div class="summary-card">
+                    <h3>Valor do Dia de Trabalho (Líquido)</h3>
+                    <p id="summary-daily-value" class="font-bold">R$ 0,00</p>
+                </div>
+                <div class="summary-card">
+                    <h3>13º Salário Estimado (Líquido)</h3>
+                    <p id="summary-13th-value" class="font-bold">R$ 0,00</p>
+                </div>
+            </div>
+        </div>
+        <p id="reports-notice" class="explanation-text text-center hidden">
+            Para ver os seus relatórios, primeiro salve as suas informações na tela 'Meu Perfil'.
+        </p>
+        <button id="back-to-dashboard-from-reports" class="btn btn-secondary">Voltar para a Dashboard CLT</button>
     </div>
+</div>
 
         <!-- ======================================================= -->
     <!-- NOVA TELA DE HISTÓRICO (ETAPA 3)                        -->
