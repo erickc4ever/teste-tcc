@@ -47,9 +47,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalElements = { overlay: document.getElementById('about-modal-overlay'), closeBtn: document.getElementById('close-about-btn') };
     const profileElements = { form: { salarioBruto: document.getElementById('profile-salario-bruto'), dependentes: document.getElementById('profile-dependentes'), horasDia: document.getElementById('profile-horas-dia'), diasSemana: document.getElementById('profile-dias-semana'), }, buttons: { salvar: document.getElementById('salvar-perfil-btn'), voltar: document.getElementById('back-to-dashboard-from-profile'), }, statusMessage: document.getElementById('profile-status-message'), };
     const reportsElements = { salaryChart: document.getElementById('salary-chart'), investmentChart: document.getElementById('investment-chart'), notice: document.getElementById('reports-notice'), content: document.getElementById('reports-content'), backButton: document.getElementById('back-to-dashboard-from-reports'), summary: { dailyValue: document.getElementById('summary-daily-value'), thirteenthValue: document.getElementById('summary-13th-value') } };
-    const historicoElements = { lista: document.getElementById('historico-lista'), voltar: document.getElementById('back-to-dashboard-from-historico') };
 
-    const salarioElements = { form: { salarioBruto: document.getElementById('salario-bruto'), dependentes: document.getElementById('salario-dependentes') }, buttons: { calcular: document.getElementById('calcular-salario-btn'), voltar: document.getElementById('back-to-dashboard-from-salario'), salvar: document.getElementById('salvar-salario-btn') }, results: { container: document.getElementById('salario-results-section'), salarioBruto: document.getElementById('resultado-salario-bruto'), inss: document.getElementById('resultado-inss'), baseIrrf: document.getElementById('resultado-base-irrf'), irrf: document.getElementById('resultado-irrf'), salarioLiquido: document.getElementById('resultado-salario-liquido'), explicacaoInss: document.getElementById('explicacao-inss'), explicacaoIrrf: document.getElementById('explicacao-irrf') } };
+    const aposentadoriaElements = {
+        screen: document.getElementById('aposentadoria-screen'),
+        form: {
+            idadeAtual: document.getElementById('aposentadoria-idade-atual'),
+            idadeObjetivo: document.getElementById('aposentadoria-idade-objetivo'),
+            patrimonioAtual: document.getElementById('aposentadoria-patrimonio-atual'),
+            aporteMensal: document.getElementById('aposentadoria-aporte-mensal'),
+            rendaDesejada: document.getElementById('aposentadoria-renda-desejada')
+        },
+        buttons: {
+            calcular: document.getElementById('calcular-aposentadoria-btn'),
+            voltar: document.getElementById('back-to-dashboard-from-aposentadoria'),
+            salvar: null // Adicionaremos depois
+        },
+        results: {
+            container: document.getElementById('aposentadoria-results-section'),
+            objetivo: document.getElementById('resultado-aposentadoria-objetivo'),
+            projecao: document.getElementById('resultado-aposentadoria-projecao'),
+            recomendacao: document.getElementById('aposentadoria-recomendacao').querySelector('p')
+        }
+    };
+    
+    // Conecta o novo botão de voltar
+    if(aposentadoriaElements.buttons.voltar) {
+        aposentadoriaElements.buttons.voltar.addEventListener('click', () => {
+            // Lógica inteligente para voltar à dashboard correta
+            if (!screens.dashboard.classList.contains('hidden')) {
+                showScreen('dashboard');
+            } else {
+                showScreen('pjDashboard');
+            }
+        });
+    }
+      const historicoElements = { lista: document.getElementById('historico-lista'), voltar: document.getElementById('back-to-dashboard-from-historico') };
+     const salarioElements = { form: { salarioBruto: document.getElementById('salario-bruto'), dependentes: document.getElementById('salario-dependentes') }, buttons: { calcular: document.getElementById('calcular-salario-btn'), voltar: document.getElementById('back-to-dashboard-from-salario'), salvar: document.getElementById('salvar-salario-btn') }, results: { container: document.getElementById('salario-results-section'), salarioBruto: document.getElementById('resultado-salario-bruto'), inss: document.getElementById('resultado-inss'), baseIrrf: document.getElementById('resultado-base-irrf'), irrf: document.getElementById('resultado-irrf'), salarioLiquido: document.getElementById('resultado-salario-liquido'), explicacaoInss: document.getElementById('explicacao-inss'), explicacaoIrrf: document.getElementById('explicacao-irrf') } };
     const investimentosElements = { form: { valorInicial: document.getElementById('valor-inicial'), aporteMensal: document.getElementById('aporte-mensal'), taxaJurosAnual: document.getElementById('taxa-juros-anual'), periodoAnos: document.getElementById('periodo-anos') }, buttons: { calcular: document.getElementById('calcular-investimentos-btn'), voltar: document.getElementById('back-to-dashboard-from-investimentos'), salvar: document.getElementById('salvar-investimentos-btn') }, results: { container: document.getElementById('investimentos-results-section'), valorFinal: document.getElementById('resultado-valor-final'), totalInvestido: document.getElementById('resultado-total-investido'), totalJuros: document.getElementById('resultado-total-juros') } };
     const feriasElements = { form: { salarioBruto: document.getElementById('ferias-salario-bruto'), dias: document.getElementById('ferias-dias'), venderDias: document.getElementById('ferias-vender-dias'), adiantar13: document.getElementById('ferias-adiantar-13') }, buttons: { calcular: document.getElementById('calcular-ferias-btn'), voltar: document.getElementById('back-to-dashboard-from-ferias'), salvar: document.getElementById('salvar-ferias-btn') }, results: { container: document.getElementById('ferias-results-section'), feriasBrutas: document.getElementById('resultado-ferias-brutas'), tercoConstitucional: document.getElementById('resultado-terco-constitucional'), abonoPecuniario: document.getElementById('resultado-abono-pecuniario'), totalBruto: document.getElementById('resultado-total-bruto-ferias'), inss: document.getElementById('resultado-inss-ferias'), irrf: document.getElementById('resultado-irrf-ferias'), adiantamento13: document.getElementById('resultado-adiantamento-13'), liquido: document.getElementById('resultado-liquido-ferias'), abonoLine: document.getElementById('abono-pecuniario-line'), adiantamento13Line: document.getElementById('adiantamento-13-line') } };
     const decimoTerceiroElements = { form: { salarioBruto: document.getElementById('decimo-terceiro-salario-bruto'), meses: document.getElementById('decimo-terceiro-meses'), dependentes: document.getElementById('decimo-terceiro-dependentes') }, buttons: { calcular: document.getElementById('calcular-decimo-terceiro-btn'), voltar: document.getElementById('back-to-dashboard-from-decimo-terceiro'), salvar: document.getElementById('salvar-decimo-terceiro-btn') }, results: { container: document.getElementById('decimo-terceiro-results-section'), bruto: document.getElementById('resultado-13-bruto'), primeiraParcela: document.getElementById('resultado-13-primeira-parcela'), segundaParcelaBruta: document.getElementById('resultado-13-segunda-parcela-bruta'), inss: document.getElementById('resultado-inss-13'), irrf: document.getElementById('resultado-irrf-13'), segundaParcelaLiquida: document.getElementById('resultado-13-segunda-parcela-liquida'), liquidoTotal: document.getElementById('resultado-13-liquido-total') } };
@@ -346,6 +379,61 @@ function renderSummaryCards() {
     
     function executarCalculoSimplesNacional() { const faturamentoMensal = parseFloat(simplesNacionalElements.form.faturamentoMensal.value) || 0; const anexo = simplesNacionalElements.form.anexo.value; if (faturamentoMensal <= 0) { alert('Por favor, insira um valor de faturamento mensal válido.'); return; } const rbt12 = faturamentoMensal * 12; const tabelas = { anexo3: [ { ate: 180000, aliquota: 0.06, deduzir: 0 }, { ate: 360000, aliquota: 0.112, deduzir: 9360 }, { ate: 720000, aliquota: 0.135, deduzir: 17640 }, { ate: 1800000, aliquota: 0.16, deduzir: 35640 }, { ate: 3600000, aliquota: 0.21, deduzir: 125640 }, { ate: 4800000, aliquota: 0.33, deduzir: 648000 } ], anexo5: [ { ate: 180000, aliquota: 0.155, deduzir: 0 }, { ate: 360000, aliquota: 0.18, deduzir: 4500 }, { ate: 720000, aliquota: 0.195, deduzir: 9900 }, { ate: 1800000, aliquota: 0.205, deduzir: 17100 }, { ate: 3600000, aliquota: 0.23, deduzir: 62100 }, { ate: 4800000, aliquota: 0.305, deduzir: 540000 } ] }; const tabelaSelecionada = tabelas[anexo]; let faixaEncontrada = null; for (const faixa of tabelaSelecionada) { if (rbt12 <= faixa.ate) { faixaEncontrada = faixa; break; } } if (!faixaEncontrada) { alert('Faturamento anual excede o limite do Simples Nacional (R$ 4.800.000,00).'); return; } const { aliquota, deduzir } = faixaEncontrada; const aliquotaEfetiva = ((rbt12 * aliquota) - deduzir) / rbt12; const valorDAS = faturamentoMensal * aliquotaEfetiva; simplesNacionalElements.results.rbt12.textContent = `R$ ${rbt12.toFixed(2)}`; simplesNacionalElements.results.aliquotaEfetiva.textContent = `${(aliquotaEfetiva * 100).toFixed(2)}%`; simplesNacionalElements.results.valorDas.textContent = `R$ ${valorDAS.toFixed(2)}`; simplesNacionalElements.results.explicacao.textContent = `Cálculo: ((R$${rbt12.toFixed(2)} * ${aliquota * 100}%) - R$${deduzir}) / R$${rbt12.toFixed(2)} = Alíquota Efetiva de ${(aliquotaEfetiva * 100).toFixed(2)}%.`; simplesNacionalElements.results.container.classList.remove('hidden'); }
     function executarCalculoPjHoraValor() { const salarioDesejado = parseFloat(pjHoraValorElements.form.salarioDesejado.value) || 0; const custosFixos = parseFloat(pjHoraValorElements.form.custosFixos.value) || 0; const feriasAno = parseInt(pjHoraValorElements.form.feriasAno.value) || 0; const horasDia = parseFloat(pjHoraValorElements.form.horasDia.value) || 0; const diasSemana = parseInt(pjHoraValorElements.form.diasSemana.value) || 0; if (salarioDesejado <= 0 || horasDia <= 0 || diasSemana <= 0) { alert('Por favor, preencha o salário desejado, horas por dia e dias por semana.'); return; } const custoAnualTotal = (salarioDesejado * 12) + (custosFixos * 12); const diasTrabalhaveisAno = (diasSemana * 52) - feriasAno; if (diasTrabalhaveisAno <= 0) { alert('O número de dias de férias não pode ser maior ou igual ao total de dias de trabalho no ano.'); return; } const horasTrabalhaveisAno = diasTrabalhaveisAno * horasDia; const valorHora = custoAnualTotal / horasTrabalhaveisAno; pjHoraValorElements.results.valorHora.textContent = `R$ ${valorHora.toFixed(2)}`; pjHoraValorElements.results.explicacao.textContent = `Custo Anual de R$ ${custoAnualTotal.toFixed(2)} / ${horasTrabalhaveisAno.toFixed(0)} horas úteis no ano.`; pjHoraValorElements.results.container.classList.remove('hidden'); }
+
+function executarCalculoAposentadoria() {
+    // 1. Ler os dados do formulário
+    const idadeAtual = parseInt(aposentadoriaElements.form.idadeAtual.value) || 0;
+    const idadeObjetivo = parseInt(aposentadoriaElements.form.idadeObjetivo.value) || 0;
+    const patrimonioAtual = parseFloat(aposentadoriaElements.form.patrimonioAtual.value) || 0;
+    const aporteMensal = parseFloat(aposentadoriaElements.form.aporteMensal.value) || 0;
+    const rendaDesejada = parseFloat(aposentadoriaElements.form.rendaDesejada.value) || 0;
+
+    // 2. Validar os dados
+    if (idadeAtual <= 0 || idadeObjetivo <= idadeAtual || aporteMensal <= 0 || rendaDesejada <= 0) {
+        alert('Por favor, preencha todos os campos com valores válidos.');
+        return;
+    }
+
+    // 3. Calcular o "Número Mágico" (Objetivo Total)
+    const rendaAnualDesejada = rendaDesejada * 12;
+    const objetivoTotal = rendaAnualDesejada * 25; // Baseado na Regra dos 4%
+
+    // 4. Projetar o crescimento do património (Juros Compostos)
+    const anosParaAposentar = idadeObjetivo - idadeAtual;
+    const periodoMeses = anosParaAposentar * 12;
+    // Assumimos uma taxa de juros real (acima da inflação) conservadora de 6% ao ano.
+    const taxaJurosAnual = 0.06;
+    const taxaMensal = Math.pow(1 + taxaJurosAnual, 1/12) - 1;
+
+    let projecaoTotal = patrimonioAtual;
+    for (let i = 0; i < periodoMeses; i++) {
+        projecaoTotal = projecaoTotal * (1 + taxaMensal) + aporteMensal;
+    }
+
+    // 5. Gerar a recomendação
+    let recomendacao = '';
+    let corRecomendacao = '';
+    if (projecaoTotal >= objetivoTotal) {
+        recomendacao = 'Parabéns! Com este plano, você está no caminho certo para atingir a sua meta de aposentadoria.';
+        corRecomendacao = 'success-text';
+    } else {
+        const falta = objetivoTotal - projecaoTotal;
+        recomendacao = `Você está quase lá! Faltam aproximadamente R$ ${falta.toFixed(2)} para atingir a sua meta. Considere aumentar o seu aporte mensal.`;
+        corRecomendacao = 'error-text'; // Podemos usar a classe de erro para dar destaque
+    }
+
+    // 6. Exibir os resultados na tela
+    aposentadoriaElements.results.objetivo.textContent = `R$ ${objetivoTotal.toFixed(2)}`;
+    aposentadoriaElements.results.projecao.textContent = `R$ ${projecaoTotal.toFixed(2)}`;
+    aposentadoriaElements.results.recomendacao.textContent = recomendacao;
+    
+    // Limpa cores antigas e adiciona a nova
+    aposentadoriaElements.results.recomendacao.classList.remove('success-text', 'error-text');
+    aposentadoriaElements.results.recomendacao.classList.add(corRecomendacao);
+
+    aposentadoriaElements.results.container.classList.remove('hidden');
+}
+
 
     // ==================================================================================
     // NOVA PARTE: LÓGICA DE BACKEND (SALVAR E CARREGAR HISTÓRICO)
@@ -804,7 +892,24 @@ function renderSummaryCards() {
 
 
     if(modalElements.closeBtn) modalElements.closeBtn.addEventListener('click', () => { modalElements.overlay.classList.add('hidden'); });
-    if(modalElements.overlay) modalElements.overlay.addEventListener('click', (event) => { if (event.target === modalElements.overlay) { modalElements.overlay.classList.add('hidden'); } });
+    if(modalElements.overlay) modalElements.overlay.addEventListener('click', (event) => { if (event.target === modalElements.overlay) { modalElements.overlay.classList.add('hidden'); }
+    // =======================================================
+    // NOVOS EVENT LISTENERS - PROJEÇÃO DE APOSENTADORIA
+    // =======================================================
+    const gotoAposentadoriaBtn = document.getElementById('goto-aposentadoria-btn');
+    const gotoAposentadoriaBtnPj = document.getElementById('goto-aposentadoria-btn-pj');
+
+    if (gotoAposentadoriaBtn) {
+        gotoAposentadoriaBtn.addEventListener('click', () => showScreen('aposentadoria'));
+    }
+    if (gotoAposentadoriaBtnPj) {
+        gotoAposentadoriaBtnPj.addEventListener('click', () => showScreen('aposentadoria'));
+    }
+    if (aposentadoriaElements.buttons.calcular) {
+        aposentadoriaElements.buttons.calcular.addEventListener('click', executarCalculoAposentadoria);
+    }
+
+});
 
     supabaseClient.auth.onAuthStateChange((_event, session) => { updateUserUI(session ? session.user : null); });
 

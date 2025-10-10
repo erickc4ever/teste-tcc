@@ -588,6 +588,55 @@
         </div>
     </div>
 
+        <!-- ======================================================= -->
+    <!-- NOVA TELA DE PROJEÇÃO DE APOSENTADORIA                  -->
+    <!-- ======================================================= -->
+    <div id="aposentadoria-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1>Projeção de Aposentadoria</h1>
+                <p>Descubra se você está no caminho certo para a independência financeira.</p>
+            </div>
+            <div class="input-group">
+                <label for="aposentadoria-idade-atual">A sua Idade Atual</label>
+                <input type="number" id="aposentadoria-idade-atual" class="input-field" placeholder="Ex: 30">
+                
+                <label for="aposentadoria-idade-objetivo">Com que Idade Deseja Aposentar-se?</label>
+                <input type="number" id="aposentadoria-idade-objetivo" class="input-field" placeholder="Ex: 60">
+
+                <label for="aposentadoria-patrimonio-atual">Quanto Já Tem Guardado?</label>
+                <input type="number" id="aposentadoria-patrimonio-atual" class="input-field" placeholder="Ex: 50000.00">
+
+                <label for="aposentadoria-aporte-mensal">Quanto Consegue Poupar por Mês?</label>
+                <input type="number" id="aposentadoria-aporte-mensal" class="input-field" placeholder="Ex: 500.00">
+                
+                <label for="aposentadoria-renda-desejada">Renda Mensal Desejada na Aposentadoria</label>
+                <input type="number" id="aposentadoria-renda-desejada" class="input-field" placeholder="Ex: 5000.00">
+            </div>
+            <button id="calcular-aposentadoria-btn" class="btn btn-primary">Fazer Projeção</button>
+            <button id="back-to-dashboard-from-aposentadoria" class="btn btn-secondary">Voltar para a Dashboard</button>
+            
+            <div id="aposentadoria-results-section" class="results-section hidden">
+                <div class="result-line">
+                    <span>O seu "Número Mágico" é:</span>
+                    <span id="resultado-aposentadoria-objetivo" class="font-bold">R$ 0,00</span>
+                </div>
+                <p class="explanation-text">Este é o valor total que você precisa de ter investido para gerar a renda mensal desejada, com base na Regra dos 4%.</p>
+                <hr>
+                <div class="result-line final-result">
+                    <span>A sua projeção é de:</span>
+                    <span id="resultado-aposentadoria-projecao" class="font-bold success-text">R$ 0,00</span>
+                </div>
+                <p class="explanation-text">Este é o valor que você provavelmente terá na idade desejada, considerando os seus aportes e uma taxa de juros realista.</p>
+                <hr>
+                <div id="aposentadoria-recomendacao" class="text-center font-bold">
+                    <p>Recomendação: -</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <!-- MODAL SOBRE NÓS -->
         <!-- MODAL SOBRE NÓS E PARÂMETROS -->
