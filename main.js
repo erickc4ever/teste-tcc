@@ -48,7 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileElements = { form: { salarioBruto: document.getElementById('profile-salario-bruto'), dependentes: document.getElementById('profile-dependentes'), horasDia: document.getElementById('profile-horas-dia'), diasSemana: document.getElementById('profile-dias-semana'), }, buttons: { salvar: document.getElementById('salvar-perfil-btn'), voltar: document.getElementById('back-to-dashboard-from-profile'), }, statusMessage: document.getElementById('profile-status-message'), };
     const reportsElements = { salaryChart: document.getElementById('salary-chart'), investmentChart: document.getElementById('investment-chart'), notice: document.getElementById('reports-notice'), content: document.getElementById('reports-content'), backButton: document.getElementById('back-to-dashboard-from-reports'), summary: { dailyValue: document.getElementById('summary-daily-value'), thirteenthValue: document.getElementById('summary-13th-value') } };
 
-    const aposentadoriaElements = {
+     
+    const historicoElements = { lista: document.getElementById('historico-lista'), voltar: document.getElementById('back-to-dashboard-from-historico') };
+    
+       const aposentadoriaElements = {
         screen: document.getElementById('aposentadoria-screen'),
         form: {
             idadeAtual: document.getElementById('aposentadoria-idade-atual'),
@@ -69,20 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
             recomendacao: document.getElementById('aposentadoria-recomendacao').querySelector('p')
         }
     };
-    
-    // Conecta o novo botão de voltar
-    if(aposentadoriaElements.buttons.voltar) {
-        aposentadoriaElements.buttons.voltar.addEventListener('click', () => {
-            // Lógica inteligente para voltar à dashboard correta
-            if (!screens.dashboard.classList.contains('hidden')) {
-                showScreen('dashboard');
-            } else {
-                showScreen('pjDashboard');
-            }
-        });
-    }
-      const historicoElements = { lista: document.getElementById('historico-lista'), voltar: document.getElementById('back-to-dashboard-from-historico') };
-     const salarioElements = { form: { salarioBruto: document.getElementById('salario-bruto'), dependentes: document.getElementById('salario-dependentes') }, buttons: { calcular: document.getElementById('calcular-salario-btn'), voltar: document.getElementById('back-to-dashboard-from-salario'), salvar: document.getElementById('salvar-salario-btn') }, results: { container: document.getElementById('salario-results-section'), salarioBruto: document.getElementById('resultado-salario-bruto'), inss: document.getElementById('resultado-inss'), baseIrrf: document.getElementById('resultado-base-irrf'), irrf: document.getElementById('resultado-irrf'), salarioLiquido: document.getElementById('resultado-salario-liquido'), explicacaoInss: document.getElementById('explicacao-inss'), explicacaoIrrf: document.getElementById('explicacao-irrf') } };
+
+    const salarioElements = { form: { salarioBruto: document.getElementById('salario-bruto'), dependentes: document.getElementById('salario-dependentes') }, buttons: { calcular: document.getElementById('calcular-salario-btn'), voltar: document.getElementById('back-to-dashboard-from-salario'), salvar: document.getElementById('salvar-salario-btn') }, results: { container: document.getElementById('salario-results-section'), salarioBruto: document.getElementById('resultado-salario-bruto'), inss: document.getElementById('resultado-inss'), baseIrrf: document.getElementById('resultado-base-irrf'), irrf: document.getElementById('resultado-irrf'), salarioLiquido: document.getElementById('resultado-salario-liquido'), explicacaoInss: document.getElementById('explicacao-inss'), explicacaoIrrf: document.getElementById('explicacao-irrf') } };
     const investimentosElements = { form: { valorInicial: document.getElementById('valor-inicial'), aporteMensal: document.getElementById('aporte-mensal'), taxaJurosAnual: document.getElementById('taxa-juros-anual'), periodoAnos: document.getElementById('periodo-anos') }, buttons: { calcular: document.getElementById('calcular-investimentos-btn'), voltar: document.getElementById('back-to-dashboard-from-investimentos'), salvar: document.getElementById('salvar-investimentos-btn') }, results: { container: document.getElementById('investimentos-results-section'), valorFinal: document.getElementById('resultado-valor-final'), totalInvestido: document.getElementById('resultado-total-investido'), totalJuros: document.getElementById('resultado-total-juros') } };
     const feriasElements = { form: { salarioBruto: document.getElementById('ferias-salario-bruto'), dias: document.getElementById('ferias-dias'), venderDias: document.getElementById('ferias-vender-dias'), adiantar13: document.getElementById('ferias-adiantar-13') }, buttons: { calcular: document.getElementById('calcular-ferias-btn'), voltar: document.getElementById('back-to-dashboard-from-ferias'), salvar: document.getElementById('salvar-ferias-btn') }, results: { container: document.getElementById('ferias-results-section'), feriasBrutas: document.getElementById('resultado-ferias-brutas'), tercoConstitucional: document.getElementById('resultado-terco-constitucional'), abonoPecuniario: document.getElementById('resultado-abono-pecuniario'), totalBruto: document.getElementById('resultado-total-bruto-ferias'), inss: document.getElementById('resultado-inss-ferias'), irrf: document.getElementById('resultado-irrf-ferias'), adiantamento13: document.getElementById('resultado-adiantamento-13'), liquido: document.getElementById('resultado-liquido-ferias'), abonoLine: document.getElementById('abono-pecuniario-line'), adiantamento13Line: document.getElementById('adiantamento-13-line') } };
     const decimoTerceiroElements = { form: { salarioBruto: document.getElementById('decimo-terceiro-salario-bruto'), meses: document.getElementById('decimo-terceiro-meses'), dependentes: document.getElementById('decimo-terceiro-dependentes') }, buttons: { calcular: document.getElementById('calcular-decimo-terceiro-btn'), voltar: document.getElementById('back-to-dashboard-from-decimo-terceiro'), salvar: document.getElementById('salvar-decimo-terceiro-btn') }, results: { container: document.getElementById('decimo-terceiro-results-section'), bruto: document.getElementById('resultado-13-bruto'), primeiraParcela: document.getElementById('resultado-13-primeira-parcela'), segundaParcelaBruta: document.getElementById('resultado-13-segunda-parcela-bruta'), inss: document.getElementById('resultado-inss-13'), irrf: document.getElementById('resultado-irrf-13'), segundaParcelaLiquida: document.getElementById('resultado-13-segunda-parcela-liquida'), liquidoTotal: document.getElementById('resultado-13-liquido-total') } };
@@ -90,6 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const irpfElements = { form: { rendimentosAnuais: document.getElementById('rendimentos-anuais'), despesasSaude: document.getElementById('despesas-saude'), despesasEducacao: document.getElementById('despesas-educacao'), dependentes: document.getElementById('dependentes') }, buttons: { calcular: document.getElementById('calcular-irpf-btn'), voltar: document.getElementById('back-to-dashboard-from-irpf'), salvar: document.getElementById('salvar-irpf-btn') }, results: { container: document.getElementById('irpf-results-section'), completa: document.getElementById('resultado-irpf-completa'), simplificada: document.getElementById('resultado-irpf-simplificada'), recomendacao: document.getElementById('recomendacao-irpf').querySelector('p') } };
     const simplesNacionalElements = { form: { faturamentoMensal: document.getElementById('faturamento-mensal'), anexo: document.getElementById('anexo-simples') }, buttons: { calcular: document.getElementById('calcular-simples-btn'), voltar: document.getElementById('back-to-pj-dashboard-from-simples'), salvar: document.getElementById('salvar-simples-nacional-btn') }, results: { container: document.getElementById('simples-results-section'), rbt12: document.getElementById('resultado-rbt12'), aliquotaEfetiva: document.getElementById('resultado-aliquota-efetiva'), valorDas: document.getElementById('resultado-valor-das'), explicacao: document.getElementById('explicacao-simples') } };
     const pjHoraValorElements = { form: { salarioDesejado: document.getElementById('pj-salario-desejado'), custosFixos: document.getElementById('pj-custos-fixos'), feriasAno: document.getElementById('pj-ferias-ano'), horasDia: document.getElementById('pj-horas-dia'), diasSemana: document.getElementById('pj-dias-semana') }, buttons: { calcular: document.getElementById('calcular-pj-hora-valor-btn'), voltar: document.getElementById('back-to-pj-dashboard-from-hora'), salvar: document.getElementById('salvar-pj-hora-valor-btn') }, results: { container: document.getElementById('pj-hora-valor-results-section'), valorHora: document.getElementById('resultado-pj-hora-valor'), explicacao: document.getElementById('explicacao-pj-hora-valor') } };
+
+
 
     // PARTE 2: DADOS E CONTEÚDO
     let userProfile = null;
@@ -874,27 +867,13 @@ function executarCalculoAposentadoria() {
         tabParametrosBtn.classList.add('active');
     });
 }
-    // =======================================================
-    // NOVOS EVENT LISTENERS - PROJEÇÃO DE APOSENTADORIA
-    // =======================================================
-    const gotoAposentadoriaBtn = document.getElementById('goto-aposentadoria-btn');
-    const gotoAposentadoriaBtnPj = document.getElementById('goto-aposentadoria-btn-pj');
-
-    if (gotoAposentadoriaBtn) {
-        gotoAposentadoriaBtn.addEventListener('click', () => showScreen('aposentadoria'));
-    }
-    if (gotoAposentadoriaBtnPj) {
-        gotoAposentadoriaBtnPj.addEventListener('click', () => showScreen('aposentadoria'));
-    }
-    if (aposentadoriaElements.buttons.calcular) {
-        aposentadoriaElements.buttons.calcular.addEventListener('click', executarCalculoAposentadoria);
-    }
-
 
     if(modalElements.closeBtn) modalElements.closeBtn.addEventListener('click', () => { modalElements.overlay.classList.add('hidden'); });
-    if(modalElements.overlay) modalElements.overlay.addEventListener('click', (event) => { if (event.target === modalElements.overlay) { modalElements.overlay.classList.add('hidden'); }
+    
+    if(modalElements.overlay) modalElements.overlay.addEventListener('click', (event) => { if (event.target === modalElements.overlay) { modalElements.overlay.classList.add('hidden'); } });
+
     // =======================================================
-    // NOVOS EVENT LISTENERS - PROJEÇÃO DE APOSENTADORIA
+    // EVENT LISTENERS - PROJEÇÃO DE APOSENTADORIA (Versão Única e Corrigida)
     // =======================================================
     const gotoAposentadoriaBtn = document.getElementById('goto-aposentadoria-btn');
     const gotoAposentadoriaBtnPj = document.getElementById('goto-aposentadoria-btn-pj');
@@ -902,17 +881,19 @@ function executarCalculoAposentadoria() {
     if (gotoAposentadoriaBtn) {
         gotoAposentadoriaBtn.addEventListener('click', () => showScreen('aposentadoria'));
     }
+    
     if (gotoAposentadoriaBtnPj) {
         gotoAposentadoriaBtnPj.addEventListener('click', () => showScreen('aposentadoria'));
     }
+
     if (aposentadoriaElements.buttons.calcular) {
         aposentadoriaElements.buttons.calcular.addEventListener('click', executarCalculoAposentadoria);
     }
 
-});
-
+    // Listener de autenticação do Supabase (deve ser uma das últimas coisas a serem registadas)
     supabaseClient.auth.onAuthStateChange((_event, session) => { updateUserUI(session ? session.user : null); });
 
     console.log("main.js carregado com sucesso. Aplicação pronta.");
 });
+
 
