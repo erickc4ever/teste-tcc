@@ -1113,121 +1113,121 @@ function executarCalculoAposentadoria() {
 
     }
 
-    // PARTE 7: REGISTO DE EVENT LISTENERS
-    // ----------------------------------------------------------------------------------
-    if(authButtons.showLogin) authButtons.showLogin.addEventListener('click', () => { authForms.choices.classList.add('hidden'); authForms.login.classList.remove('hidden'); });
-    if(authButtons.showSignup) authButtons.showSignup.addEventListener('click', () => { authForms.choices.classList.add('hidden'); authForms.signup.classList.remove('hidden'); });
-    if(authForms.login) authForms.login.addEventListener('submit', handleLogin);
-    if(authForms.signup) authForms.signup.addEventListener('submit', handleSignup);
-    if(authButtons.logout) authButtons.logout.addEventListener('click', handleLogout);
-    if(authButtons.logoutPj) authButtons.logoutPj.addEventListener('click', handleLogout);
+   // ==================================================================================
+// PARTE 7: REGISTO DE EVENT LISTENERS (O "PAINEL DE CONTROLO") - VERSÃO CORRIGIDA
+// ----------------------------------------------------------------------------------
+// Esta secção conecta a interface (HTML) com a lógica (JavaScript). Cada botão
+// é "ligado" à sua função correspondente para que a aplicação se torne interativa.
+// ==================================================================================
 
-    if(welcomeScreenElements.buttons.clt) welcomeScreenElements.buttons.clt.addEventListener('click', async () => { 
-        const { data: { user } } = await supabaseClient.auth.getUser(); 
-        const welcomeMessage = document.getElementById('welcome-message'); 
-        if (welcomeMessage && user) { 
-            welcomeMessage.textContent = `Bem-vindo(a), ${user.email}!`; 
-        } 
-        const randomIndex = Math.floor(Math.random() * dashboardQuotes.length); 
-        dashboardElements.quote.textContent = dashboardQuotes[randomIndex]; 
-        showScreen('dashboard'); 
-    });
+// --- 8.1: Listeners de Autenticação e Navegação Inicial ---
+if(authButtons.showLogin) authButtons.showLogin.addEventListener('click', () => { authForms.choices.classList.add('hidden'); authForms.login.classList.remove('hidden'); });
+if(authButtons.showSignup) authButtons.showSignup.addEventListener('click', () => { authForms.choices.classList.add('hidden'); authForms.signup.classList.remove('hidden'); });
+// CORREÇÃO: Adicionados os listeners para os links "Ainda não tem conta?" e "Já tem conta?".
+if(authButtons.showSignupLink) authButtons.showSignupLink.addEventListener('click', (e) => { e.preventDefault(); authForms.login.classList.add('hidden'); authForms.signup.classList.remove('hidden'); });
+if(authButtons.showLoginLink) authButtons.showLoginLink.addEventListener('click', (e) => { e.preventDefault(); authForms.signup.classList.add('hidden'); authForms.login.classList.remove('hidden'); });
+if(authForms.login) authForms.login.addEventListener('submit', handleLogin);
+if(authForms.signup) authForms.signup.addEventListener('submit', handleSignup);
+if(authButtons.logout) authButtons.logout.addEventListener('click', handleLogout);
+if(authButtons.logoutPj) authButtons.logoutPj.addEventListener('click', handleLogout);
+
+if(welcomeScreenElements.buttons.clt) welcomeScreenElements.buttons.clt.addEventListener('click', async () => { 
+    const { data: { user } } = await supabaseClient.auth.getUser(); 
+    const welcomeMessage = document.getElementById('welcome-message'); 
+    if (welcomeMessage && user) { 
+        welcomeMessage.textContent = `Bem-vindo(a), ${user.email}!`; 
+    } 
+    const randomIndex = Math.floor(Math.random() * dashboardQuotes.length); 
+    dashboardElements.quote.textContent = dashboardQuotes[randomIndex]; 
+    showScreen('dashboard'); 
+});
+if(welcomeScreenElements.buttons.pj) welcomeScreenElements.buttons.pj.addEventListener('click', () => showScreen('pjDashboard'));
+
+// --- 8.2: Listeners dos Botões das Dashboards (CLT e PJ) ---
+if(dashboardButtons.salario) dashboardButtons.salario.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('salario'); });
+if(dashboardButtons.investimentos) dashboardButtons.investimentos.addEventListener('click', () => showScreen('investimentos'));
+if(dashboardButtons.ferias) dashboardButtons.ferias.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('ferias'); });
+if(dashboardButtons.decimoTerceiro) dashboardButtons.decimoTerceiro.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('decimoTerceiro'); });
+if(dashboardButtons.horaValor) dashboardButtons.horaValor.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('horaValor'); });
+if(dashboardButtons.irpf) dashboardButtons.irpf.addEventListener('click', () => showScreen('irpf'));
+if(dashboardButtons.profile) dashboardButtons.profile.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('profile'); });
+if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', async () => {
+    if (!userProfile) {
+        reportsElements.content.classList.add('hidden');
+        reportsElements.notice.classList.remove('hidden');
+    } else {
+        reportsElements.content.classList.remove('hidden');
+        reportsElements.notice.classList.add('hidden');
+        await renderSalaryChart();
+        await renderInvestmentChart();
+        renderSummaryCards();
+    }
+    showScreen('reports');
+});
+if(dashboardButtons.historico) dashboardButtons.historico.addEventListener('click', carregarHistorico);
+
+if(pjDashboardButtons.simples) pjDashboardButtons.simples.addEventListener('click', () => showScreen('simplesNacional'));
+if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListener('click', () => showScreen('pjHoraValor'));
+if(pjDashboardButtons.backToWelcome) pjDashboardButtons.backToWelcome.addEventListener('click', () => showScreen('welcome'));
+
+// --- 8.3: Listeners dos Botões Internos das Ferramentas (Calcular e Voltar) ---
+if(salarioElements.buttons.calcular) salarioElements.buttons.calcular.addEventListener('click', executarCalculoSalario);
+if(salarioElements.buttons.voltar) salarioElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
+if(investimentosElements.buttons.calcular) investimentosElements.buttons.calcular.addEventListener('click', executarSimulacaoInvestimentos);
+if(investimentosElements.buttons.voltar) investimentosElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
+if(feriasElements.buttons.calcular) feriasElements.buttons.calcular.addEventListener('click', executarCalculoFerias);
+if(feriasElements.buttons.voltar) feriasElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
+// CORREÇÃO: Nome da função corrigido para 'executarCalculoDecimoTerceiro'.
+if(decimoTerceiroElements.buttons.calcular) decimoTerceiroElements.buttons.calcular.addEventListener('click', executarCalculoDecimoTerceiro);
+if(decimoTerceiroElements.buttons.voltar) decimoTerceiroElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
+if(horaValorElements.buttons.calcular) horaValorElements.buttons.calcular.addEventListener('click', executarCalculoHoraValor);
+if(horaValorElements.buttons.voltar) horaValorElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
+// CORREÇÃO: Nome da função corrigido para 'executarCalculoIrpf'.
+if(irpfElements.buttons.calcular) irpfElements.buttons.calcular.addEventListener('click', executarCalculoIrpf);
+if(irpfElements.buttons.voltar) irpfElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
+if(profileElements.buttons.salvar) profileElements.buttons.salvar.addEventListener('click', handleSaveProfile);
+if(profileElements.buttons.voltar) profileElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
+if(reportsElements.backButton) reportsElements.backButton.addEventListener('click', () => showScreen('dashboard'));
+if(simplesNacionalElements.buttons.calcular) simplesNacionalElements.buttons.calcular.addEventListener('click', executarCalculoSimplesNacional);
+if(simplesNacionalElements.buttons.voltar) simplesNacionalElements.buttons.voltar.addEventListener('click', () => showScreen('pjDashboard'));
+if(pjHoraValorElements.buttons.calcular) pjHoraValorElements.buttons.calcular.addEventListener('click', executarCalculoPjHoraValor);
+if(pjHoraValorElements.buttons.voltar) pjHoraValorElements.buttons.voltar.addEventListener('click', () => showScreen('pjDashboard'));
+if(historicoElements.voltar) historicoElements.voltar.addEventListener('click', () => showScreen('dashboard'));
+
+// --- 8.4: Listeners dos Botões "Salvar" ---
+if(horaValorElements.buttons.salvar) horaValorElements.buttons.salvar.addEventListener('click', handleSalvarHoraValor);
+if(salarioElements.buttons.salvar) salarioElements.buttons.salvar.addEventListener('click', handleSalvarSalario);
+if(investimentosElements.buttons.salvar) investimentosElements.buttons.salvar.addEventListener('click', handleSalvarInvestimentos);
+if(feriasElements.buttons.salvar) feriasElements.buttons.salvar.addEventListener('click', handleSalvarFerias);
+if(decimoTerceiroElements.buttons.salvar) decimoTerceiroElements.buttons.salvar.addEventListener('click', handleSalvarDecimoTerceiro);
+if(irpfElements.buttons.salvar) irpfElements.buttons.salvar.addEventListener('click', handleSalvarIRPF);
     
-    if(welcomeScreenElements.buttons.pj) welcomeScreenElements.buttons.pj.addEventListener('click', () => showScreen('pjDashboard'));
-
-    if(dashboardButtons.salario) dashboardButtons.salario.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('salario'); });
-    if(dashboardButtons.investimentos) dashboardButtons.investimentos.addEventListener('click', () => showScreen('investimentos'));
-    if(dashboardButtons.ferias) dashboardButtons.ferias.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('ferias'); });
-    if(dashboardButtons.decimoTerceiro) dashboardButtons.decimoTerceiro.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('decimoTerceiro'); });
-    if(dashboardButtons.horaValor) dashboardButtons.horaValor.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('horaValor'); });
-    if(dashboardButtons.irpf) dashboardButtons.irpf.addEventListener('click', () => showScreen('irpf'));
-    if(dashboardButtons.profile) dashboardButtons.profile.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('profile'); });
-   if(dashboardButtons.reports) {
-    dashboardButtons.reports.addEventListener('click', async () => {
-        // Primeiro, verifica se o perfil existe para mostrar ou esconder o conteúdo principal
-        if (!userProfile) {
-            reportsElements.content.classList.add('hidden');
-            reportsElements.notice.classList.remove('hidden');
-        } else {
-            reportsElements.content.classList.remove('hidden');
-            reportsElements.notice.classList.add('hidden');
-            
-            // Agora, chama as novas funções assíncronas para desenhar os gráficos e os cartões
-            await renderSalaryChart();
-            await renderInvestmentChart();
-            renderSummaryCards();
-        }
-        // Só depois de tudo pronto, mostra a tela
-        showScreen('reports');
-    });
-}
-
-    if(dashboardButtons.historico) dashboardButtons.historico.addEventListener('click', carregarHistorico);
-
-    if(pjDashboardButtons.simples) pjDashboardButtons.simples.addEventListener('click', () => showScreen('simplesNacional'));
-    if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListener('click', () => showScreen('pjHoraValor'));
-    if(pjDashboardButtons.backToWelcome) pjDashboardButtons.backToWelcome.addEventListener('click', () => showScreen('welcome'));
-
-    if(salarioElements.buttons.calcular) salarioElements.buttons.calcular.addEventListener('click', executarCalculoSalario);
-    if(salarioElements.buttons.voltar) salarioElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-    if(investimentosElements.buttons.calcular) investimentosElements.buttons.calcular.addEventListener('click', executarSimulacaoInvestimentos);
-    if(investimentosElements.buttons.voltar) investimentosElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-    if(feriasElements.buttons.calcular) feriasElements.buttons.calcular.addEventListener('click', executarCalculoFerias);
-    if(feriasElements.buttons.voltar) feriasElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-    if(decimoTerceiroElements.buttons.calcular) decimoTerceiroElements.buttons.calcular.addEventListener('click', executarCalculo13Salario);
-    if(decimoTerceiroElements.buttons.voltar) decimoTerceiroElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-    if(horaValorElements.buttons.calcular) horaValorElements.buttons.calcular.addEventListener('click', executarCalculoHoraValor);
-    if(horaValorElements.buttons.voltar) horaValorElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-    if(irpfElements.buttons.calcular) irpfElements.buttons.calcular.addEventListener('click', executarCalculoIRPFAnual);
-    if(irpfElements.buttons.voltar) irpfElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-    if(profileElements.buttons.salvar) profileElements.buttons.salvar.addEventListener('click', handleSaveProfile);
-    if(profileElements.buttons.voltar) profileElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-    if(reportsElements.backButton) reportsElements.backButton.addEventListener('click', () => showScreen('dashboard'));
-    if(simplesNacionalElements.buttons.calcular) simplesNacionalElements.buttons.calcular.addEventListener('click', executarCalculoSimplesNacional);
-    if(simplesNacionalElements.buttons.voltar) simplesNacionalElements.buttons.voltar.addEventListener('click', () => showScreen('pjDashboard'));
-    if(pjHoraValorElements.buttons.calcular) pjHoraValorElements.buttons.calcular.addEventListener('click', executarCalculoPjHoraValor);
-    if(pjHoraValorElements.buttons.voltar) pjHoraValorElements.buttons.voltar.addEventListener('click', () => showScreen('pjDashboard'));
-    if(historicoElements.voltar) historicoElements.voltar.addEventListener('click', () => showScreen('dashboard'));
-
-    if(horaValorElements.buttons.salvar) horaValorElements.buttons.salvar.addEventListener('click', handleSalvarHoraValor);
-    if(salarioElements.buttons.salvar) salarioElements.buttons.salvar.addEventListener('click', handleSalvarSalario);
-    if(investimentosElements.buttons.salvar) investimentosElements.buttons.salvar.addEventListener('click', handleSalvarInvestimentos);
-    if(feriasElements.buttons.salvar) feriasElements.buttons.salvar.addEventListener('click', handleSalvarFerias);
-    if(decimoTerceiroElements.buttons.salvar) decimoTerceiroElements.buttons.salvar.addEventListener('click', handleSalvarDecimoTerceiro);
-    // ADICIONADO: Event listener para o novo botão de salvar de IRPF.
-    if(irpfElements.buttons.salvar) irpfElements.buttons.salvar.addEventListener('click', handleSalvarIRPF);
-    
-   if(dashboardButtons.showAbout) {
-    // Seletores para os elementos das abas
+// --- 8.5: Listeners do Modal "Sobre e Parâmetros" ---
+if(dashboardButtons.showAbout) {
     const tabSobreBtn = document.getElementById('tab-sobre-btn');
     const tabParametrosBtn = document.getElementById('tab-parametros-btn');
     const tabSobreContent = document.getElementById('tab-sobre-content');
     const tabParametrosContent = document.getElementById('tab-parametros-content');
 
-    // Abre o modal
     dashboardButtons.showAbout.addEventListener('click', () => {
-        // Garante que o modal sempre abra na primeira aba
         tabSobreContent.classList.remove('hidden');
         tabParametrosContent.classList.add('hidden');
         tabSobreBtn.classList.add('active');
         tabParametrosBtn.classList.remove('active');
-        
         modalElements.overlay.classList.remove('hidden');
     });
 
-    // Fecha o modal
-    modalElements.closeBtn.addEventListener('click', () => { modalElements.overlay.classList.add('hidden'); });
-    modalElements.overlay.addEventListener('click', (event) => { if (event.target === modalElements.overlay) { modalElements.overlay.classList.add('hidden'); } });
+    if(modalElements.closeBtn) modalElements.closeBtn.addEventListener('click', () => { modalElements.overlay.classList.add('hidden'); });
+    if(modalElements.overlay) modalElements.overlay.addEventListener('click', (event) => { if (event.target === modalElements.overlay) { modalElements.overlay.classList.add('hidden'); } });
 
-    // Lógica de troca de abas
-    tabSobreBtn.addEventListener('click', () => {
+    if(tabSobreBtn) tabSobreBtn.addEventListener('click', () => {
         tabSobreContent.classList.remove('hidden');
         tabParametrosContent.classList.add('hidden');
         tabSobreBtn.classList.add('active');
         tabParametrosBtn.classList.remove('active');
     });
 
-    tabParametrosBtn.addEventListener('click', () => {
+    if(tabParametrosBtn) tabParametrosBtn.addEventListener('click', () => {
         tabSobreContent.classList.add('hidden');
         tabParametrosContent.classList.remove('hidden');
         tabSobreBtn.classList.remove('active');
@@ -1235,30 +1235,32 @@ function executarCalculoAposentadoria() {
     });
 }
 
-    if(modalElements.closeBtn) modalElements.closeBtn.addEventListener('click', () => { modalElements.overlay.classList.add('hidden'); });
-    
-    if(modalElements.overlay) modalElements.overlay.addEventListener('click', (event) => { if (event.target === modalElements.overlay) { modalElements.overlay.classList.add('hidden'); } });
+// --- 8.6: Listeners da Ferramenta de Independência Financeira ---
+const gotoAposentadoriaBtn = document.getElementById('goto-aposentadoria-btn');
+const gotoAposentadoriaBtnPj = document.getElementById('goto-aposentadoria-btn-pj');
 
-    // =======================================================
-    // EVENT LISTENERS - PROJEÇÃO DE APOSENTADORIA (Versão Única e Corrigida)
-    // =======================================================
-    const gotoAposentadoriaBtn = document.getElementById('goto-aposentadoria-btn');
-    const gotoAposentadoriaBtnPj = document.getElementById('goto-aposentadoria-btn-pj');
+if (gotoAposentadoriaBtn) {
+    gotoAposentadoriaBtn.addEventListener('click', () => showScreen('aposentadoria'));
+}
+if (gotoAposentadoriaBtnPj) {
+    gotoAposentadoriaBtnPj.addEventListener('click', () => showScreen('aposentadoria'));
+}
+if (aposentadoriaElements.buttons.calcular) {
+    aposentadoriaElements.buttons.calcular.addEventListener('click', executarCalculoAposentadoria);
+}
+// CORREÇÃO: Adicionado o listener para o botão "Voltar" da tela de aposentadoria.
+if (aposentadoriaElements.buttons.voltar) {
+    aposentadoriaElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
+}
 
-    if (gotoAposentadoriaBtn) {
-        gotoAposentadoriaBtn.addEventListener('click', () => showScreen('aposentadoria'));
-    }
-    
-    if (gotoAposentadoriaBtnPj) {
-        gotoAposentadoriaBtnPj.addEventListener('click', () => showScreen('aposentadoria'));
-    }
 
-    if (aposentadoriaElements.buttons.calcular) {
-        aposentadoriaElements.buttons.calcular.addEventListener('click', executarCalculoAposentadoria);
-    }
+// ==================================================================================
+// PARTE 9: INICIALIZAÇÃO FINAL
+// ----------------------------------------------------------------------------------
+// O código final que "ouve" as mudanças de estado de autenticação (login/logout)
+// para manter a interface sempre atualizada.
+// ==================================================================================
+supabaseClient.auth.onAuthStateChange((_event, session) => { updateUserUI(session ? session.user : null); });
 
-    // Listener de autenticação do Supabase (deve ser uma das últimas coisas a serem registadas)
-    supabaseClient.auth.onAuthStateChange((_event, session) => { updateUserUI(session ? session.user : null); });
-
-    console.log("main.js carregado com sucesso. Aplicação pronta.");
+console.log("main.js carregado com sucesso. Aplicação pronta.");
 });
