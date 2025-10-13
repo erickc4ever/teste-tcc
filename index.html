@@ -15,35 +15,34 @@
 
     <!-- Botão de Troca de Tema -->
     <button id="theme-toggle-btn" class="theme-toggle-btn">🌙</button>
-
-    <!-- TELA DE AUTENTICAÇÃO -->
-    <div id="auth-screen" class="screen">
-        <div class="calculator-card">
-            <div class="logo-container">
-                <img src="logo.png" alt="Logo da änalitks" class="logo-img">
-            </div>
-            <div class="card-header">
-                <h1>Bem-vindo(a)</h1>
-                <p>Entre para aceder à sua suíte financeira.</p>
-            </div>
-            <div id="auth-choices" class="auth-choices">
-                <button id="show-signup-btn" class="btn btn-primary">Sou novo aqui</button>
-                <button id="show-login-btn" class="btn btn-secondary">Já tenho cadastro</button>
-            </div>
-            <form id="login-form" class="auth-form hidden">
-                <input type="email" id="login-email" class="input-field" placeholder="Seu e-mail" required>
-                <input type="password" id="login-password" class="input-field" placeholder="Sua senha" required>
-                <button type="submit" class="btn btn-primary">Entrar</button>
-                <p>Não tem uma conta? <a href="#" id="show-signup-link">Registre-se</a></p>
-            </form>
-            <form id="signup-form" class="auth-form hidden">
-                <input type="email" id="signup-email" class="input-field" placeholder="Seu melhor e-mail" required>
-                <input type="password" id="signup-password" class="input-field" placeholder="Crie uma senha forte" required>
-                <button type="submit" class="btn btn-primary">Criar conta</button>
-                <p>Já tem uma conta? <a href="#" id="show-login-link">Faça login</a></p>
-            </form>
+<!-- TELA DE AUTENTICAÇÃO -->
+<div id="auth-screen" class="screen">
+    <div class="calculator-card">
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo da änalitks" class="logo-img">
         </div>
+        <div class="card-header">
+            <h1>Bem-vindo(a)</h1>
+            <p>Entre para aceder à sua suíte financeira.</p>
+        </div>
+        <div id="auth-choices" class="auth-choices">
+            <button id="show-signup-btn" class="btn btn-primary">Sou novo aqui</button>
+            <button id="show-login-btn" class="btn btn-secondary">Já tenho cadastro</button>
+        </div>
+        <form id="login-form" class="auth-form hidden">
+            <input type="email" id="login-email" class="input-field" placeholder="Seu e-mail" required>
+            <input type="password" id="login-password" class="input-field" placeholder="Sua senha" required>
+            <button type="submit" class="btn btn-primary">Entrar</button>
+            <p>Não tem uma conta? <a href="#" id="show-signup-link">Registre-se</a></p>
+        </form>
+        <form id="signup-form" class="auth-form hidden">
+            <input type="email" id="signup-email" class="input-field" placeholder="Seu melhor e-mail" required>
+            <input type="password" id="signup-password" class="input-field" placeholder="Crie uma senha forte" required>
+            <button type="submit" class="btn btn-primary">Criar conta</button>
+            <p>Já tem uma conta? <a href="#" id="show-login-link">Faça login</a></p>
+        </form>
     </div>
+</div>
 
     <!-- TELA DE ESCOLHA DE PERFIL -->
     <div id="welcome-screen" class="screen hidden">

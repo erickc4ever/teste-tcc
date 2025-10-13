@@ -7,6 +7,7 @@
  * 2. Gerenciar a visibilidade das "telas".
  * 3. Estruturar os formulários e botões para performance.
  * 4. Adicionar a estrutura de layout para o modal "Sobre".
+ * 5. ADICIONADO: Estruturar o fundo de vídeo e a camada de sobreposição.
  * ==================================================================================
  */
 
@@ -27,10 +28,48 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    /* ADIÇÃO: Garante que a tela de autenticação fique por cima do fundo de vídeo. */
+    position: relative;
+    z-index: 1;
 }
 
 .hidden {
     display: none !important; 
+}
+
+/* ===========================================================================
+  ADIÇÃO: ESTRUTURA DO FUNDO DE VÍDEO E CAMADA DE SOBREPOSIÇÃO
+  ===========================================================================
+*/
+.video-background {
+    /* position: fixed; faz com que o elemento ocupe a janela inteira, mesmo com scroll. */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* z-index: -2; envia o vídeo para a camada mais profunda, atrás de todo o conteúdo. */
+    z-index: -2;
+    overflow: hidden; /* Esconde qualquer parte do vídeo que exceda o tamanho da tela. */
+}
+
+.video-background video {
+    /* object-fit: cover; faz o vídeo cobrir todo o espaço do seu container sem distorcer. */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.login-overlay {
+    /* Também fica fixo para cobrir toda a tela, por cima do vídeo. */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* z-index: -1; posiciona-o entre o vídeo (camada -2) e o conteúdo principal (camada 1). */
+    z-index: -1;
+    /* A cor exata será definida no style.css para permitir a troca de temas. */
 }
 
 /* --- Estrutura do Conteúdo Principal (Layout Amplo) --- */
@@ -156,4 +195,3 @@ body {
     align-items: center;
     width: 100%;
 }
-

@@ -8,6 +8,7 @@
  * 3. Estilizar os componentes com o layout amplo e minimalista.
  * 4. Adicionar estilos para a tela de relatórios e os novos cartões interativos.
  * 5. Corrigir o dimensionamento dos gráficos.
+ * 6. ADICIONADO: Estilizar o overlay e adicionar animações de entrada.
  * ==================================================================================
  */
 
@@ -28,6 +29,8 @@
     /* NOVAS CORES-TEMA (CLT AGORA É ROXO) */
     --cor-clt: #6D28D9;
     --cor-pj: #f56c0a;
+    /* ADIÇÃO: Cor para a camada de sobreposição do vídeo. */
+    --cor-overlay: rgba(29, 29, 31, 0.7); /* Um cinza escuro semi-transparente. */
 }
 
 [data-theme='dark'] {
@@ -43,6 +46,8 @@
     /* NOVAS CORES-TEMA (MODO ESCURO) */
     --cor-clt: #8B5CF6;
     --cor-pj: #ff7b29;
+    /* ADIÇÃO: Cor da sobreposição para o tema escuro. */
+    --cor-overlay: rgba(18, 18, 18, 0.8); /* Um preto semi-transparente. */
 }
 
 /* --- Estilos de Base --- */
@@ -53,6 +58,14 @@ body {
     color: var(--cor-texto-primario);
     transition: background-color 0.3s ease;
 }
+
+/* --- ADIÇÃO: ESTILO DA CAMADA DE SOBREPOSIÇÃO --- */
+.login-overlay {
+    background-color: var(--cor-overlay);
+    /* Adiciona uma transição suave caso a cor do overlay mude com o tema. */
+    transition: background-color 0.3s ease;
+}
+
 
 /* --- Estilo "Página Inteira" --- */
 .calculator-card {
@@ -306,3 +319,52 @@ dashboard-footer .btn {
 .irrf-bar-3 { background-color: rgba(109, 40, 217, 0.25); }
 .irrf-bar-4 { background-color: rgba(109, 40, 217, 0.35); }
 .irrf-bar-5 { background-color: rgba(109, 40, 217, 0.45); }
+
+/* ========================================================================
+   ADIÇÃO: ANIMAÇÕES DA TELA DE LOGIN (LANDING PAGE STYLE)
+   ========================================================================
+*/
+
+/* 1. A definição da animação (@keyframes) */
+/* Esta regra define uma animação que move um elemento de baixo para cima
+   enquanto aumenta a sua opacidade de 0 (invisível) para 1 (visível). */
+@keyframes slideUpFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 2. Aplicação da animação aos elementos da tela de autenticação */
+/* Selecionamos os elementos que queremos animar e definimos um estado inicial. */
+#auth-screen .logo-container,
+#auth-screen .card-header,
+#auth-screen .auth-choices {
+    /* Começam invisíveis antes da animação. */
+    opacity: 0;
+    /* Aplica a animação: nome, duração, curva de velocidade e estado final.
+       'forwards' é crucial para que os elementos permaneçam visíveis após a animação. */
+    animation: slideUpFadeIn 0.7s ease-out forwards;
+}
+
+/* 3. A coreografia (efeito de cascata com 'animation-delay') */
+/* Adicionamos um atraso diferente para cada elemento para que não apareçam todos ao mesmo tempo. */
+
+/* O Logo é o primeiro a aparecer (após 0.3 segundos). */
+#auth-screen .logo-container {
+    animation-delay: 0.3s;
+}
+
+/* O Cabeçalho (Bem-vindo) aparece em seguida (após 0.5 segundos). */
+#auth-screen .card-header {
+    animation-delay: 0.5s;
+}
+
+/* Os botões de escolha são os últimos a aparecer (após 0.7 segundos). */
+#auth-screen .auth-choices {
+    animation-delay: 0.7s;
+}
