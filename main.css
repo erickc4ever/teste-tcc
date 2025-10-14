@@ -52,17 +52,17 @@ body {
 /* A estrutura do card de autenticação. */
 .auth-card {
     width: 100%;
-    max-width: 420px; /* Largura do card no desktop. */
+    max-width: 480px; /* ALTERADO: Aumentado para 480px para um visual mais largo. */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem; /* Espaçamento entre logo, formulário e links. */
+    gap: 1rem; /* ALTERADO: Diminuído para tornar o card mais compacto verticalmente. */
 }
 
 /* O container do logo. */
 .logo-container {
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem; /* ALTERADO: Diminuído para compactar. */
 }
 
 .main-logo {
@@ -86,7 +86,7 @@ body {
 /* O container dos links para trocar de formulário. */
 .switch-form-links {
     text-align: center;
-    margin-top: 1rem;
+    margin-top: 0.5rem; /* ALTERADO: Diminuído para compactar. */
 }
 
 

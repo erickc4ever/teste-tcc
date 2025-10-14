@@ -73,19 +73,14 @@ body {
    ===========================================================================
 */
 
-/* --- 1. O Cenário: Fundo Animado --- */
-
-@keyframes zoomLento {
-    from { transform: scale(1); }
-    to { transform: scale(1.1); }
-}
+/* --- 1. O Cenário: Fundo com GIF --- */
 
 #auth-background {
-    background-image: url('https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?q=80&w=1910&auto=format&fit=crop');
+    /* ALTERADO: A imagem agora é o seu GIF. */
+    background-image: url('frutigerback.gif');
     background-size: cover;
     background-position: center;
-    /* Animação de "respiração" que dura 40s e se repete infinitamente */
-    animation: zoomLento 40s infinite alternate cubic-bezier(0.4, 0, 0.6, 1);
+    /* REMOVIDO: A animação de zoom foi retirada, pois o GIF já tem movimento. */
     transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), filter 0.8s ease;
 }
 
@@ -100,17 +95,17 @@ body.form-active #auth-background {
 
 .auth-card {
     /* Efeito de Vidro (Glassmorphism) */
-    background: linear-gradient(135deg, rgba(192, 212, 224, 0.2), rgba(91, 107, 120, 0.2)); /* De ciano fosco para cinza de carro, com transparência */
+    background: linear-gradient(135deg, rgba(192, 212, 224, 0.2), rgba(91, 107, 120, 0.2));
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     
-    /* Bordas e Sombra */
+    /* Bordas e Sombra (Mantido) */
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.25);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
     /* Espaçamento interno */
-    padding: 2.5rem;
+    padding: 2rem; /* ALTERADO: Reduzido o padding para um visual mais compacto */
 }
 
 /* --- 3. A Ação: Estilização dos Formulários --- */
@@ -152,13 +147,12 @@ body.form-active #auth-background {
     transition: all 0.2s ease;
 }
 
-/* Quando o input está focado ou preenchido, a label sobe e diminui */
 .input-wrapper .input-field:focus ~ label,
 .input-wrapper .input-field:not(:placeholder-shown) ~ label {
     top: -10px;
     left: 10px;
     font-size: 12px;
-    background-color: #5B6B78; /* Cor de fundo para a label, combinando com o gradiente */
+    background-color: #5B6B78;
     padding: 0 5px;
     border-radius: 4px;
     color: #ffffff;
@@ -166,7 +160,7 @@ body.form-active #auth-background {
 
 /* Botão com Estilo Frutiger Aero */
 .auth-card .btn-primary {
-    background: linear-gradient(180deg, #00A1E0 0%, #0073B4 100%); /* Gradiente ciano/azul */
+    background: linear-gradient(180deg, #00A1E0 0%, #0073B4 100%);
     border: 1px solid #00BFFF;
     border-radius: 8px;
     color: #ffffff;
