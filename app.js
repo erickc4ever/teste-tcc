@@ -68,38 +68,46 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Verifica se estamos na tela de autenticação para o código ser executado.
     if (authContainer && switchToLoginBtn && switchToSignupBtn && switchHighlight) {
 
-        // 3. Função para atualizar o estado da interface (mostrar gaveta e mover realce).
+        // 3. Função para ATIVAR uma gaveta (usada nos cliques).
         const updateAuthState = (mode) => {
             const isLogin = mode === 'login';
             
-            // Determina qual botão está ativo.
-            const activeButton = isLogin ? switchToLoginBtn : switchToSignupBtn;
-
             // a. Atualiza as classes no container principal para o CSS animar a gaveta correta.
             authContainer.classList.toggle('login-active', isLogin);
             authContainer.classList.toggle('signup-active', !isLogin);
 
-            // b. Atualiza a classe 'active' nos botões do interruptor.
+            // b. Chama a função que atualiza apenas o visual do interruptor.
+            updateSwitchVisual(mode);
+        };
+        
+        // 4. NOVA FUNÇÃO: Atualiza apenas o VISUAL do interruptor.
+        const updateSwitchVisual = (mode) => {
+            const isLogin = mode === 'login';
+            const activeButton = isLogin ? switchToLoginBtn : switchToSignupBtn;
+
+            // a. Atualiza a classe 'active' nos botões do interruptor.
             switchToLoginBtn.classList.toggle('active', isLogin);
             switchToSignupBtn.classList.toggle('active', !isLogin);
 
-            // c. Calcula a posição e o tamanho do botão ativo.
+            // b. Calcula a posição e o tamanho do botão ativo.
             const buttonWidth = activeButton.offsetWidth;
             const buttonLeftOffset = activeButton.offsetLeft;
 
-            // d. Move e redimensiona o realce para se alinhar com o botão ativo.
+            // c. Move e redimensiona o realce para se alinhar com o botão ativo.
             switchHighlight.style.width = `${buttonWidth}px`;
             switchHighlight.style.transform = `translateX(${buttonLeftOffset}px)`;
         };
 
-        // 4. Adiciona "ouvintes" para os cliques nos botões do interruptor.
+
+        // 5. Adiciona "ouvintes" para os cliques nos botões do interruptor.
         switchToLoginBtn.addEventListener('click', () => updateAuthState('login'));
         switchToSignupBtn.addEventListener('click', () => updateAuthState('signup'));
 
-        // 5. Define o estado inicial da interface.
+        // 6. Define o estado inicial da interface.
         // Usamos um pequeno timeout para garantir que o navegador já calculou o tamanho dos botões.
         setTimeout(() => {
-            updateAuthState('login'); // Começa mostrando a opção de login como ativa.
+            // AGORA: Chama a função que SÓ atualiza o visual, sem abrir a gaveta.
+            updateSwitchVisual('login');
         }, 100);
     }
 });
