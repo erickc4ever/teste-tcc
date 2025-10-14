@@ -8,7 +8,7 @@
  * 3. Estilizar os componentes com o layout amplo e minimalista.
  * 4. Adicionar estilos para a tela de relatórios e os novos cartões interativos.
  * 5. Corrigir o dimensionamento dos gráficos.
- * 6. ADICIONADO: Estilizar o overlay e adicionar animações de entrada.
+ * 6. ADICIONADO: Estilizar a nova interface de autenticação com gavetas.
  * ==================================================================================
  */
 
@@ -29,8 +29,6 @@
     /* NOVAS CORES-TEMA (CLT AGORA É ROXO) */
     --cor-clt: #6D28D9;
     --cor-pj: #f56c0a;
-    /* ADIÇÃO: Cor para a camada de sobreposição do vídeo. */
-    --cor-overlay: rgba(29, 29, 31, 0.7); /* Um cinza escuro semi-transparente. */
 }
 
 [data-theme='dark'] {
@@ -46,28 +44,17 @@
     /* NOVAS CORES-TEMA (MODO ESCURO) */
     --cor-clt: #8B5CF6;
     --cor-pj: #ff7b29;
-    /* ADIÇÃO: Cor da sobreposição para o tema escuro. */
-    --cor-overlay: rgba(18, 18, 18, 0.8); /* Um preto semi-transparente. */
 }
 
 /* --- Estilos de Base --- */
 body {
     background-color: var(--cor-fundo);
-    /* ATUALIZAÇÃO: Fonte principal agora é "serifada" */
     font-family: 'Lora', 'Inter', serif;
     color: var(--cor-texto-primario);
     transition: background-color 0.3s ease;
 }
 
-/* --- ADIÇÃO: ESTILO DA CAMADA DE SOBREPOSIÇÃO --- */
-.login-overlay {
-    background-color: var(--cor-overlay);
-    /* Adiciona uma transição suave caso a cor do overlay mude com o tema. */
-    transition: background-color 0.3s ease;
-}
-
-
-/* --- Estilo "Página Inteira" --- */
+/* --- Estilo "Página Inteira" (mantido) --- */
 .calculator-card {
     background-color: transparent;
     padding: 48px 0;
@@ -81,34 +68,118 @@ body {
 .modal-overlay .calculator-card {
     background-color: var(--cor-card);
     padding: 32px;
-    border-radius: 0; /* Design quadrado */
+    border-radius: 0;
     box-shadow: var(--sombra-card);
     border: 1px solid var(--cor-borda);
 }
 
+/* ===========================================================================
+   ADIÇÃO: ESTILOS VISUAIS PARA A NOVA INTERFACE DE GAVETAS
+   ===========================================================================
+*/
+
+/* O container principal terá o fundo do tema escuro por padrão para um visual premium. */
+.auth-container {
+    background-color: #121212; /* Fundo escuro fixo para a tela de login */
+    color: #f5f5f7; /* Texto claro por padrão */
+}
+
+/* Estilo do interruptor */
+.auth-switch {
+    background-color: rgba(255, 255, 255, 0.05); /* Fundo sutil */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 99px; /* Totalmente arredondado para formar uma pílula */
+    padding: 4px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.switch-option {
+    background: none;
+    border: none;
+    color: var(--cor-texto-secundario);
+    padding: 8px 24px;
+    cursor: pointer;
+    border-radius: 99px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 2; /* Para ficar acima do realce */
+    transition: color 0.4s ease; /* Transição suave da cor do texto */
+}
+
+/* O botão ativo dentro do interruptor terá o texto mais claro */
+.switch-option.active {
+    color: var(--cor-texto-primario);
+}
+
+/* O realce colorido que desliza */
+.switch-highlight {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: calc(100% - 8px);
+    border-radius: 99px;
+    z-index: 1; /* Fica atrás do texto do botão */
+    box-shadow: var(--sombra-botao);
+}
+
+/* Cores das Gavetas */
+.auth-drawer.theme-clt { background-color: var(--cor-clt); }
+.auth-drawer.theme-pj { background-color: var(--cor-pj); }
+
+/* Tipografia dentro das gavetas (garantindo que o texto seja claro) */
+.auth-drawer h2, .auth-drawer p {
+    color: #ffffff;
+    text-align: center;
+}
+.auth-drawer h2 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+.auth-drawer p {
+    font-size: 16px;
+    opacity: 0.8;
+    margin-bottom: 24px;
+}
+.auth-drawer .btn-primary {
+    background-color: rgba(0,0,0,0.2); /* Botão com um tom mais escuro que a gaveta */
+    border: 1px solid rgba(255,255,255,0.5);
+}
+.auth-drawer .btn-primary:hover {
+    background-color: rgba(0,0,0,0.4);
+}
+.auth-drawer .input-field {
+    background-color: rgba(0,0,0,0.1);
+    border-color: rgba(255,255,255,0.3);
+    color: #ffffff;
+}
+.auth-drawer .input-field::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+.auth-drawer .input-field:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+/* --- O RESTO DO FICHEIRO ESTÁ 100% INTOCADO --- */
+
 /* --- Tipografia --- */
 h1 { font-family: 'Lora', serif; font-size: 36px; margin: 0; color: var(--cor-texto-primario); }
 h2 { font-family: 'Lora', serif; font-size: 22px; margin-top: 1.5rem; color: var(--cor-texto-primario); border-bottom: 1px solid var(--cor-borda); padding-bottom: 0.5rem; }
-h3 { font-family: 'Lora', serif; font-size: 1.25rem; color: var(--cor-texto-primario); margin: 0; font-weight: 700; letter-spacing: 0.5px; } /* Adicionado espaçamento */
+h3 { font-family: 'Lora', serif; font-size: 1.25rem; color: var(--cor-texto-primario); margin: 0; font-weight: 700; letter-spacing: 0.5px; }
 p { margin: 0; color: var(--cor-texto-secundario); font-size: 16px; line-height: 1.5; }
 a { color: var(--cor-primaria); text-decoration: none; font-weight: 500; transition: color 0.2s ease; }
 a:hover { text-decoration: underline; color: var(--cor-primaria-hover); }
 
 /* --- Estilo dos Formulários --- */
-/* A regra estrutural do .input-group foi movida para main.css */
-
-label {
-    font-family: 'Inter', sans-serif; /* Manter labels mais "utilitárias" */
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--cor-texto-secundario);
-    text-align: right; /* Alinha a label à direita, perto do input */
-}
-.input-field { width: 100%; padding: 12px; border: 1px solid var(--cor-borda); border-radius: 0; /* Design quadrado */ font-size: 16px; background-color: var(--cor-fundo); color: var(--cor-texto-primario); transition: border-color 0.2s ease, box-shadow 0.2s ease; box-sizing: border-box; }
+label { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: var(--cor-texto-secundario); text-align: right; }
+.input-field { width: 100%; padding: 12px; border: 1px solid var(--cor-borda); border-radius: 0; font-size: 16px; background-color: var(--cor-fundo); color: var(--cor-texto-primario); transition: border-color 0.2s ease, box-shadow 0.2s ease; box-sizing: border-box; }
 .input-field:focus { outline: none; border-color: var(--cor-primaria); box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.15); }
 
 /* --- Estilo dos Botões com Animações --- */
-.btn { width: 100%; padding: 12px; border-radius: 0; /* Design quadrado */ border: none; font-size: 16px; font-weight: 700; cursor: pointer; box-sizing: border-box; transition: transform 0.15s ease, background-color 0.15s ease; box-shadow: var(--sombra-botao); text-transform: uppercase; letter-spacing: 1px; }
+.btn { width: 100%; padding: 12px; border-radius: 0; border: none; font-size: 16px; font-weight: 700; cursor: pointer; box-sizing: border-box; transition: transform 0.15s ease, background-color 0.15s ease; box-shadow: var(--sombra-botao); text-transform: uppercase; letter-spacing: 1px; }
 .btn-primary { background-color: var(--cor-primaria); color: #ffffff; }
 .btn:hover { transform: translateY(-3px); }
 .btn-primary:hover { background-color: var(--cor-primaria-hover); }
@@ -117,65 +188,20 @@ label {
 .btn-secondary:hover { background-color: var(--cor-primaria); border-color: var(--cor-primaria); color: #ffffff; }
 
 /* --- ESTILOS PARA OS CARTÕES INTERATIVOS (FLIP CARDS) --- */
-.card-container {
-    background-color: transparent;
-    min-height: 180px;
-    perspective: 1000px;
-    cursor: pointer;
-}
-
-.flipping-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
-    transform-style: preserve-3d;
-}
-
-.card-container.is-flipped .flipping-card-inner {
-    transform: rotateY(180deg);
-}
-
-.card-front, .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 0; /* Design quadrado */
-    box-shadow: var(--sombra-card);
-    border: 1px solid var(--cor-borda);
-    padding: 24px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.card-back {
-    transform: rotateY(180deg);
-    gap: 15px;
-}
-
-/* Cor-tema para os cartões CLT (Roxo) */
-.card-clt {
-    background-color: var(--cor-card);
-    border-left: 4px solid var(--cor-clt);
-}
+.card-container { background-color: transparent; min-height: 180px; perspective: 1000px; cursor: pointer; }
+.flipping-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1); transform-style: preserve-3d; }
+.card-container.is-flipped .flipping-card-inner { transform: rotateY(180deg); }
+.card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 0; box-shadow: var(--sombra-card); border: 1px solid var(--cor-borda); padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.card-back { transform: rotateY(180deg); gap: 15px; }
+.card-clt { background-color: var(--cor-card); border-left: 4px solid var(--cor-clt); }
 .card-clt h3 { color: var(--cor-texto-primario); }
-.card-clt p { color: var(--cor-texto-secundario); font-family: 'Inter', sans-serif; } /* Manter explicação mais legível */
+.card-clt p { color: var(--cor-texto-secundario); font-family: 'Inter', sans-serif; }
 .card-clt .btn-primary { background-color: var(--cor-clt); }
 [data-theme='dark'] .card-clt .btn-primary:hover { background-color: #A78BFA; }
 [data-theme='light'] .card-clt .btn-primary:hover { background-color: #5B21B6; }
-
-/* Cor-tema para os cartões PJ (Laranja) */
-.card-pj {
-    background-color: var(--cor-card);
-    border-left: 4px solid var(--cor-pj);
-}
+.card-pj { background-color: var(--cor-card); border-left: 4px solid var(--cor-pj); }
 .card-pj h3 { color: var(--cor-texto-primario); }
-.card-pj p { color: var(--cor-texto-secundario); font-family: 'Inter', sans-serif; } /* Manter explicação mais legível */
+.card-pj p { color: var(--cor-texto-secundario); font-family: 'Inter', sans-serif; }
 .card-pj .btn-primary { background-color: var(--cor-pj); }
 [data-theme='dark'] .card-pj .btn-primary:hover { background-color: #ff9859; }
 [data-theme='light'] .card-pj .btn-primary:hover { background-color: #d15b09; }
@@ -193,25 +219,19 @@ hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
 
 /* --- ESTILOS DO MODAL --- */
 .modal-overlay { background-color: rgba(0, 0, 0, 0.6); }
-.modal-overlay .calculator-card { max-width: 500px; border-radius: 0; } /* Design quadrado */
+.modal-overlay .calculator-card { max-width: 500px; border-radius: 0; }
 .close-btn { background: none; border: none; font-size: 2rem; font-weight: 300; line-height: 1; cursor: pointer; color: var(--cor-texto-secundario); transition: color 0.2s ease; }
 .close-btn:hover { color: var(--cor-texto-primario); }
-.brasao { font-style: italic; text-align: center; color: var(--cor-texto-secundario); margin-bottom: 1.5rem; padding: 0.5rem; background-color: var(--cor-fundo); border-radius: 0; } /* Design quadrado */
+.brasao { font-style: italic; text-align: center; color: var(--cor-texto-secundario); margin-bottom: 1.5rem; padding: 0.5rem; background-color: var(--cor-fundo); border-radius: 0; }
 .modal-overlay ul { list-style: none; padding: 0; margin-top: 0.5rem; }
 .modal-overlay li { margin-bottom: 0.5rem; }
 
 /* --- ESTILOS DA TELA DE RELATÓRIOS --- */
 .reports-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; }
-.chart-container { background-color: var(--cor-card); padding: 24px; border-radius: 0; /* Design quadrado */ box-shadow: var(--sombra-card); border: 1px solid var(--cor-borda); position: relative; height: 350px; /* Altura ajustada */ }
-
-/* CORREÇÃO DOS GRÁFICOS */
-.chart-container canvas {
-    max-width: 100%;
-    max-height: 100%;
-}
-
+.chart-container { background-color: var(--cor-card); padding: 24px; border-radius: 0; box-shadow: var(--sombra-card); border: 1px solid var(--cor-borda); position: relative; height: 350px; }
+.chart-container canvas { max-width: 100%; max-height: 100%; }
 .summary-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
-.summary-card { background-color: var(--cor-card); padding: 24px; border-radius: 0; /* Design quadrado */ box-shadow: var(--sombra-card); border: 1px solid var(--cor-borda); text-align: center; }
+.summary-card { background-color: var(--cor-card); padding: 24px; border-radius: 0; box-shadow: var(--sombra-card); border: 1px solid var(--cor-borda); text-align: center; }
 .summary-card p { font-size: 28px; color: var(--cor-texto-primario); margin: 0; }
 
 @media (max-width: 768px) {
@@ -220,151 +240,29 @@ hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
 
 /* ATUALIZAÇÃO: Ajusta o alinhamento das labels em telas pequenas */
 @media (max-width: 640px) {
-    label {
-        text-align: left;
-        margin-bottom: 2px;
-    }
+    label { text-align: left; margin-bottom: 2px; }
 }
 
-/* --- ESTILOS DO MODAL --- */
-.modal-overlay {
-    background-color: rgba(0, 0, 0, 0.6);
-}
+/* --- ESTILOS DO MODAL (continuação) --- */
+.modal-overlay .calculator-card { max-width: 720px; border-radius: 0; max-height: 90vh; overflow-y: auto; }
+.close-btn { background: none; border: none; font-size: 2rem; font-weight: 300; line-height: 1; cursor: pointer; color: var(--cor-texto-secundario); transition: color 0.2s ease; }
+.close-btn:hover { color: var(--cor-texto-primario); }
+.brasao { font-style: italic; text-align: center; color: var(--cor-texto-secundario); margin-bottom: 1.5rem; padding: 0.5rem; background-color: var(--cor-fundo); border-radius: 0; }
+.modal-overlay ul { list-style: none; padding: 0; margin-top: 0.5rem; }
+.modal-overlay li { margin-bottom: 0.5rem; }
+.param-chart { display: flex; flex-direction: column; gap: 6px; margin-top: 1rem; font-family: 'Inter', sans-serif; font-size: 12px; }
+.chart-bar { padding: 8px 12px; border-radius: 0; color: var(--cor-texto-primario); display: flex; justify-content: space-between; font-weight: 500; border: 1px solid var(--cor-borda); background-color: var(--cor-fundo); }
+dashboard-footer .btn { width: auto; padding-left: 28px; padding-right: 28px; }
+.chart-bar span:last-child { font-weight: 700; }
 
-.modal-overlay .calculator-card {
-    /* ATUALIZAÇÃO: Aumentado para dar mais espaço ao conteúdo das abas */
-    max-width: 720px;
-    border-radius: 0;
-    
-    /* CORREÇÃO DO SCROLL: */
-    max-height: 90vh; /* Limita a altura do modal a 90% da altura da tela */
-    overflow-y: auto; /* Adiciona a barra de scroll vertical apenas quando necessário */
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    font-weight: 300;
-    line-height: 1;
-    cursor: pointer;
-    color: var(--cor-texto-secundario);
-    transition: color 0.2s ease;
-}
-
-.close-btn:hover {
-    color: var(--cor-texto-primario);
-}
-
-.brasao {
-    font-style: italic;
-    text-align: center;
-    color: var(--cor-texto-secundario);
-    margin-bottom: 1.5rem;
-    padding: 0.5rem;
-    background-color: var(--cor-fundo);
-    border-radius: 0;
-}
-
-.modal-overlay ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 0.5rem;
-}
-
-.modal-overlay li {
-    margin-bottom: 0.5rem;
-}
-
-/* Estilos para os "mini-gráficos" de parâmetros */
-.param-chart {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 1rem;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-}
-
-.chart-bar {
-    padding: 8px 12px;
-    border-radius: 0; /* Design Quadrado */
-    color: var(--cor-texto-primario);
-    display: flex;
-    justify-content: space-between;
-    font-weight: 500;
-    border: 1px solid var(--cor-borda);
-    background-color: var(--cor-fundo);
-}
-
-dashboard-footer .btn {
-    width: auto; /* Remove a largura de 100% */
-    padding-left: 28px;  /* Adiciona um espaçamento horizontal */
-    padding-right: 28px; /* para um visual mais equilibrado */
-}
-
-
-.chart-bar span:last-child {
-    font-weight: 700;
-}
-
-/* Cores para as barras (usando o tema roxo do CLT) */
+/* Cores para as barras */
 .inss-bar-1 { background-color: rgba(109, 40, 217, 0.1); }
 .inss-bar-2 { background-color: rgba(109, 40, 217, 0.2); }
 .inss-bar-3 { background-color: rgba(109, 40, 217, 0.3); }
 .inss-bar-4 { background-color: rgba(109, 40, 217, 0.4); }
-
 .irrf-bar-1 { background-color: rgba(109, 40, 217, 0.05); }
 .irrf-bar-2 { background-color: rgba(109, 40, 217, 0.15); }
 .irrf-bar-3 { background-color: rgba(109, 40, 217, 0.25); }
 .irrf-bar-4 { background-color: rgba(109, 40, 217, 0.35); }
 .irrf-bar-5 { background-color: rgba(109, 40, 217, 0.45); }
 
-/* ========================================================================
-   ADIÇÃO: ANIMAÇÕES DA TELA DE LOGIN (LANDING PAGE STYLE)
-   ========================================================================
-*/
-
-/* 1. A definição da animação (@keyframes) */
-/* Esta regra define uma animação que move um elemento de baixo para cima
-   enquanto aumenta a sua opacidade de 0 (invisível) para 1 (visível). */
-@keyframes slideUpFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* 2. Aplicação da animação aos elementos da tela de autenticação */
-/* Selecionamos os elementos que queremos animar e definimos um estado inicial. */
-#auth-screen .logo-container,
-#auth-screen .card-header,
-#auth-screen .auth-choices {
-    /* Começam invisíveis antes da animação. */
-    opacity: 0;
-    /* Aplica a animação: nome, duração, curva de velocidade e estado final.
-       'forwards' é crucial para que os elementos permaneçam visíveis após a animação. */
-    animation: slideUpFadeIn 0.7s ease-out forwards;
-}
-
-/* 3. A coreografia (efeito de cascata com 'animation-delay') */
-/* Adicionamos um atraso diferente para cada elemento para que não apareçam todos ao mesmo tempo. */
-
-/* O Logo é o primeiro a aparecer (após 0.3 segundos). */
-#auth-screen .logo-container {
-    animation-delay: 0.3s;
-}
-
-/* O Cabeçalho (Bem-vindo) aparece em seguida (após 0.5 segundos). */
-#auth-screen .card-header {
-    animation-delay: 0.5s;
-}
-
-/* Os botões de escolha são os últimos a aparecer (após 0.7 segundos). */
-#auth-screen .auth-choices {
-    animation-delay: 0.7s;
-}

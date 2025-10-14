@@ -6,7 +6,7 @@
  * 1. Controlar a troca de tema (claro/escuro).
  * 2. Manipular pequenas animações ou interações visuais que não são a lógica
  * principal de negócio, como o efeito de virar os cartões da dashboard.
- * 3. ADICIONADO: Controlar a exibição dos formulários de login e cadastro.
+ * 3. ATUALIZADO: Controlar a nova interface de autenticação com gavetas.
  * ==================================================================================
  */
 
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log("app.js (UI) carregado com sucesso.");
 
-    // --- LÓGICA DE TROCA DE TEMA ---
+    // --- LÓGICA DE TROCA DE TEMA (Mantida) ---
 
     // Seleciona o botão de troca de tema e o body do documento.
     const themeToggleButton = document.getElementById('theme-toggle-btn');
@@ -39,9 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ================================================================
-    // --- NOVA LÓGICA PARA ANIMAÇÃO DOS CARTÕES (FLIP CARDS) ---
-    // ================================================================
+    // --- LÓGICA PARA ANIMAÇÃO DOS CARTÕES (FLIP CARDS) (Mantida) ---
 
     // 1. Seleciona todos os contentores de cartões que devem ter o efeito.
     const cardContainers = document.querySelectorAll('.card-container');
@@ -61,52 +59,52 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    // ================================================================
-    // --- LÓGICA DA TELA DE AUTENTICAÇÃO ---
-    // ================================================================
+    // ========================================================================
+    // --- ADIÇÃO: LÓGICA DA NOVA INTERFACE DE AUTENTICAÇÃO COM GAVETAS ---
+    // ========================================================================
 
-    // 1. Seleciona todos os elementos interativos da tela de autenticação.
-    const authChoices = document.getElementById('auth-choices');
-    const loginForm = document.getElementById('login-form');
-    const signupForm = document.getElementById('signup-form');
-    
-    const showLoginBtn = document.getElementById('show-login-btn');
-    const showSignupBtn = document.getElementById('show-signup-btn');
-    
-    const showLoginLink = document.getElementById('show-login-link');
-    const showSignupLink = document.getElementById('show-signup-link');
+    // 1. Seleciona os elementos da nova interface.
+    const authContainer = document.getElementById('auth-container');
+    const switchToLoginBtn = document.getElementById('switch-to-login');
+    const switchToSignupBtn = document.getElementById('switch-to-signup');
+    const switchHighlight = document.getElementById('switch-highlight');
 
-    // Função para mostrar o formulário de login e esconder os outros elementos.
-    const displayLoginForm = () => {
-        authChoices.classList.add('hidden');
-        signupForm.classList.add('hidden');
-        loginForm.classList.remove('hidden');
-    };
+    // 2. Verifica se estamos na tela de autenticação para o código ser executado.
+    if (authContainer && switchToLoginBtn && switchToSignupBtn && switchHighlight) {
 
-    // Função para mostrar o formulário de cadastro e esconder os outros elementos.
-    const displaySignupForm = () => {
-        authChoices.classList.add('hidden');
-        loginForm.classList.add('hidden');
-        signupForm.classList.remove('hidden');
-    };
+        // 3. Função para atualizar o estado da interface (mostrar gaveta e mover realce).
+        const updateAuthState = (mode) => {
+            const isLogin = mode === 'login';
+            
+            // Determina qual botão está ativo.
+            const activeButton = isLogin ? switchToLoginBtn : switchToSignupBtn;
 
-    // 2. Adiciona "ouvintes" para os cliques nos botões e links.
-    // Verifica se os elementos existem antes de adicionar os "ouvintes".
-    if (showLoginBtn && showLoginLink) {
-        // Se o utilizador clicar em "Já tenho cadastro" ou no link "Faça login".
-        showLoginBtn.addEventListener('click', displayLoginForm);
-        showLoginLink.addEventListener('click', (event) => {
-            event.preventDefault(); // Impede o link de recarregar a página.
-            displayLoginForm();
-        });
-    }
+            // a. Atualiza as classes no container principal para o CSS animar a gaveta correta.
+            authContainer.classList.toggle('login-active', isLogin);
+            authContainer.classList.toggle('signup-active', !isLogin);
 
-    if (showSignupBtn && showSignupLink) {
-        // Se o utilizador clicar em "Sou novo aqui" ou no link "Registre-se".
-        showSignupBtn.addEventListener('click', displaySignupForm);
-        showSignupLink.addEventListener('click', (event) => {
-            event.preventDefault(); // Impede o link de recarregar a página.
-            displaySignupForm();
-        });
+            // b. Atualiza a classe 'active' nos botões do interruptor.
+            switchToLoginBtn.classList.toggle('active', isLogin);
+            switchToSignupBtn.classList.toggle('active', !isLogin);
+
+            // c. Calcula a posição e o tamanho do botão ativo.
+            const buttonWidth = activeButton.offsetWidth;
+            const buttonLeftOffset = activeButton.offsetLeft;
+
+            // d. Move e redimensiona o realce para se alinhar com o botão ativo.
+            switchHighlight.style.width = `${buttonWidth}px`;
+            switchHighlight.style.transform = `translateX(${buttonLeftOffset}px)`;
+        };
+
+        // 4. Adiciona "ouvintes" para os cliques nos botões do interruptor.
+        switchToLoginBtn.addEventListener('click', () => updateAuthState('login'));
+        switchToSignupBtn.addEventListener('click', () => updateAuthState('signup'));
+
+        // 5. Define o estado inicial da interface.
+        // Usamos um pequeno timeout para garantir que o navegador já calculou o tamanho dos botões.
+        setTimeout(() => {
+            updateAuthState('login'); // Começa mostrando a opção de login como ativa.
+        }, 100);
     }
 });
+

@@ -15,33 +15,61 @@
 
     <!-- Botão de Troca de Tema -->
     <button id="theme-toggle-btn" class="theme-toggle-btn">🌙</button>
-<!-- TELA DE AUTENTICAÇÃO -->
-<div id="auth-screen" class="screen">
-    <div class="calculator-card">
-        <div class="logo-container">
-            <img src="logo.png" alt="Logo da änalitks" class="logo-img">
+  <!-- =================================================================== -->
+<!-- NOVA ESTRUTURA DE AUTENTICAÇÃO COM GAVETAS ANIMADAS                 -->
+<!-- Este bloco substitui o antigo #auth-screen                         -->
+<!-- =================================================================== -->
+<div id="auth-container" class="auth-container">
+
+    <!-- Elementos gráficos de fundo que poderemos animar depois -->
+    <div class="graphic-element line-1"></div>
+    <div class="graphic-element line-2"></div>
+
+    <!-- CENA 1: A TELA INICIAL (Visível por padrão) -->
+    <div id="initial-view" class="initial-view">
+        <!-- O logo principal que fica sempre visível no centro ou à esquerda -->
+        <img src="logo.png" alt="Logo da änalitks" class="main-logo">
+
+        <!-- O novo seletor de "interruptor" -->
+        <div id="auth-switch" class="auth-switch">
+            <!-- Este é o realce colorido que vai deslizar por trás dos botões -->
+            <div id="switch-highlight" class="switch-highlight"></div>
+            <!-- As duas opções de escolha, agora como botões dentro do interruptor -->
+            <button id="switch-to-login" class="switch-option active">Já tenho cadastro</button>
+            <button id="switch-to-signup" class="switch-option">Sou novo aqui</button>
         </div>
-        <div class="card-header">
-            <h1>Bem-vindo(a)</h1>
-            <p>Entre para aceder à sua suíte financeira.</p>
-        </div>
-        <div id="auth-choices" class="auth-choices">
-            <button id="show-signup-btn" class="btn btn-primary">Sou novo aqui</button>
-            <button id="show-login-btn" class="btn btn-secondary">Já tenho cadastro</button>
-        </div>
-        <form id="login-form" class="auth-form hidden">
-            <input type="email" id="login-email" class="input-field" placeholder="Seu e-mail" required>
-            <input type="password" id="login-password" class="input-field" placeholder="Sua senha" required>
-            <button type="submit" class="btn btn-primary">Entrar</button>
-            <p>Não tem uma conta? <a href="#" id="show-signup-link">Registre-se</a></p>
-        </form>
-        <form id="signup-form" class="auth-form hidden">
-            <input type="email" id="signup-email" class="input-field" placeholder="Seu melhor e-mail" required>
-            <input type="password" id="signup-password" class="input-field" placeholder="Crie uma senha forte" required>
-            <button type="submit" class="btn btn-primary">Criar conta</button>
-            <p>Já tem uma conta? <a href="#" id="show-login-link">Faça login</a></p>
-        </form>
     </div>
+
+    <!-- CENA 2: A GAVETA DE LOGIN (ROXA - CLT) -->
+    <!-- Começa fora da tela e desliza para dentro quando ativada -->
+    <div id="login-drawer" class="auth-drawer theme-clt">
+        <div class="drawer-content">
+            <!-- O SEU FORMULÁRIO DE LOGIN FOI MOVIDO PARA AQUI -->
+            <form id="login-form" class="auth-form">
+                <h2>Fazer Login</h2>
+                <p>Bem-vindo(a) de volta.</p>
+                <input type="email" id="login-email" class="input-field" placeholder="Seu e-mail" required>
+                <input type="password" id="login-password" class="input-field" placeholder="Sua senha" required>
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CENA 3: A GAVETA DE CADASTRO (LARANJA - PJ) -->
+    <!-- Também começa fora da tela, no mesmo lugar da outra gaveta -->
+    <div id="signup-drawer" class="auth-drawer theme-pj">
+        <div class="drawer-content">
+            <!-- O SEU FORMULÁRIO DE CADASTRO FOI MOVIDO PARA AQUI -->
+            <form id="signup-form" class="auth-form">
+                <h2>Criar Conta</h2>
+                <p>Comece a sua jornada financeira.</p>
+                <input type="email" id="signup-email" class="input-field" placeholder="Seu melhor e-mail" required>
+                <input type="password" id="signup-password" class="input-field" placeholder="Crie uma senha forte" required>
+                <button type="submit" class="btn btn-primary">Criar conta</button>
+            </form>
+        </div>
+    </div>
+
 </div>
 
     <!-- TELA DE ESCOLHA DE PERFIL -->
