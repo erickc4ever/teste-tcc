@@ -1,14 +1,12 @@
 /**
  * ==================================================================================
- * style.css - Estilos Visuais e Temas da "änalitks" (Versão "Wall Street")
+ * style.css - Estilos Visuais e Temas da "änalitks"
  * ----------------------------------------------------------------------------------
  * Responsabilidades:
- * 1. Definir a paleta de cores (com CLT roxo) e a tipografia "serifada".
- * 2. Implementar os temas claro e escuro com um design de cantos quadrados.
- * 3. Estilizar os componentes com o layout amplo e minimalista.
- * 4. Adicionar estilos para a tela de relatórios e os novos cartões interativos.
- * 5. Corrigir o dimensionamento dos gráficos.
- * 6. ADICIONADO: Estilizar e animar a nova interface de autenticação com gavetas.
+ * 1. Definir a paleta de cores e a tipografia.
+ * 2. Implementar os temas claro e escuro.
+ * 3. Estilizar os componentes da aplicação principal.
+ * 4. ATUALIZADO: Estilizar a nova interface de autenticação Frutiger Aero.
  * ==================================================================================
  */
 
@@ -26,7 +24,6 @@
     --cor-primaria-hover: #0077ed;
     --sombra-card: 0 2px 8px rgba(0, 0, 0, 0.07);
     --sombra-botao: 0 1px 3px rgba(0, 0, 0, 0.1);
-    /* NOVAS CORES-TEMA (CLT AGORA É ROXO) */
     --cor-clt: #6D28D9;
     --cor-pj: #f56c0a;
 }
@@ -41,7 +38,6 @@
     --cor-primaria-hover: #339aff;
     --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.2);
     --sombra-botao: 0 2px 4px rgba(0, 0, 0, 0.3);
-    /* NOVAS CORES-TEMA (MODO ESCURO) */
     --cor-clt: #8B5CF6;
     --cor-pj: #ff7b29;
 }
@@ -64,7 +60,6 @@ body {
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-#auth-screen .calculator-card,
 .modal-overlay .calculator-card {
     background-color: var(--cor-card);
     padding: 32px;
@@ -74,145 +69,157 @@ body {
 }
 
 /* ===========================================================================
-   ESTILOS VISUAIS PARA A NOVA INTERFACE DE GAVETAS
+   ATUALIZAÇÃO: NOVA ESTRUTURA VISUAL FRUTIGER AERO
    ===========================================================================
 */
 
-/* O container principal terá o fundo do tema escuro por padrão para um visual premium. */
-.auth-container {
-    background-color: #121212; /* Fundo escuro fixo para a tela de login */
-    color: #f5f5f7; /* Texto claro por padrão */
+/* --- 1. O Cenário: Fundo Animado --- */
+
+@keyframes zoomLento {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
 }
 
-/* Estilo do interruptor */
-.auth-switch {
-    background-color: rgba(255, 255, 255, 0.05); /* Fundo sutil */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 99px; /* Totalmente arredondado para formar uma pílula */
-    padding: 4px;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+#auth-background {
+    background-image: url('https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?q=80&w=1910&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    /* Animação de "respiração" que dura 40s e se repete infinitamente */
+    animation: zoomLento 40s infinite alternate cubic-bezier(0.4, 0, 0.6, 1);
+    transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), filter 0.8s ease;
 }
 
-.switch-option {
-    background: none;
-    border: none;
-    color: var(--cor-texto-secundario);
-    padding: 8px 24px;
-    cursor: pointer;
-    border-radius: 99px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    z-index: 2; /* Para ficar acima do realce */
-    transition: color 0.4s ease; /* Transição suave da cor do texto */
+/* Efeito de afastar e desfocar a imagem quando um formulário está ativo */
+body.form-active #auth-background {
+    transform: scale(1.05); /* Afasta um pouco a imagem */
+    filter: blur(4px);
 }
 
-/* O botão ativo dentro do interruptor terá o texto mais claro */
-.switch-option.active {
-    color: var(--cor-texto-primario);
+
+/* --- 2. O Ator Principal: O Card de Vidro --- */
+
+.auth-card {
+    /* Efeito de Vidro (Glassmorphism) */
+    background: linear-gradient(135deg, rgba(192, 212, 224, 0.2), rgba(91, 107, 120, 0.2)); /* De ciano fosco para cinza de carro, com transparência */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    /* Bordas e Sombra */
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+    /* Espaçamento interno */
+    padding: 2.5rem;
 }
 
-/* O realce colorido que desliza */
-.switch-highlight {
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    height: calc(100% - 8px);
-    border-radius: 99px;
-    z-index: 1; /* Fica atrás do texto do botão */
-    box-shadow: var(--sombra-botao);
-}
+/* --- 3. A Ação: Estilização dos Formulários --- */
 
-/* Cores das Gavetas */
-.auth-drawer.theme-clt { background-color: var(--cor-clt); }
-.auth-drawer.theme-pj { background-color: var(--cor-pj); }
-
-/* Tipografia dentro das gavetas (garantindo que o texto seja claro) */
-.auth-drawer h2, .auth-drawer p {
+.auth-form h2 {
+    font-family: 'Lora', serif;
+    font-size: 32px;
     color: #ffffff;
     text-align: center;
+    margin: 0 0 1rem 0;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
-.auth-drawer h2 {
-    font-size: 28px;
-    margin-bottom: 8px;
+
+/* Efeito de Label Flutuante */
+.input-wrapper .input-field {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    padding: 14px;
+    width: 100%;
+    box-sizing: border-box;
 }
-.auth-drawer p {
-    font-size: 16px;
-    opacity: 0.8;
-    margin-bottom: 24px;
+
+.input-wrapper .input-field:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.7);
 }
-.auth-drawer .btn-primary {
-    background-color: rgba(0,0,0,0.2); /* Botão com um tom mais escuro que a gaveta */
-    border: 1px solid rgba(255,255,255,0.5);
+
+.input-wrapper label {
+    font-family: 'Inter', sans-serif;
+    color: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    pointer-events: none;
+    transition: all 0.2s ease;
 }
-.auth-drawer .btn-primary:hover {
-    background-color: rgba(0,0,0,0.4);
-}
-.auth-drawer .input-field {
-    background-color: rgba(0,0,0,0.1);
-    border-color: rgba(255,255,255,0.3);
+
+/* Quando o input está focado ou preenchido, a label sobe e diminui */
+.input-wrapper .input-field:focus ~ label,
+.input-wrapper .input-field:not(:placeholder-shown) ~ label {
+    top: -10px;
+    left: 10px;
+    font-size: 12px;
+    background-color: #5B6B78; /* Cor de fundo para a label, combinando com o gradiente */
+    padding: 0 5px;
+    border-radius: 4px;
     color: #ffffff;
 }
-.auth-drawer .input-field::placeholder {
-    color: rgba(255,255,255,0.5);
-}
-.auth-drawer .input-field:focus {
-    border-color: #ffffff;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+
+/* Botão com Estilo Frutiger Aero */
+.auth-card .btn-primary {
+    background: linear-gradient(180deg, #00A1E0 0%, #0073B4 100%); /* Gradiente ciano/azul */
+    border: 1px solid #00BFFF;
+    border-radius: 8px;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 14px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
 }
 
-/* ===========================================================================
-   ADIÇÃO: ANIMAÇÕES E INTERATIVIDADE PARA A INTERFACE DE GAVETAS
-   ===========================================================================
-*/
-
-/* 1. Definindo as transições (a suavidade do movimento) */
-/* Estas regras dizem ao navegador para animar certas propriedades ao longo do tempo. */
-.auth-drawer, .initial-view, .switch-highlight {
-    /* cubic-bezier cria uma curva de aceleração elegante, começando rápido e terminando suave. */
-    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+.auth-card .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 4px 8px rgba(0,0,0,0.3);
 }
 
-.initial-view {
-    /* Também animamos a opacidade para um efeito de fade-out. */
-    transition-property: transform, opacity;
-    transition-duration: 0.6s, 0.5s;
-    transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+.auth-card .btn-primary:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 2px 2px rgba(0,0,0,0.3);
 }
 
-.switch-highlight {
-    /* O realce precisa animar a cor e a largura também. */
-    transition-property: transform, background-color, width;
-    transition-duration: 0.4s;
-    transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+/* Links para trocar de formulário */
+.switch-form-links p {
+    color: rgba(255, 255, 255, 0.8);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
 }
 
-/* 2. Regras de ativação (o que acontece quando o JS adiciona uma classe) */
-
-/* Quando a classe .login-active é adicionada ao container... */
-.auth-container.login-active #login-drawer {
-    transform: translateX(0); /* ...a gaveta de login desliza para a vista. */
-}
-.auth-container.login-active .switch-highlight {
-    background-color: var(--cor-clt); /* ...o realce fica roxo. */
+.switch-form-links a {
+    color: #ffffff;
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
-/* Quando a classe .signup-active é adicionada ao container... */
-.auth-container.signup-active #signup-drawer {
-    transform: translateX(0); /* ...a gaveta de cadastro desliza para a vista. */
-}
-.auth-container.signup-active .switch-highlight {
-    background-color: var(--cor-pj); /* ...o realce fica laranja. */
-}
+/* --- 4. Responsividade --- */
+@media (max-width: 768px) {
+    #auth-container {
+        align-items: flex-start;
+        padding-top: 5vh;
+    }
 
-/* Quando QUALQUER gaveta está ativa... */
-.auth-container.login-active .initial-view,
-.auth-container.signup-active .initial-view {
-    transform: translateX(-225px); /* ...a vista inicial (logo e interruptor) desliza para a esquerda. */
-    opacity: 0; /* ...e desaparece suavemente. */
-    pointer-events: none; /* ...e deixa de ser clicável para não interferir. */
+    .auth-card {
+        width: 90%;
+        padding: 1.5rem;
+    }
+
+    .auth-form h2 {
+        font-size: 28px;
+    }
+
+    .main-logo {
+        max-width: 100px;
+    }
 }
 
 
@@ -272,7 +279,7 @@ hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
 
 /* --- ESTILOS DO MODAL --- */
 .modal-overlay { background-color: rgba(0, 0, 0, 0.6); }
-.modal-overlay .calculator-card { max-width: 500px; border-radius: 0; }
+/* .modal-overlay .calculator-card { max-width: 500px; border-radius: 0; } */
 .close-btn { background: none; border: none; font-size: 2rem; font-weight: 300; line-height: 1; cursor: pointer; color: var(--cor-texto-secundario); transition: color 0.2s ease; }
 .close-btn:hover { color: var(--cor-texto-primario); }
 .brasao { font-style: italic; text-align: center; color: var(--cor-texto-secundario); margin-bottom: 1.5rem; padding: 0.5rem; background-color: var(--cor-fundo); border-radius: 0; }
@@ -305,7 +312,7 @@ hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
 .modal-overlay li { margin-bottom: 0.5rem; }
 .param-chart { display: flex; flex-direction: column; gap: 6px; margin-top: 1rem; font-family: 'Inter', sans-serif; font-size: 12px; }
 .chart-bar { padding: 8px 12px; border-radius: 0; color: var(--cor-texto-primario); display: flex; justify-content: space-between; font-weight: 500; border: 1px solid var(--cor-borda); background-color: var(--cor-fundo); }
-dashboard-footer .btn { width: auto; padding-left: 28px; padding-right: 28px; }
+.dashboard-footer .btn { width: auto; padding-left: 28px; padding-right: 28px; }
 .chart-bar span:last-child { font-weight: 700; }
 
 /* Cores para as barras */

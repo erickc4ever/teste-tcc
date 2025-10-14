@@ -15,63 +15,61 @@
 
     <!-- Botão de Troca de Tema -->
     <button id="theme-toggle-btn" class="theme-toggle-btn">🌙</button>
-  <!-- =================================================================== -->
-<!-- NOVA ESTRUTURA DE AUTENTICAÇÃO COM GAVETAS ANIMADAS                 -->
-<!-- Este bloco substitui o antigo #auth-screen                         -->
-<!-- =================================================================== -->
-<div id="auth-container" class="auth-container">
 
-    <!-- Elementos gráficos de fundo que poderemos animar depois -->
-    <div class="graphic-element line-1"></div>
-    <div class="graphic-element line-2"></div>
+    <!-- =================================================================== -->
+    <!-- NOVA ESTRUTURA: FRUTIGER AERO COM CARD CENTRAL                      -->
+    <!-- =================================================================== -->
+    
+    <!-- Container para a imagem de fundo que terá o efeito de zoom -->
+    <div id="auth-background"></div>
 
-    <!-- CENA 1: A TELA INICIAL (Visível por padrão) -->
-    <div id="initial-view" class="initial-view">
-        <!-- O logo principal que fica sempre visível no centro ou à esquerda -->
-        <img src="logo.png" alt="Logo da änalitks" class="main-logo">
+    <!-- Container principal que centraliza o card na tela -->
+    <div id="auth-container">
+        <div class="auth-card">
+            
+            <div class="logo-container">
+                <img src="logo.png" alt="Logo da änalitks" class="main-logo">
+            </div>
 
-        <!-- O novo seletor de "interruptor" -->
-        <div id="auth-switch" class="auth-switch">
-            <!-- Este é o realce colorido que vai deslizar por trás dos botões -->
-            <div id="switch-highlight" class="switch-highlight"></div>
-            <!-- As duas opções de escolha, agora como botões dentro do interruptor -->
-            <button id="switch-to-login" class="switch-option active">Já tenho cadastro</button>
-            <button id="switch-to-signup" class="switch-option">Sou novo aqui</button>
-        </div>
-    </div>
-
-    <!-- CENA 2: A GAVETA DE LOGIN (ROXA - CLT) -->
-    <!-- Começa fora da tela e desliza para dentro quando ativada -->
-    <div id="login-drawer" class="auth-drawer theme-clt">
-        <div class="drawer-content">
-            <!-- O SEU FORMULÁRIO DE LOGIN FOI MOVIDO PARA AQUI -->
+            <!-- Formulário de Login (visível por padrão) -->
             <form id="login-form" class="auth-form">
-                <h2>Fazer Login</h2>
-                <p>Bem-vindo(a) de volta.</p>
-                <input type="email" id="login-email" class="input-field" placeholder="Seu e-mail" required>
-                <input type="password" id="login-password" class="input-field" placeholder="Sua senha" required>
+                <h2>Bem-vindo(a) de volta</h2>
+                <!-- Estrutura de input/label para o efeito de flutuação -->
+                <div class="input-wrapper">
+                    <input type="email" id="login-email" class="input-field" placeholder=" " required>
+                    <label for="login-email">E-mail</label>
+                </div>
+                <div class="input-wrapper">
+                    <input type="password" id="login-password" class="input-field" placeholder=" " required>
+                    <label for="login-password">Senha</label>
+                </div>
                 <button type="submit" class="btn btn-primary">Entrar</button>
             </form>
-        </div>
-    </div>
 
-    <!-- CENA 3: A GAVETA DE CADASTRO (LARANJA - PJ) -->
-    <!-- Também começa fora da tela, no mesmo lugar da outra gaveta -->
-    <div id="signup-drawer" class="auth-drawer theme-pj">
-        <div class="drawer-content">
-            <!-- O SEU FORMULÁRIO DE CADASTRO FOI MOVIDO PARA AQUI -->
-            <form id="signup-form" class="auth-form">
-                <h2>Criar Conta</h2>
-                <p>Comece a sua jornada financeira.</p>
-                <input type="email" id="signup-email" class="input-field" placeholder="Seu melhor e-mail" required>
-                <input type="password" id="signup-password" class="input-field" placeholder="Crie uma senha forte" required>
+            <!-- Formulário de Cadastro (escondido por padrão) -->
+            <form id="signup-form" class="auth-form hidden">
+                <h2>Crie a sua conta</h2>
+                 <div class="input-wrapper">
+                    <input type="email" id="signup-email" class="input-field" placeholder=" " required>
+                    <label for="signup-email">Seu melhor e-mail</label>
+                </div>
+                <div class="input-wrapper">
+                    <input type="password" id="signup-password" class="input-field" placeholder=" " required>
+                    <label for="signup-password">Crie uma senha forte</label>
+                </div>
                 <button type="submit" class="btn btn-primary">Criar conta</button>
             </form>
+
+            <!-- Links para alternar entre os formulários -->
+            <div class="switch-form-links">
+                <p id="login-link-p">Não tem uma conta? <a href="#" id="show-signup-link">Registre-se</a></p>
+                <p id="signup-link-p" class="hidden">Já tem uma conta? <a href="#" id="show-login-link">Faça login</a></p>
+            </div>
+
         </div>
     </div>
 
-</div>
-
+ 
     <!-- TELA DE ESCOLHA DE PERFIL -->
     <div id="welcome-screen" class="screen hidden">
         <div class="calculator-card">
