@@ -8,7 +8,7 @@
  * 3. Estilizar os componentes com o layout amplo e minimalista.
  * 4. Adicionar estilos para a tela de relatórios e os novos cartões interativos.
  * 5. Corrigir o dimensionamento dos gráficos.
- * 6. ADICIONADO: Estilizar a nova interface de autenticação com gavetas.
+ * 6. ADICIONADO: Estilizar e animar a nova interface de autenticação com gavetas.
  * ==================================================================================
  */
 
@@ -74,7 +74,7 @@ body {
 }
 
 /* ===========================================================================
-   ADIÇÃO: ESTILOS VISUAIS PARA A NOVA INTERFACE DE GAVETAS
+   ESTILOS VISUAIS PARA A NOVA INTERFACE DE GAVETAS
    ===========================================================================
 */
 
@@ -162,6 +162,59 @@ body {
     border-color: #ffffff;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
+
+/* ===========================================================================
+   ADIÇÃO: ANIMAÇÕES E INTERATIVIDADE PARA A INTERFACE DE GAVETAS
+   ===========================================================================
+*/
+
+/* 1. Definindo as transições (a suavidade do movimento) */
+/* Estas regras dizem ao navegador para animar certas propriedades ao longo do tempo. */
+.auth-drawer, .initial-view, .switch-highlight {
+    /* cubic-bezier cria uma curva de aceleração elegante, começando rápido e terminando suave. */
+    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.initial-view {
+    /* Também animamos a opacidade para um efeito de fade-out. */
+    transition-property: transform, opacity;
+    transition-duration: 0.6s, 0.5s;
+    transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.switch-highlight {
+    /* O realce precisa animar a cor e a largura também. */
+    transition-property: transform, background-color, width;
+    transition-duration: 0.4s;
+    transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* 2. Regras de ativação (o que acontece quando o JS adiciona uma classe) */
+
+/* Quando a classe .login-active é adicionada ao container... */
+.auth-container.login-active #login-drawer {
+    transform: translateX(0); /* ...a gaveta de login desliza para a vista. */
+}
+.auth-container.login-active .switch-highlight {
+    background-color: var(--cor-clt); /* ...o realce fica roxo. */
+}
+
+/* Quando a classe .signup-active é adicionada ao container... */
+.auth-container.signup-active #signup-drawer {
+    transform: translateX(0); /* ...a gaveta de cadastro desliza para a vista. */
+}
+.auth-container.signup-active .switch-highlight {
+    background-color: var(--cor-pj); /* ...o realce fica laranja. */
+}
+
+/* Quando QUALQUER gaveta está ativa... */
+.auth-container.login-active .initial-view,
+.auth-container.signup-active .initial-view {
+    transform: translateX(-225px); /* ...a vista inicial (logo e interruptor) desliza para a esquerda. */
+    opacity: 0; /* ...e desaparece suavemente. */
+    pointer-events: none; /* ...e deixa de ser clicável para não interferir. */
+}
+
 
 /* --- O RESTO DO FICHEIRO ESTÁ 100% INTOCADO --- */
 

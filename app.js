@@ -13,8 +13,6 @@
 // Espera que o HTML esteja completamente carregado antes de executar o script
 document.addEventListener('DOMContentLoaded', () => {
 
-    console.log("app.js (UI) carregado com sucesso.");
-
     // --- LÓGICA DE TROCA DE TEMA (Mantida) ---
 
     // Seleciona o botão de troca de tema e o body do documento.
@@ -30,11 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isDarkMode) {
                 // Se estiver no modo escuro, remove o atributo para voltar ao tema claro (padrão).
                 body.removeAttribute('data-theme');
-                console.log("Tema alterado para: Claro");
             } else {
                 // Se estiver no modo claro, define o atributo para 'dark' para ativar o tema escuro.
                 body.setAttribute('data-theme', 'dark');
-                console.log("Tema alterado para: Escuro");
             }
         });
     }
@@ -60,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // ========================================================================
-    // --- ADIÇÃO: LÓGICA DA NOVA INTERFACE DE AUTENTICAÇÃO COM GAVETAS ---
+    // --- LÓGICA DA NOVA INTERFACE DE AUTENTICAÇÃO COM GAVETAS ---
     // ========================================================================
 
     // 1. Seleciona os elementos da nova interface.
