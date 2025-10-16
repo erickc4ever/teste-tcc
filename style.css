@@ -15,7 +15,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Inter:wght@400;500;700&display=swap');
 /* --- Definição dos Temas (Variáveis CSS) --- */
 /* --- Definição dos Temas (Variáveis CSS) --- */
-
+/* --- Definição dos Temas (Variáveis CSS) --- */
 :root {
     /* Cores suavizadas para um visual mais fosco e profissional */
     --cor-fundo: #f4f4f5; /* Um branco levemente acinzentado */
@@ -27,6 +27,7 @@
     /* Cores do botão alteradas de azul para o novo esquema preto/branco */
     --cor-primaria: #2a2a2e; /* Botão preto para o tema claro */
     --cor-primaria-hover: #414146; /* Efeito hover sutil */
+    --cor-texto-botao-primario: #f4f4f5; /* NOVO: Texto branco para o botão escuro */
 
     --sombra-card: 0 2px 8px rgba(0, 0, 0, 0.07);
     --sombra-botao: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -46,7 +47,8 @@
 
     /* Cores do botão alteradas de azul para o novo esquema preto/branco */
     --cor-primaria: #e1e1e3; /* Botão branco para o tema escuro */
-    --cor-primaria-hover: #c1c1c3; /* Efeito hover sutil */
+    --cor-primaria-hover: #ffffff; /* AJUSTADO: Hover fica branco puro para mais destaque */
+    --cor-texto-botao-primario: #161618; /* NOVO: Texto escuro para o botão branco */
 
     --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.2);
     --sombra-botao: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -55,6 +57,20 @@
     --cor-clt: #8B5CF6;
     --cor-pj: #ff7b29;
 }
+
+/* --- Estilo Adicionado para o Logo Responsivo --- */
+.logo-img {
+    /* Tamanho da logo aumentado para melhor visibilidade */
+    max-width: 150px; 
+    /* Garante que a mudança de cor do logo seja suave e animada */
+    transition: filter 0.3s ease-in-out;
+}
+
+[data-theme='dark'] .logo-img {
+    /* Inverte a cor da imagem: o logo preto (SVG) se torna branco */
+    filter: invert(1);
+}
+
 
 /* --- Estilo Adicionado para o Logo Responsivo --- */
 .logo-img {
