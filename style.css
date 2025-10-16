@@ -16,6 +16,8 @@
 /* --- Definição dos Temas (Variáveis CSS) --- */
 /* --- Definição dos Temas (Variáveis CSS) --- */
 /* --- Definição dos Temas (Variáveis CSS) --- */
+
+/* --- Definição dos Temas (Variáveis CSS) --- */
 :root {
     /* Cores suavizadas para um visual mais fosco e profissional */
     --cor-fundo: #f4f4f5; /* Um branco levemente acinzentado */
@@ -35,6 +37,10 @@
     /* Cores-tema mantidas, mas podem ser ajustadas se necessário */
     --cor-clt: #6D28D9;
     --cor-pj: #f56c0a;
+
+    /* --- NOVAS VARIÁVEIS PARA ANIMAÇÕES --- */
+    --sombra-botao-hover: 0 4px 8px rgba(0,0,0,0.15);
+    --cor-primaria-rgb: 42, 42, 46; /* Representação RGB de --cor-primaria */
 }
 
 [data-theme='dark'] {
@@ -56,6 +62,10 @@
     /* Cores-tema com mais brilho para contrastar no escuro */
     --cor-clt: #8B5CF6;
     --cor-pj: #ff7b29;
+
+    /* --- NOVAS VARIÁVEIS PARA ANIMAÇÕES (TEMA ESCURO) --- */
+    --sombra-botao-hover: 0 4px 10px rgba(0,0,0,0.3);
+    --cor-primaria-rgb: 225, 225, 227; /* Representação RGB de --cor-primaria */
 }
 
 /* --- Estilo Adicionado para o Logo Responsivo --- */
@@ -71,19 +81,52 @@
     filter: invert(1);
 }
 
+/* --- ANIMAÇÕES E MICRO-INTERAÇÕES --- */
 
-/* --- Estilo Adicionado para o Logo Responsivo --- */
-.logo-img {
-    /* Tamanho da logo aumentado para melhor visibilidade */
-    max-width: 150px; 
-    /* Garante que a mudança de cor do logo seja suave e animada */
-    transition: filter 0.3s ease-in-out;
+/* Animação de entrada para elementos principais como os cards */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-[data-theme='dark'] .logo-img {
-    /* Inverte a cor da imagem: o logo preto (SVG) se torna branco */
-    filter: invert(1);
+/* Aplica a animação de entrada ao card da calculadora.
+   Isso fará com que ele surja suavemente na tela. */
+.calculator-card {
+    animation: fadeInUp 0.5s ease-out forwards;
 }
+
+/* Transições suaves para que as mudanças de estado (hover, focus) não sejam bruscas. */
+.btn, .input-field {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out, outline 0.2s ease-in-out;
+}
+
+/* Efeito de "levantar" para botões ao passar o mouse, dando feedback interativo. */
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-botao-hover);
+}
+
+/* Efeito de foco para campos de input.
+   Quando o usuário clica em um campo, ele ganha um brilho sutil. */
+.input-field:focus {
+    border-color: var(--cor-primaria);
+    /* O 'outline' com a variável RGB cria um brilho suave na cor do tema */
+    outline: 3px solid rgba(var(--cor-primaria-rgb), 0.2);
+    outline-offset: 2px;
+}
+
+/* Classe que você pode adicionar via JavaScript ao seu elemento de resultado
+   para que ele apareça com uma animação suave. */
+.resultado-animado {
+    animation: fadeInUp 0.4s ease-out forwards;
+}
+
 
 
 /* --- Estilos de Base --- */
