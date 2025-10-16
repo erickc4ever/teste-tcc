@@ -13,7 +13,6 @@
 
 /* --- Importação das Fontes --- */
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Inter:wght@400;500;700&display=swap');
-
 /* --- Definição dos Temas (Variáveis CSS) --- */
 :root {
     --cor-fundo: #f5f5f7;
@@ -43,6 +42,17 @@
     /* NOVAS CORES-TEMA (MODO ESCURO) */
     --cor-clt: #8B5CF6;
     --cor-pj: #ff7b29;
+}
+
+/* --- Estilo Adicionado para o Logo Responsivo --- */
+.logo-img {
+    /* Garante que a mudança de cor do logo seja suave e animada */
+    transition: filter 0.3s ease-in-out;
+}
+
+[data-theme='dark'] .logo-img {
+    /* Inverte a cor da imagem: o logo preto (SVG) se torna branco */
+    filter: invert(1);
 }
 
 /* --- Estilos de Base --- */
