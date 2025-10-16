@@ -1,118 +1,86 @@
 /**
  * ==================================================================================
- * main.css - Estilos de Layout e Estrutura da "änalitks"
+ * main.css - Estilos de Layout e Estrutura da "änalitks" (Versão "Wall Street")
  * ----------------------------------------------------------------------------------
  * Responsabilidades:
  * 1. Definir o layout principal da página de forma eficiente e centralizada.
  * 2. Gerenciar a visibilidade das "telas".
  * 3. Estruturar os formulários e botões para performance.
  * 4. Adicionar a estrutura de layout para o modal "Sobre".
- * 5. ATUALIZADO: Estruturar o novo layout Frutiger Aero com card central.
  * ==================================================================================
  */
 
 /* --- Configurações Globais de Layout --- */
 body {
     margin: 0;
-    /* overflow: hidden; previne barras de scroll indesejadas durante as animações. */
-    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
     box-sizing: border-box; 
+}
+
+/* --- Gerenciamento de Telas (Otimizado) --- */
+.screen {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .hidden {
     display: none !important; 
 }
 
-/* ===========================================================================
-   ATUALIZAÇÃO: NOVA ESTRUTURA FRUTIGER AERO
-   ===========================================================================
-*/
-
-/* O container para a imagem de fundo. Fica fixo e atrás de todo o conteúdo. */
-#auth-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Envia para trás */
-}
-
-/* O container principal que ocupa toda a tela e centraliza o card. */
-#auth-container {
-    width: 100vw;
-    min-height: 100vh; /* Usa min-height para se adaptar a conteúdos maiores */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    box-sizing: border-box;
-}
-
-/* A estrutura do card de autenticação. */
-.auth-card {
-    width: 100%;
-    max-width: 480px; /* ALTERADO: Aumentado para 480px para um visual mais largo. */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem; /* ALTERADO: Diminuído para tornar o card mais compacto verticalmente. */
-}
-
-/* O container do logo. */
-.logo-container {
-    text-align: center;
-    margin-bottom: 0.5rem; /* ALTERADO: Diminuído para compactar. */
-}
-
-.main-logo {
-    max-width: 120px;
-    height: auto;
-}
-
-/* A estrutura dos formulários dentro do card. */
-.auth-form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-}
-
-/* O wrapper para o input e label, para o efeito de flutuação. */
-.input-wrapper {
-    position: relative; /* Essencial para o posicionamento da label. */
-}
-
-/* O container dos links para trocar de formulário. */
-.switch-form-links {
-    text-align: center;
-    margin-top: 0.5rem; /* ALTERADO: Diminuído para compactar. */
-}
-
-
-/* --- ESTRUTURAS ANTIGAS (mantidas para outras partes da app) --- */
-
+/* --- Estrutura do Conteúdo Principal (Layout Amplo) --- */
 .calculator-card {
     width: 100%;
+    /* ATUALIZAÇÃO: Aumentado para um layout mais imponente, "Wall Street" */
     max-width: 960px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 24px; /* Aumentado o espaçamento geral */
 }
 
 .card-header {
     text-align: center;
-    margin-bottom: 16px;
+    margin-bottom: 16px; /* Aumentado o espaçamento */
 }
 
+/* --- Estrutura do Logo --- */
+.logo-container {
+    text-align: center;
+    margin-bottom: -10px;
+}
+
+.logo-img {
+    max-width: 100px;
+    height: auto;
+}
+
+
+/* --- Formulários e Botões de Autenticação --- */
+.auth-form, .auth-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    width: 100%;
+    max-width: 400px; /* Limita a largura na tela de auth */
+    margin: 0 auto; /* Centraliza */
+}
+
+
+/* --- Estrutura Interna dos Cards e Seções --- */
+/* ATUALIZAÇÃO: Estilo para os formulários das calculadoras, agora em um layout de 2 colunas. */
 .input-group {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 16px 20px;
-    align-items: center;
-    max-width: 600px;
-    margin: 20px auto 0;
+    grid-template-columns: auto 1fr; /* Coluna de label (auto) e input (flexível) */
+    gap: 16px 20px; /* Espaçamento vertical e horizontal */
+    align-items: center; /* Alinha verticalmente label e input */
+    max-width: 600px; /* Limita a largura para melhor legibilidade */
+    margin: 20px auto 0; /* Centraliza o grupo de inputs e adiciona margem no topo */
 }
 
 /* Em telas menores, os campos ficam um abaixo do outro */
@@ -123,13 +91,14 @@ body {
     }
 }
 
+
 .results-section {
     display: flex;
     flex-direction: column;
     gap: 15px;
     width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 600px; /* Alinha com a largura do formulário */
+    margin: 0 auto; /* Centraliza a seção de resultados */
 }
 
 .result-line {
@@ -142,19 +111,23 @@ body {
 
 .dashboard-grid {
     display: grid;
+    /* ATUALIZAÇÃO: Ajustado para cartões maiores, estilo "Pokémon" */
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 24px;
     width: 100%;
 }
 
+
 .dashboard-footer {
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap; /* Permite que os botões quebrem a linha em telas menores */
     gap: 1rem;
     margin-top: 1.5rem;
-    justify-content: center;
+    justify-content: center; /* Centraliza os botões do rodapé */
 }
 
+
+/* --- Botão Fixo de Troca de Tema --- */
 .theme-toggle-btn {
     position: fixed;
     top: 20px;
@@ -162,6 +135,7 @@ body {
     z-index: 1000;
 }
 
+/* --- ESTRUTURA DO MODAL --- */
 .modal-overlay {
     position: fixed;
     top: 0;

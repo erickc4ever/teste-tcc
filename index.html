@@ -16,59 +16,35 @@
     <!-- Botão de Troca de Tema -->
     <button id="theme-toggle-btn" class="theme-toggle-btn">🌙</button>
 
-    <!-- =================================================================== -->
-    <!-- NOVA ESTRUTURA: FRUTIGER AERO COM CARD CENTRAL                      -->
-    <!-- =================================================================== -->
-    
-    <!-- Container para a imagem de fundo que terá o efeito de zoom -->
-    <div id="auth-background"></div>
-
-    <!-- Container principal que centraliza o card na tela -->
-    <div id="auth-container">
-        <div class="auth-card">
-            
+    <!-- TELA DE AUTENTICAÇÃO -->
+    <div id="auth-screen" class="screen">
+        <div class="calculator-card">
             <div class="logo-container">
-                <img src="logo.png" alt="Logo da änalitks" class="main-logo">
+                <img src="logo.png" alt="Logo da änalitks" class="logo-img">
             </div>
-
-            <!-- Formulário de Login (visível por padrão) -->
-            <form id="login-form" class="auth-form">
-                <h2>Bem-vindo(a) de volta</h2>
-                <!-- Estrutura de input/label para o efeito de flutuação -->
-                <div class="input-wrapper">
-                    <input type="email" id="login-email" class="input-field" placeholder=" " required>
-                    <label for="login-email">E-mail</label>
-                </div>
-                <div class="input-wrapper">
-                    <input type="password" id="login-password" class="input-field" placeholder=" " required>
-                    <label for="login-password">Senha</label>
-                </div>
+            <div class="card-header">
+                <h1>Bem-vindo(a)</h1>
+                <p>Entre para aceder à sua suíte financeira.</p>
+            </div>
+            <div id="auth-choices" class="auth-choices">
+                <button id="show-signup-btn" class="btn btn-primary">Sou novo aqui</button>
+                <button id="show-login-btn" class="btn btn-secondary">Já tenho cadastro</button>
+            </div>
+            <form id="login-form" class="auth-form hidden">
+                <input type="email" id="login-email" class="input-field" placeholder="Seu e-mail" required>
+                <input type="password" id="login-password" class="input-field" placeholder="Sua senha" required>
                 <button type="submit" class="btn btn-primary">Entrar</button>
+                <p>Não tem uma conta? <a href="#" id="show-signup-link">Registre-se</a></p>
             </form>
-
-            <!-- Formulário de Cadastro (escondido por padrão) -->
             <form id="signup-form" class="auth-form hidden">
-                <h2>Crie a sua conta</h2>
-                 <div class="input-wrapper">
-                    <input type="email" id="signup-email" class="input-field" placeholder=" " required>
-                    <label for="signup-email">Seu melhor e-mail</label>
-                </div>
-                <div class="input-wrapper">
-                    <input type="password" id="signup-password" class="input-field" placeholder=" " required>
-                    <label for="signup-password">Crie uma senha forte</label>
-                </div>
+                <input type="email" id="signup-email" class="input-field" placeholder="Seu melhor e-mail" required>
+                <input type="password" id="signup-password" class="input-field" placeholder="Crie uma senha forte" required>
                 <button type="submit" class="btn btn-primary">Criar conta</button>
+                <p>Já tem uma conta? <a href="#" id="show-login-link">Faça login</a></p>
             </form>
-
-            <!-- Links para alternar entre os formulários -->
-            <div class="switch-form-links">
-                <p id="login-link-p">Não tem uma conta? <a href="#" id="show-signup-link">Registre-se</a></p>
-                <p id="signup-link-p" class="hidden">Já tem uma conta? <a href="#" id="show-login-link">Faça login</a></p>
-            </div>
-
         </div>
     </div>
- 
+
     <!-- TELA DE ESCOLHA DE PERFIL -->
     <div id="welcome-screen" class="screen hidden">
         <div class="calculator-card">
