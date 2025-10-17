@@ -1194,8 +1194,23 @@ if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', 
 if(dashboardButtons.historico) dashboardButtons.historico.addEventListener('click', carregarHistorico);
 
 if(pjDashboardButtons.simples) pjDashboardButtons.simples.addEventListener('click', () => showScreen('simplesNacional'));
+
 if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListener('click', () => showScreen('pjHoraValor'));
-if(pjDashboardButtons.backToWelcome) pjDashboardButtons.backToWelcome.addEventListener('click', () => showScreen('welcome'));
+
+// Listener para o novo botão "Voltar para a Escolha" no painel CLT
+if (dashboardButtons.backToWelcomeClt) {
+    dashboardButtons.backToWelcomeClt.addEventListener('click', () => {
+        showScreen('welcome');
+    });
+}
+
+// Listener para o novo botão "Sobre e Parâmetros" no painel PJ
+if (pjDashboardButtons.showAboutPj) {
+    pjDashboardButtons.showAboutPj.addEventListener('click', () => {
+        modalElements.overlay.classList.remove('hidden');
+    });
+}
+
 
 // --- 8.3: Listeners dos Botões Internos das Ferramentas (Calcular e Voltar) ---
 if(salarioElements.buttons.calcular) salarioElements.buttons.calcular.addEventListener('click', executarCalculoSalario);
