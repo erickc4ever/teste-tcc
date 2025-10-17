@@ -1210,7 +1210,7 @@ if(dashboardButtons.irpf) dashboardButtons.irpf.addEventListener('click', () => 
 if(dashboardButtons.profile) dashboardButtons.profile.addEventListener('click', () => { lastDashboard = 'dashboard'; preencherFormulariosComPerfil(); showScreen('profile'); });
 if(dashboardButtons.historico) dashboardButtons.historico.addEventListener('click', () => { lastDashboard = 'dashboard'; carregarHistorico(); });
 
-// CORREÇÃO: Adicionado um 'setTimeout' para dar ao navegador tempo de renderizar a tela antes de desenhar os gráficos.
+// CORREÇÃO DEFINITIVA: Trocado 'setTimeout' por 'requestAnimationFrame' para sincronizar com o ciclo de renderização do navegador.
 if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', async () => {
     lastDashboard = 'dashboard';
     showScreen('reports');
@@ -1221,12 +1221,15 @@ if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', 
         reportsElements.content.classList.remove('hidden');
         reportsElements.notice.classList.add('hidden');
         
-        // Esta pausa de 50ms é impercetível, mas dá ao navegador tempo para calcular o layout.
-        setTimeout(async () => {
-            await renderSalaryChart();
-            await renderInvestmentChart();
-            renderSummaryCards();
-        }, 50); 
+        // Esta técnica garante que o código só roda depois que o navegador calculou o layout da tela.
+        requestAnimationFrame(() => {
+            // Usamos um segundo requestAnimationFrame para uma garantia extra em alguns navegadores.
+            requestAnimationFrame(async () => {
+                await renderSalaryChart();
+                await renderInvestmentChart();
+                renderSummaryCards();
+            });
+        });
     }
 });
 
@@ -1241,6 +1244,7 @@ if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListen
 if(pjDashboardButtons.backToWelcome) {
     pjDashboardButtons.backToWelcome.addEventListener('click', () => showScreen('welcome'));
 }
+
 
 // --- 8.3: Listeners dos Botões Internos das Ferramentas (Calcular e Voltar) ---
 
