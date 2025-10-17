@@ -52,11 +52,12 @@ body {
 /* --- Estrutura do Logo --- */
 .logo-container {
     text-align: center;
-    margin-bottom: -10px;
+    /* Ajustado para dar mais respiro vertical ao logo */
+    margin-bottom: 0;
 }
 
 .logo-img {
-    max-width: 200px; /* Aumentado de 100px para 200px para maior destaque */
+    max-width: 160px; /* Reduzido de 200px para um tamanho mais equilibrado */
     height: auto;
 }
 
@@ -156,3 +157,4 @@ body {
     align-items: center;
     width: 100%;
 }
+
