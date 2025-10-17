@@ -56,7 +56,7 @@ body {
 }
 
 .logo-img {
-    max-width: 100px;
+    max-width: 200px; /* Aumentado de 100px para 200px para maior destaque */
     height: auto;
 }
 
@@ -156,4 +156,3 @@ body {
     align-items: center;
     width: 100%;
 }
-
