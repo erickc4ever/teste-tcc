@@ -1336,4 +1336,4 @@ if (aposentadoriaElements.buttons.voltar) {
 supabaseClient.auth.onAuthStateChange((_event, session) => { updateUserUI(session ? session.user : null); });
 
 console.log("main.js carregado com sucesso. Aplicação pronta.");
-});back-to-welcome-from-pj
+});

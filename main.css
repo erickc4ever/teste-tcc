@@ -57,6 +57,7 @@ body {
 }
 
 .logo-img {
+    max-width: 160px; /* Reduzido de 200px para um tamanho mais equilibrado */
     height: auto;
 }
 
