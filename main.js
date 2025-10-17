@@ -1218,28 +1218,29 @@ if(pjDashboardButtons.backToWelcome) {
 }
 
 // --- 8.3: Listeners dos Botões Internos das Ferramentas (Calcular e Voltar) ---
-if(salarioElements.buttons.calcular) salarioElements.buttons.calcular.addEventListener('click', executarCalculoSalario);
-if(salarioElements.buttons.voltar) salarioElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-if(investimentosElements.buttons.calcular) investimentosElements.buttons.calcular.addEventListener('click', executarSimulacaoInvestimentos);
-if(investimentosElements.buttons.voltar) investimentosElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-if(feriasElements.buttons.calcular) feriasElements.buttons.calcular.addEventListener('click', executarCalculoFerias);
-if(feriasElements.buttons.voltar) feriasElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-if(decimoTerceiroElements.buttons.calcular) decimoTerceiroElements.buttons.calcular.addEventListener('click', executarCalculoDecimoTerceiro);
-if(decimoTerceiroElements.buttons.voltar) decimoTerceiroElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-if(horaValorElements.buttons.calcular) horaValorElements.buttons.calcular.addEventListener('click', executarCalculoHoraValor);
-if(horaValorElements.buttons.voltar) horaValorElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-if(irpfElements.buttons.calcular) irpfElements.buttons.calcular.addEventListener('click', executarCalculoIrpf);
-if(irpfElements.buttons.voltar) irpfElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-if(profileElements.buttons.salvar) profileElements.buttons.salvar.addEventListener('click', handleSaveProfile);
-if(profileElements.buttons.voltar) profileElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-if(reportsElements.backButton) reportsElements.backButton.addEventListener('click', () => showScreen('dashboard'));
-if(historicoElements.voltar) historicoElements.voltar.addEventListener('click', () => showScreen('dashboard'));
 
-// CORREÇÃO: Botões de voltar das ferramentas PJ agora levam para o painel PJ.
+// CORREÇÃO GERAL: Todos os botões "Voltar" agora usam a variável `lastDashboard`
+// para garantir que o utilizador retorne sempre ao painel correto (CLT ou PJ).
+if(salarioElements.buttons.calcular) salarioElements.buttons.calcular.addEventListener('click', executarCalculoSalario);
+if(salarioElements.buttons.voltar) salarioElements.buttons.voltar.addEventListener('click', () => showScreen(lastDashboard));
+if(investimentosElements.buttons.calcular) investimentosElements.buttons.calcular.addEventListener('click', executarSimulacaoInvestimentos);
+if(investimentosElements.buttons.voltar) investimentosElements.buttons.voltar.addEventListener('click', () => showScreen(lastDashboard));
+if(feriasElements.buttons.calcular) feriasElements.buttons.calcular.addEventListener('click', executarCalculoFerias);
+if(feriasElements.buttons.voltar) feriasElements.buttons.voltar.addEventListener('click', () => showScreen(lastDashboard));
+if(decimoTerceiroElements.buttons.calcular) decimoTerceiroElements.buttons.calcular.addEventListener('click', executarCalculoDecimoTerceiro);
+if(decimoTerceiroElements.buttons.voltar) decimoTerceiroElements.buttons.voltar.addEventListener('click', () => showScreen(lastDashboard));
+if(horaValorElements.buttons.calcular) horaValorElements.buttons.calcular.addEventListener('click', executarCalculoHoraValor);
+if(horaValorElements.buttons.voltar) horaValorElements.buttons.voltar.addEventListener('click', () => showScreen(lastDashboard));
+if(irpfElements.buttons.calcular) irpfElements.buttons.calcular.addEventListener('click', executarCalculoIrpf);
+if(irpfElements.buttons.voltar) irpfElements.buttons.voltar.addEventListener('click', () => showScreen(lastDashboard));
+if(profileElements.buttons.salvar) profileElements.buttons.salvar.addEventListener('click', handleSaveProfile);
+if(profileElements.buttons.voltar) profileElements.buttons.voltar.addEventListener('click', () => showScreen(lastDashboard));
+if(reportsElements.backButton) reportsElements.backButton.addEventListener('click', () => showScreen(lastDashboard));
+if(historicoElements.voltar) historicoElements.voltar.addEventListener('click', () => showScreen(lastDashboard));
 if(simplesNacionalElements.buttons.calcular) simplesNacionalElements.buttons.calcular.addEventListener('click', executarCalculoSimplesNacional);
-if(simplesNacionalElements.buttons.voltar) simplesNacionalElements.buttons.voltar.addEventListener('click', () => showScreen('pjDashboard'));
+if(simplesNacionalElements.buttons.voltar) simplesNacionalElements.buttons.voltar.addEventListener('click', () => showScreen(lastDashboard));
 if(pjHoraValorElements.buttons.calcular) pjHoraValorElements.buttons.calcular.addEventListener('click', executarCalculoPjHoraValor);
-if(pjHoraValorElements.buttons.voltar) pjHoraValorElements.buttons.voltar.addEventListener('click', () => showScreen('pjDashboard'));
+if(pjHoraValorElements.buttons.voltar) pjHoraValorElements.buttons.voltar.addEventListener('click', () => showScreen(lastDashboard));
 
 
 // --- 8.4: Listeners dos Botões "Salvar" ---
