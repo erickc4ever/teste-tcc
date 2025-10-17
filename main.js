@@ -1200,7 +1200,6 @@ let lastDashboard = 'dashboard';
 
 
 // --- 8.2: Listeners dos Botões das Dashboards (CLT e PJ) ---
-
 // --- PAINEL CLT ---
 if(dashboardButtons.salario) dashboardButtons.salario.addEventListener('click', () => { lastDashboard = 'dashboard'; preencherFormulariosComPerfil(); showScreen('salario'); });
 if(dashboardButtons.investimentos) dashboardButtons.investimentos.addEventListener('click', () => { lastDashboard = 'dashboard'; showScreen('investimentos'); });
@@ -1211,6 +1210,7 @@ if(dashboardButtons.irpf) dashboardButtons.irpf.addEventListener('click', () => 
 if(dashboardButtons.profile) dashboardButtons.profile.addEventListener('click', () => { lastDashboard = 'dashboard'; preencherFormulariosComPerfil(); showScreen('profile'); });
 if(dashboardButtons.historico) dashboardButtons.historico.addEventListener('click', () => { lastDashboard = 'dashboard'; carregarHistorico(); });
 
+// CORREÇÃO: Adicionado um 'setTimeout' para dar ao navegador tempo de renderizar a tela antes de desenhar os gráficos.
 if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', async () => {
     lastDashboard = 'dashboard';
     showScreen('reports');
@@ -1220,9 +1220,13 @@ if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', 
     } else {
         reportsElements.content.classList.remove('hidden');
         reportsElements.notice.classList.add('hidden');
-        await renderSalaryChart();
-        await renderInvestmentChart();
-        renderSummaryCards();
+        
+        // Esta pausa de 50ms é impercetível, mas dá ao navegador tempo para calcular o layout.
+        setTimeout(async () => {
+            await renderSalaryChart();
+            await renderInvestmentChart();
+            renderSummaryCards();
+        }, 50); 
     }
 });
 
