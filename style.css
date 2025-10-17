@@ -102,13 +102,6 @@
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out, outline 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-/* Efeito de "levantar" para botões ao passar o mouse, dando feedback interativo. */
-.btn:hover {
-    transform: translateY(-2px);
-    /* CORREÇÃO: Removido o brilho (glow) que aparecia ao redor do botão. */
-    box-shadow: var(--sombra-botao-hover);
-}
-
 /* Efeito de foco para campos de input.
    Quando o usuário clica em um campo, ele ganhava um brilho sutil. */
 .input-field:focus {
@@ -181,16 +174,49 @@ label {
     text-align: right; /* Alinha a label à direita, perto do input */
 }
 .input-field { width: 100%; padding: 12px; border: 1px solid var(--cor-borda); border-radius: 0; /* Design quadrado */ font-size: 16px; background-color: var(--cor-fundo); color: var(--cor-texto-primario); transition: border-color 0.2s ease, box-shadow 0.2s ease; box-sizing: border-box; }
-.input-field:focus { outline: none; border-color: var(--cor-primaria); /* CORREÇÃO: Removido o brilho (box-shadow) azul. */ box-shadow: none; }
+.input-field:focus { outline: none; border-color: var(--cor-primaria); box-shadow: none; }
 
-/* --- Estilo dos Botões com Animações --- */
-.btn { width: 100%; padding: 12px; border-radius: 0; /* Design quadrado */ border: none; font-size: 16px; font-weight: 700; cursor: pointer; box-sizing: border-box; transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease; box-shadow: var(--sombra-botao); text-transform: uppercase; letter-spacing: 1px; }
-.btn-primary { background-color: var(--cor-primaria); color: var(--cor-texto-botao-primario); /* CORREÇÃO APLICADA AQUI */ }
-.btn:hover { transform: translateY(-3px); }
-.btn-primary:hover { background-color: var(--cor-primaria-hover); }
-.btn:active { transform: translateY(1px) scale(0.99); box-shadow: none; }
-.btn-secondary { background-color: var(--cor-fundo); color: var(--cor-primaria); border: 1px solid var(--cor-borda); }
-.btn-secondary:hover { background-color: var(--cor-primaria); border-color: var(--cor-primaria); color: var(--cor-texto-botao-primario); /* CORREÇÃO APLICADA AQUI */ }
+/* --- Estilo dos Botões com Animações (UNIFICADO) --- */
+.btn { 
+    width: 100%; 
+    padding: 12px; 
+    border-radius: 0; /* Design quadrado */ 
+    border: none; 
+    font-size: 16px; 
+    font-weight: 700; 
+    cursor: pointer; 
+    box-sizing: border-box; 
+    transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease; 
+    box-shadow: var(--sombra-botao); 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+}
+.btn-primary { 
+    background-color: var(--cor-primaria); 
+    color: var(--cor-texto-botao-primario); 
+}
+.btn:hover { 
+    transform: translateY(-3px);
+    /* CORREÇÃO: A sombra agora não muda no hover, removendo qualquer efeito de 'glow'. */
+    box-shadow: var(--sombra-botao);
+}
+.btn-primary:hover { 
+    background-color: var(--cor-primaria-hover); 
+}
+.btn:active { 
+    transform: translateY(1px) scale(0.99); 
+    box-shadow: none; 
+}
+.btn-secondary { 
+    background-color: var(--cor-fundo); 
+    color: var(--cor-primaria); 
+    border: 1px solid var(--cor-borda); 
+}
+.btn-secondary:hover { 
+    background-color: var(--cor-primaria); 
+    border-color: var(--cor-primaria); 
+    color: var(--cor-texto-botao-primario); 
+}
 
 /* --- ESTILOS PARA OS CARTÕES INTERATIVOS (FLIP CARDS) --- */
 .card-container {
@@ -273,12 +299,11 @@ hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
 .modal-overlay ul { list-style: none; padding: 0; margin-top: 0.5rem; }
 .modal-overlay li { margin-bottom: 0.5rem; }
 
-/* --- ESTILOS DA TELA DE RELATÓRIOS --- */
-/* CORREÇÃO: Trocado de 'grid' para 'flex' para um layout mais estável, que resolve o problema de renderização do gráfico. */
+/* --- ESTILOS DA TELA DE RELATÓRIOS (VERSÃO FINAL) --- */
 
 .reports-grid { 
     display: flex; 
-    flex-wrap: wrap; /* Permite que os gráficos quebrem para a linha de baixo em telas menores */
+    flex-wrap: wrap;
     gap: 24px; 
     width: 100%; 
 }
@@ -286,27 +311,24 @@ hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
 .chart-container { 
     background-color: var(--cor-card); 
     padding: 24px; 
-    border-radius: 0; /* Design quadrado */ 
+    border-radius: 0;
     box-shadow: var(--sombra-card); 
     border: 1px solid var(--cor-borda); 
     position: relative; 
-    height: 350px; /* Altura ajustada */
-    
-    /* CORREÇÃO: Define a base flexível para que cada gráfico ocupe o espaço necessário, mas cresça para preencher a linha. */
-    flex: 1 1 400px; /* Cresce, encolhe e tem uma base de 400px (ajuste conforme necessário) */
-    min-width: 0; /* Mantém a correção anterior para garantir que o flexbox se comporte bem. */
+    height: 400px;
+    flex: 1 1 400px;
+    min-width: 0;
 }
 
-/* CORREÇÃO DOS GRÁFICOS */
-.chart-container canvas {
-    max-width: 100%;
-    max-height: 100%;
+/* CORREÇÃO DE ESPECIFICIDADE: Usando o ID dos elementos canvas para
+   garantir que esta regra seja mais forte que qualquer outra regra genérica. */
+#salary-chart, #investment-chart {
+    max-width: 100% !important;
+    max-height: 100% !important;
 }
-
-
 
 .summary-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
-.summary-card { background-color: var(--cor-card); padding: 24px; border-radius: 0; /* Design quadrado */ box-shadow: var(--sombra-card); border: 1px solid var(--cor-borda); text-align: center; }
+.summary-card { background-color: var(--cor-card); padding: 24px; border-radius: 0; box-shadow: var(--sombra-card); border: 1px solid var(--cor-borda); text-align: center; }
 .summary-card p { font-size: 28px; color: var(--cor-texto-primario); margin: 0; }
 
 @media (max-width: 768px) {
