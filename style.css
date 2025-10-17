@@ -404,4 +404,8 @@ dashboard-footer .btn {
 }
 
 /* AJUSTE MINIMALISTA: Cores de barras removidas, pois não serão mais usadas */
-
+/* --- TESTE DE DEBUG PARA GRÁFICOS --- */
+/* Força a desativação de qualquer transição no card da tela de relatórios */
+#reports-screen .calculator-card {
+    transition: none !important;
+}
