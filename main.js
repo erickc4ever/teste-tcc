@@ -1169,24 +1169,30 @@ if(welcomeScreenElements.buttons.clt) welcomeScreenElements.buttons.clt.addEvent
     showScreen('dashboard'); 
 });
 if(welcomeScreenElements.buttons.pj) welcomeScreenElements.buttons.pj.addEventListener('click', () => showScreen('pjDashboard'));
+// ==================================================================================
+// SEÇÕES DE LISTENERS CORRIGIDAS E REORGANIZADAS (8.2 a 8.6)
+// ==================================================================================
+
+// ADICIONADO: Variável para lembrar qual foi o último painel visitado.
+// Isso corrige o bug do botão "Voltar" na tela de aposentadoria.
+let lastDashboard = 'dashboard';
+
 
 // --- 8.2: Listeners dos Botões das Dashboards (CLT e PJ) ---
 
 // --- PAINEL CLT ---
-if(dashboardButtons.salario) dashboardButtons.salario.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('salario'); });
-if(dashboardButtons.investimentos) dashboardButtons.investimentos.addEventListener('click', () => showScreen('investimentos'));
-if(dashboardButtons.ferias) dashboardButtons.ferias.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('ferias'); });
-if(dashboardButtons.decimoTerceiro) dashboardButtons.decimoTerceiro.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('decimoTerceiro'); });
-if(dashboardButtons.horaValor) dashboardButtons.horaValor.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('horaValor'); });
-if(dashboardButtons.irpf) dashboardButtons.irpf.addEventListener('click', () => showScreen('irpf'));
-if(dashboardButtons.profile) dashboardButtons.profile.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('profile'); });
+if(dashboardButtons.salario) dashboardButtons.salario.addEventListener('click', () => { lastDashboard = 'dashboard'; preencherFormulariosComPerfil(); showScreen('salario'); });
+if(dashboardButtons.investimentos) dashboardButtons.investimentos.addEventListener('click', () => { lastDashboard = 'dashboard'; showScreen('investimentos'); });
+if(dashboardButtons.ferias) dashboardButtons.ferias.addEventListener('click', () => { lastDashboard = 'dashboard'; preencherFormulariosComPerfil(); showScreen('ferias'); });
+if(dashboardButtons.decimoTerceiro) dashboardButtons.decimoTerceiro.addEventListener('click', () => { lastDashboard = 'dashboard'; preencherFormulariosComPerfil(); showScreen('decimoTerceiro'); });
+if(dashboardButtons.horaValor) dashboardButtons.horaValor.addEventListener('click', () => { lastDashboard = 'dashboard'; preencherFormulariosComPerfil(); showScreen('horaValor'); });
+if(dashboardButtons.irpf) dashboardButtons.irpf.addEventListener('click', () => { lastDashboard = 'dashboard'; showScreen('irpf'); });
+if(dashboardButtons.profile) dashboardButtons.profile.addEventListener('click', () => { lastDashboard = 'dashboard'; preencherFormulariosComPerfil(); showScreen('profile'); });
+if(dashboardButtons.historico) dashboardButtons.historico.addEventListener('click', () => { lastDashboard = 'dashboard'; carregarHistorico(); });
 
-// CORREÇÃO: A ordem das ações foi invertida para resolver o problema dos gráficos.
 if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', async () => {
-    // 1. PRIMEIRO, mostra a tela de relatórios.
+    lastDashboard = 'dashboard';
     showScreen('reports');
-
-    // 2. DEPOIS, desenha os gráficos dentro da tela já visível.
     if (!userProfile) {
         reportsElements.content.classList.add('hidden');
         reportsElements.notice.classList.remove('hidden');
@@ -1199,54 +1205,17 @@ if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', 
     }
 });
 
-if(dashboardButtons.historico) dashboardButtons.historico.addEventListener('click', carregarHistorico);
-
-// Listener para o botão "Voltar para a Escolha" no painel CLT
 if (dashboardButtons.backToWelcomeClt) {
-    dashboardButtons.backToWelcomeClt.addEventListener('click', () => {
-        showScreen('welcome');
-    });
+    dashboardButtons.backToWelcomeClt.addEventListener('click', () => showScreen('welcome'));
 }
-
 
 // --- PAINEL PJ ---
-if(pjDashboardButtons.simples) pjDashboardButtons.simples.addEventListener('click', () => showScreen('simplesNacional'));
-if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListener('click', () => showScreen('pjHoraValor'));
+if(pjDashboardButtons.simples) pjDashboardButtons.simples.addEventListener('click', () => { lastDashboard = 'pjDashboard'; showScreen('simplesNacional'); });
+if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListener('click', () => { lastDashboard = 'pjDashboard'; showScreen('pjHoraValor'); });
 
-// CORREÇÃO: Listener para o botão "Voltar para a Escolha" do painel PJ que estava em falta.
 if(pjDashboardButtons.backToWelcome) {
-    pjDashboardButtons.backToWelcome.addEventListener('click', () => {
-        showScreen('welcome');
-    });
+    pjDashboardButtons.backToWelcome.addEventListener('click', () => showScreen('welcome'));
 }
-
-// CORREÇÃO: Listener para o botão "Sobre e Parâmetros" no painel PJ.
-if (pjDashboardButtons.showAboutPj) {
-    pjDashboardButtons.showAboutPj.addEventListener('click', () => {
-        modalElements.overlay.classList.remove('hidden');
-    });
-}
-
-
-
-// --- PAINEL PJ ---
-if(pjDashboardButtons.simples) pjDashboardButtons.simples.addEventListener('click', () => showScreen('simplesNacional'));
-if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListener('click', () => showScreen('pjHoraValor'));
-
-// CORREÇÃO: Listener para o botão "Voltar para a Escolha" do painel PJ que estava em falta.
-if(pjDashboardButtons.backToWelcome) {
-    pjDashboardButtons.backToWelcome.addEventListener('click', () => {
-        showScreen('welcome');
-    });
-}
-
-// CORREÇÃO: Listener para o botão "Sobre e Parâmetros" no painel PJ.
-if (pjDashboardButtons.showAboutPj) {
-    pjDashboardButtons.showAboutPj.addEventListener('click', () => {
-        modalElements.overlay.classList.remove('hidden');
-    });
-}
-
 
 // --- 8.3: Listeners dos Botões Internos das Ferramentas (Calcular e Voltar) ---
 if(salarioElements.buttons.calcular) salarioElements.buttons.calcular.addEventListener('click', executarCalculoSalario);
@@ -1255,82 +1224,107 @@ if(investimentosElements.buttons.calcular) investimentosElements.buttons.calcula
 if(investimentosElements.buttons.voltar) investimentosElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
 if(feriasElements.buttons.calcular) feriasElements.buttons.calcular.addEventListener('click', executarCalculoFerias);
 if(feriasElements.buttons.voltar) feriasElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-// CORREÇÃO: Nome da função corrigido para 'executarCalculoDecimoTerceiro'.
 if(decimoTerceiroElements.buttons.calcular) decimoTerceiroElements.buttons.calcular.addEventListener('click', executarCalculoDecimoTerceiro);
 if(decimoTerceiroElements.buttons.voltar) decimoTerceiroElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
 if(horaValorElements.buttons.calcular) horaValorElements.buttons.calcular.addEventListener('click', executarCalculoHoraValor);
 if(horaValorElements.buttons.voltar) horaValorElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
-// CORREÇÃO: Nome da função corrigido para 'executarCalculoIrpf'.
 if(irpfElements.buttons.calcular) irpfElements.buttons.calcular.addEventListener('click', executarCalculoIrpf);
 if(irpfElements.buttons.voltar) irpfElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
 if(profileElements.buttons.salvar) profileElements.buttons.salvar.addEventListener('click', handleSaveProfile);
 if(profileElements.buttons.voltar) profileElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
 if(reportsElements.backButton) reportsElements.backButton.addEventListener('click', () => showScreen('dashboard'));
+if(historicoElements.voltar) historicoElements.voltar.addEventListener('click', () => showScreen('dashboard'));
+
+// CORREÇÃO: Botões de voltar das ferramentas PJ agora levam para o painel PJ.
 if(simplesNacionalElements.buttons.calcular) simplesNacionalElements.buttons.calcular.addEventListener('click', executarCalculoSimplesNacional);
 if(simplesNacionalElements.buttons.voltar) simplesNacionalElements.buttons.voltar.addEventListener('click', () => showScreen('pjDashboard'));
 if(pjHoraValorElements.buttons.calcular) pjHoraValorElements.buttons.calcular.addEventListener('click', executarCalculoPjHoraValor);
 if(pjHoraValorElements.buttons.voltar) pjHoraValorElements.buttons.voltar.addEventListener('click', () => showScreen('pjDashboard'));
-if(historicoElements.voltar) historicoElements.voltar.addEventListener('click', () => showScreen('dashboard'));
+
 
 // --- 8.4: Listeners dos Botões "Salvar" ---
-if(horaValorElements.buttons.salvar) horaValorElements.buttons.salvar.addEventListener('click', handleSalvarHoraValor);
 if(salarioElements.buttons.salvar) salarioElements.buttons.salvar.addEventListener('click', handleSalvarSalario);
 if(investimentosElements.buttons.salvar) investimentosElements.buttons.salvar.addEventListener('click', handleSalvarInvestimentos);
+if(horaValorElements.buttons.salvar) horaValorElements.buttons.salvar.addEventListener('click', handleSalvarHoraValor);
 if(feriasElements.buttons.salvar) feriasElements.buttons.salvar.addEventListener('click', handleSalvarFerias);
 if(decimoTerceiroElements.buttons.salvar) decimoTerceiroElements.buttons.salvar.addEventListener('click', handleSalvarDecimoTerceiro);
 if(irpfElements.buttons.salvar) irpfElements.buttons.salvar.addEventListener('click', handleSalvarIRPF);
-    
-// --- 8.5: Listeners do Modal "Sobre e Parâmetros" ---
-if(dashboardButtons.showAbout) {
+
+// --- 8.5: Lógica e Listeners do Modal "Sobre e Parâmetros" ---
+
+// ADICIONADO: Função reutilizável para abrir o modal e configurar seus listeners.
+function openAboutModal() {
     const tabSobreBtn = document.getElementById('tab-sobre-btn');
     const tabParametrosBtn = document.getElementById('tab-parametros-btn');
     const tabSobreContent = document.getElementById('tab-sobre-content');
     const tabParametrosContent = document.getElementById('tab-parametros-content');
 
-    dashboardButtons.showAbout.addEventListener('click', () => {
-        tabSobreContent.classList.remove('hidden');
-        tabParametrosContent.classList.add('hidden');
-        tabSobreBtn.classList.add('active');
-        tabParametrosBtn.classList.remove('active');
-        modalElements.overlay.classList.remove('hidden');
-    });
+    // Reseta para a aba "Sobre" por padrão
+    tabSobreContent.classList.remove('hidden');
+    tabParametrosContent.classList.add('hidden');
+    tabSobreBtn.classList.add('active');
+    tabParametrosBtn.classList.remove('active');
+    
+    // Mostra o modal
+    modalElements.overlay.classList.remove('hidden');
 
-    if(modalElements.closeBtn) modalElements.closeBtn.addEventListener('click', () => { modalElements.overlay.classList.add('hidden'); });
-    if(modalElements.overlay) modalElements.overlay.addEventListener('click', (event) => { if (event.target === modalElements.overlay) { modalElements.overlay.classList.add('hidden'); } });
-
-    if(tabSobreBtn) tabSobreBtn.addEventListener('click', () => {
-        tabSobreContent.classList.remove('hidden');
-        tabParametrosContent.classList.add('hidden');
-        tabSobreBtn.classList.add('active');
-        tabParametrosBtn.classList.remove('active');
-    });
-
-    if(tabParametrosBtn) tabParametrosBtn.addEventListener('click', () => {
-        tabSobreContent.classList.add('hidden');
-        tabParametrosContent.classList.remove('hidden');
-        tabSobreBtn.classList.remove('active');
-        tabParametrosBtn.classList.add('active');
-    });
+    // Listeners internos do modal (só precisam ser configurados uma vez)
+    if(modalElements.closeBtn && !modalElements.closeBtn.listenerAdded) {
+        modalElements.closeBtn.addEventListener('click', () => modalElements.overlay.classList.add('hidden'));
+        modalElements.closeBtn.listenerAdded = true;
+    }
+    if(modalElements.overlay && !modalElements.overlay.listenerAdded) {
+        modalElements.overlay.addEventListener('click', (event) => { if (event.target === modalElements.overlay) { modalElements.overlay.classList.add('hidden'); } });
+        modalElements.overlay.listenerAdded = true;
+    }
+    if(tabSobreBtn && !tabSobreBtn.listenerAdded) {
+        tabSobreBtn.addEventListener('click', () => {
+            tabSobreContent.classList.remove('hidden');
+            tabParametrosContent.classList.add('hidden');
+            tabSobreBtn.classList.add('active');
+            tabParametrosBtn.classList.remove('active');
+        });
+        tabSobreBtn.listenerAdded = true;
+    }
+    if(tabParametrosBtn && !tabParametrosBtn.listenerAdded) {
+        tabParametrosBtn.addEventListener('click', () => {
+            tabSobreContent.classList.add('hidden');
+            tabParametrosContent.classList.remove('hidden');
+            tabSobreBtn.classList.remove('active');
+            tabParametrosBtn.classList.add('active');
+        });
+        tabParametrosBtn.listenerAdded = true;
+    }
 }
 
-// --- 8.6: Listeners da Ferramenta de Independência Financeira ---
+// Conecta a função aos botões "Sobre" de AMBOS os painéis.
+if(dashboardButtons.showAbout) dashboardButtons.showAbout.addEventListener('click', openAboutModal);
+if(pjDashboardButtons.showAboutPj) pjDashboardButtons.showAboutPj.addEventListener('click', openAboutModal);
+
+
+// --- 8.6: Listeners da Ferramenta de Aposentadoria ---
 const gotoAposentadoriaBtn = document.getElementById('goto-aposentadoria-btn');
 const gotoAposentadoriaBtnPj = document.getElementById('goto-aposentadoria-btn-pj');
 
 if (gotoAposentadoriaBtn) {
-    gotoAposentadoriaBtn.addEventListener('click', () => showScreen('aposentadoria'));
+    gotoAposentadoriaBtn.addEventListener('click', () => {
+        lastDashboard = 'dashboard'; // Lembra que viemos do painel CLT
+        showScreen('aposentadoria');
+    });
 }
 if (gotoAposentadoriaBtnPj) {
-    gotoAposentadoriaBtnPj.addEventListener('click', () => showScreen('aposentadoria'));
+    gotoAposentadoriaBtnPj.addEventListener('click', () => {
+        lastDashboard = 'pjDashboard'; // Lembra que viemos do painel PJ
+        showScreen('aposentadoria');
+    });
 }
 if (aposentadoriaElements.buttons.calcular) {
     aposentadoriaElements.buttons.calcular.addEventListener('click', executarCalculoAposentadoria);
 }
-// CORREÇÃO: Adicionado o listener para o botão "Voltar" da tela de aposentadoria.
+// CORREÇÃO: Botão "Voltar" agora usa a variável `lastDashboard` para voltar à tela correta.
 if (aposentadoriaElements.buttons.voltar) {
-    aposentadoriaElements.buttons.voltar.addEventListener('click', () => showScreen('dashboard'));
+    aposentadoriaElements.buttons.voltar.addEventListener('click', () => showScreen(lastDashboard));
 }
-
 
 // ==================================================================================
 // PARTE 9: INICIALIZAÇÃO FINAL
