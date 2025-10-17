@@ -272,16 +272,27 @@ hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
 .brasao { font-style: italic; text-align: center; color: var(--cor-texto-secundario); margin-bottom: 1.5rem; padding: 0.5rem; background-color: var(--cor-fundo); border-radius: 0; } /* Design quadrado */
 .modal-overlay ul { list-style: none; padding: 0; margin-top: 0.5rem; }
 .modal-overlay li { margin-bottom: 0.5rem; }
-
 /* --- ESTILOS DA TELA DE RELATÓRIOS --- */
 .reports-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; }
-.chart-container { background-color: var(--cor-card); padding: 24px; border-radius: 0; /* Design quadrado */ box-shadow: var(--sombra-card); border: 1px solid var(--cor-borda); position: relative; height: 350px; /* Altura ajustada */ }
+.chart-container { 
+    background-color: var(--cor-card); 
+    padding: 24px; 
+    border-radius: 0; /* Design quadrado */ 
+    box-shadow: var(--sombra-card); 
+    border: 1px solid var(--cor-borda); 
+    position: relative; 
+    height: 350px; /* Altura ajustada */ 
+    
+    /* CORREÇÃO: Adicionado para resolver o problema de renderização do gráfico dentro da grelha */
+    min-width: 0;
+}
 
 /* CORREÇÃO DOS GRÁFICOS */
 .chart-container canvas {
     max-width: 100%;
     max-height: 100%;
 }
+
 
 .summary-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
 .summary-card { background-color: var(--cor-card); padding: 24px; border-radius: 0; /* Design quadrado */ box-shadow: var(--sombra-card); border: 1px solid var(--cor-borda); text-align: center; }
