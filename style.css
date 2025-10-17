@@ -105,17 +105,17 @@
 /* Efeito de "levantar" para botões ao passar o mouse, dando feedback interativo. */
 .btn:hover {
     transform: translateY(-2px);
-    /* AJUSTE MINIMALISTA: Efeito de brilho removido e substituído por uma borda/sombra mais subtil */
-    box-shadow: var(--sombra-botao-hover), 0 0 0 1px rgba(var(--cor-primaria-rgb), 0.3);
+    /* CORREÇÃO: Removido o brilho (glow) que aparecia ao redor do botão. */
+    box-shadow: var(--sombra-botao-hover);
 }
 
 /* Efeito de foco para campos de input.
-   Quando o usuário clica em um campo, ele ganha um brilho sutil. */
+   Quando o usuário clica em um campo, ele ganhava um brilho sutil. */
 .input-field:focus {
     border-color: var(--cor-primaria);
-    /* O 'outline' com a variável RGB cria um brilho suave na cor do tema */
-    outline: 3px solid rgba(var(--cor-primaria-rgb), 0.2);
-    outline-offset: 2px;
+    /* CORREÇÃO: Removido o brilho (outline) para um visual mais limpo. */
+    outline: none;
+    outline-offset: 0;
 }
 
 /* Classe que você pode adicionar via JavaScript ao seu elemento de resultado
@@ -181,7 +181,7 @@ label {
     text-align: right; /* Alinha a label à direita, perto do input */
 }
 .input-field { width: 100%; padding: 12px; border: 1px solid var(--cor-borda); border-radius: 0; /* Design quadrado */ font-size: 16px; background-color: var(--cor-fundo); color: var(--cor-texto-primario); transition: border-color 0.2s ease, box-shadow 0.2s ease; box-sizing: border-box; }
-.input-field:focus { outline: none; border-color: var(--cor-primaria); box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.15); }
+.input-field:focus { outline: none; border-color: var(--cor-primaria); /* CORREÇÃO: Removido o brilho (box-shadow) azul. */ box-shadow: none; }
 
 /* --- Estilo dos Botões com Animações --- */
 .btn { width: 100%; padding: 12px; border-radius: 0; /* Design quadrado */ border: none; font-size: 16px; font-weight: 700; cursor: pointer; box-sizing: border-box; transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease; box-shadow: var(--sombra-botao); text-transform: uppercase; letter-spacing: 1px; }
@@ -409,3 +409,4 @@ dashboard-footer .btn {
 #reports-screen .calculator-card {
     transition: none !important;
 }
+
