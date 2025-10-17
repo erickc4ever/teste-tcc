@@ -284,8 +284,6 @@ function calcularTempoParaMeta({ patrimonioAtual, aporteMensal, taxaJurosAnual, 
 
     return { anos, meses: mesesRestantes };
 }
-
-
 // As funções de renderização de gráficos e cartões permanecem as mesmas
 async function renderSalaryChart() {
     if (salaryChartInstance) { salaryChartInstance.destroy(); }
@@ -330,7 +328,36 @@ async function renderInvestmentChart() {
     canvas.style.display = 'block';
     const labels = data.map(item => `Salvo em ${new Date(item.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })} (${item.periodo_anos_informado} anos)`);
     const chartData = data.map(item => item.valor_final_calculado);
-    investmentChartInstance = new Chart(canvas.getContext('2d'), { type: 'bar', data: { labels: labels, datasets: [{ label: 'Valor Final Projetado', data: chartData, backgroundColor: '#8B5CF6' }] }, options: { responsive: true, maintainAspectRatio: false } });
+    investmentChartInstance = new Chart(canvas.getContext('2d'), { 
+        type: 'bar', 
+        data: { 
+            labels: labels, 
+            datasets: [{ 
+                label: 'Valor Final Projetado', 
+                data: chartData, 
+                backgroundColor: '#8B5CF6' 
+            }] 
+        }, 
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false,
+            // --- CORREÇÃO ADICIONADA AQUI ---
+            // Esta nova seção "scales" ajusta os eixos do gráfico.
+            scales: {
+                // A configuração a seguir aplica-se ao eixo X (horizontal).
+                x: {
+                    // "ticks" refere-se às etiquetas de texto (os seus labels).
+                    ticks: {
+                        // Permite que as etiquetas girem para caber no espaço.
+                        maxRotation: 90,
+                        minRotation: 45,
+                        // Adiciona um pouco de preenchimento para não ficarem coladas na borda.
+                        padding: 10, 
+                    }
+                }
+            }
+        } 
+    });
 }
 
 function renderSummaryCards() {

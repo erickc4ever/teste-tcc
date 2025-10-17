@@ -31,9 +31,8 @@
     --sombra-card: 0 2px 8px rgba(0, 0, 0, 0.07);
     --sombra-botao: 0 1px 3px rgba(0, 0, 0, 0.1);
     
-    /* Cores-tema mantidas, mas podem ser ajustadas se necessário */
-    --cor-clt: #6D28D9;
-    --cor-pj: #f56c0a;
+    /* AJUSTE MINIMALISTA: Cores de tema removidas e substituídas por um cinza neutro */
+    --cor-tema-neutro: #5a5a5f;
 
     /* --- NOVAS VARIÁVEIS PARA ANIMAÇÕES --- */
     --sombra-botao-hover: 0 4px 8px rgba(0,0,0,0.15);
@@ -56,9 +55,8 @@
     --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.2);
     --sombra-botao: 0 2px 4px rgba(0, 0, 0, 0.3);
 
-    /* Cores-tema com mais brilho para contrastar no escuro */
-    --cor-clt: #8B5CF6;
-    --cor-pj: #ff7b29;
+    /* AJUSTE MINIMALISTA: Cores de tema removidas e substituídas por um cinza neutro claro */
+    --cor-tema-neutro: #9e9ea3;
 
     /* --- NOVAS VARIÁVEIS PARA ANIMAÇÕES (TEMA ESCURO) --- */
     --sombra-botao-hover: 0 4px 10px rgba(0,0,0,0.3);
@@ -107,8 +105,8 @@
 /* Efeito de "levantar" para botões ao passar o mouse, dando feedback interativo. */
 .btn:hover {
     transform: translateY(-2px);
-    /* EFEITO SUTIL: Substituído o brilho por uma sombra de borda mais profissional */
-    box-shadow: var(--sombra-botao-hover), 0 0 0 1px rgba(var(--cor-primaria-rgb), 0.5);
+    /* AJUSTE MINIMALISTA: Efeito de brilho removido e substituído por uma borda/sombra mais subtil */
+    box-shadow: var(--sombra-botao-hover), 0 0 0 1px rgba(var(--cor-primaria-rgb), 0.3);
 }
 
 /* Efeito de foco para campos de input.
@@ -236,27 +234,24 @@ label {
     gap: 15px;
 }
 
-/* Cor-tema para os cartões CLT (Roxo) */
-.card-clt {
+/* AJUSTE MINIMALISTA: Removido roxo e laranja, usando o cinza neutro */
+.card-clt, .card-pj {
     background-color: var(--cor-card);
-    border-left: 4px solid var(--cor-clt);
+    border-left: 4px solid var(--cor-tema-neutro);
 }
-.card-clt h3 { color: var(--cor-texto-primario); }
-.card-clt p { color: var(--cor-texto-secundario); font-family: 'Inter', sans-serif; } /* Manter explicação mais legível */
-.card-clt .btn-primary { background-color: var(--cor-clt); color: #fff; /* Mantém o texto branco pois o fundo é sempre roxo */}
-[data-theme='dark'] .card-clt .btn-primary:hover { background-color: #A78BFA; }
-[data-theme='light'] .card-clt .btn-primary:hover { background-color: #5B21B6; }
+.card-clt h3, .card-pj h3 { color: var(--cor-texto-primario); }
+.card-clt p, .card-pj p { color: var(--cor-texto-secundario); font-family: 'Inter', sans-serif; }
+.card-clt .btn-primary, .card-pj .btn-primary { background-color: var(--cor-tema-neutro); color: #fff; }
 
-/* Cor-tema para os cartões PJ (Laranja) */
-.card-pj {
-    background-color: var(--cor-card);
-    border-left: 4px solid var(--cor-pj);
+[data-theme='dark'] .card-clt .btn-primary:hover, 
+[data-theme='dark'] .card-pj .btn-primary:hover { 
+    background-color: var(--cor-texto-primario); 
 }
-.card-pj h3 { color: var(--cor-texto-primario); }
-.card-pj p { color: var(--cor-texto-secundario); font-family: 'Inter', sans-serif; } /* Manter explicação mais legível */
-.card-pj .btn-primary { background-color: var(--cor-pj); color: #fff; /* Mantém o texto branco pois o fundo é sempre laranja */}
-[data-theme='dark'] .card-pj .btn-primary:hover { background-color: #ff9859; }
-[data-theme='light'] .card-pj .btn-primary:hover { background-color: #d15b09; }
+
+[data-theme='light'] .card-clt .btn-primary:hover, 
+[data-theme='light'] .card-pj .btn-primary:hover { 
+    background-color: var(--cor-texto-primario); 
+}
 
 /* --- Estilos para Resultados e Classes Utilitárias --- */
 .results-section { border-top: 1px solid var(--cor-borda); margin-top: 20px; padding-top: 30px; }
@@ -386,15 +381,5 @@ dashboard-footer .btn {
     font-weight: 700;
 }
 
-/* Cores para as barras (usando o tema roxo do CLT) */
-.inss-bar-1 { background-color: rgba(109, 40, 217, 0.1); }
-.inss-bar-2 { background-color: rgba(109, 40, 217, 0.2); }
-.inss-bar-3 { background-color: rgba(109, 40, 217, 0.3); }
-.inss-bar-4 { background-color: rgba(109, 40, 217, 0.4); }
-
-.irrf-bar-1 { background-color: rgba(109, 40, 217, 0.05); }
-.irrf-bar-2 { background-color: rgba(109, 40, 217, 0.15); }
-.irrf-bar-3 { background-color: rgba(109, 40, 217, 0.25); }
-.irrf-bar-4 { background-color: rgba(109, 40, 217, 0.35); }
-.irrf-bar-5 { background-color: rgba(109, 40, 217, 0.45); }
+/* AJUSTE MINIMALISTA: Cores de barras removidas, pois não serão mais usadas */
 
