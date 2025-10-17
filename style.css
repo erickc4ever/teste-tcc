@@ -67,8 +67,9 @@
 
 /* --- Estilo Adicionado para o Logo Responsivo --- */
 .logo-img {
-    /* AJUSTE: Aumentado o tamanho para um visual mais equilibrado e profissional */
-    max-width: 180px; 
+    /* AJUSTE PARA LOGO LARGA: Controlamos a altura para garantir presença vertical */
+    height: 55px;
+    width: auto; /* A largura se ajusta automaticamente para manter a proporção */
     /* Garante que a mudança de cor do logo seja suave e animada */
     transition: filter 0.3s ease-in-out;
 }
