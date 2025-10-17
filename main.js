@@ -1171,6 +1171,8 @@ if(welcomeScreenElements.buttons.clt) welcomeScreenElements.buttons.clt.addEvent
 if(welcomeScreenElements.buttons.pj) welcomeScreenElements.buttons.pj.addEventListener('click', () => showScreen('pjDashboard'));
 
 // --- 8.2: Listeners dos Botões das Dashboards (CLT e PJ) ---
+
+// --- PAINEL CLT ---
 if(dashboardButtons.salario) dashboardButtons.salario.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('salario'); });
 if(dashboardButtons.investimentos) dashboardButtons.investimentos.addEventListener('click', () => showScreen('investimentos'));
 if(dashboardButtons.ferias) dashboardButtons.ferias.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('ferias'); });
@@ -1193,18 +1195,26 @@ if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', 
 });
 if(dashboardButtons.historico) dashboardButtons.historico.addEventListener('click', carregarHistorico);
 
-if(pjDashboardButtons.simples) pjDashboardButtons.simples.addEventListener('click', () => showScreen('simplesNacional'));
-
-if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListener('click', () => showScreen('pjHoraValor'));
-
-// Listener para o novo botão "Voltar para a Escolha" no painel CLT
+// Listener para o botão "Voltar para a Escolha" no painel CLT
 if (dashboardButtons.backToWelcomeClt) {
     dashboardButtons.backToWelcomeClt.addEventListener('click', () => {
         showScreen('welcome');
     });
 }
 
-// Listener para o novo botão "Sobre e Parâmetros" no painel PJ
+
+// --- PAINEL PJ ---
+if(pjDashboardButtons.simples) pjDashboardButtons.simples.addEventListener('click', () => showScreen('simplesNacional'));
+if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListener('click', () => showScreen('pjHoraValor'));
+
+// CORREÇÃO: Listener para o botão "Voltar para a Escolha" do painel PJ que estava em falta.
+if(pjDashboardButtons.backToWelcome) {
+    pjDashboardButtons.backToWelcome.addEventListener('click', () => {
+        showScreen('welcome');
+    });
+}
+
+// CORREÇÃO: Listener para o botão "Sobre e Parâmetros" no painel PJ.
 if (pjDashboardButtons.showAboutPj) {
     pjDashboardButtons.showAboutPj.addEventListener('click', () => {
         modalElements.overlay.classList.remove('hidden');
