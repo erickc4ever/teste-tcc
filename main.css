@@ -158,3 +158,31 @@ body {
     width: 100%;
 }
 
+/* --- ESTILOS DA TELA DE RELATÓRIOS --- */
+/* CORREÇÃO: Trocado de 'grid' para 'flex' para um layout mais estável, que resolve o problema de renderização do gráfico. */
+.reports-grid { 
+    display: flex; 
+    flex-wrap: wrap; /* Permite que os gráficos quebrem para a linha de baixo em telas menores */
+    gap: 24px; 
+    width: 100%; 
+}
+
+.chart-container { 
+    background-color: var(--cor-card); 
+    padding: 24px; 
+    border-radius: 0; /* Design quadrado */ 
+    box-shadow: var(--sombra-card); 
+    border: 1px solid var(--cor-borda); 
+    position: relative; 
+    height: 350px; /* Altura ajustada */
+    
+    /* CORREÇÃO: Define a base flexível para que cada gráfico ocupe o espaço necessário, mas cresça para preencher a linha. */
+    flex: 1 1 400px; /* Cresce, encolhe e tem uma base de 400px (ajuste conforme necessário) */
+    min-width: 0; /* Mantém a correção anterior para garantir que o flexbox se comporte bem. */
+}
+
+/* CORREÇÃO DOS GRÁFICOS */
+.chart-container canvas {
+    max-width: 100%;
+    max-height: 100%;
+}

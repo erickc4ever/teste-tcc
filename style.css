@@ -275,6 +275,7 @@ hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
 
 /* --- ESTILOS DA TELA DE RELATÓRIOS --- */
 /* CORREÇÃO: Trocado de 'grid' para 'flex' para um layout mais estável, que resolve o problema de renderização do gráfico. */
+
 .reports-grid { 
     display: flex; 
     flex-wrap: wrap; /* Permite que os gráficos quebrem para a linha de baixo em telas menores */
