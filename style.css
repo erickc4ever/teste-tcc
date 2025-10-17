@@ -67,9 +67,9 @@
 
 /* --- Estilo Adicionado para o Logo Responsivo --- */
 .logo-img {
-    /* AJUSTE PARA LOGO LARGA: Controlamos a altura para garantir presença vertical */
-    height: 55px;
-    width: auto; /* A largura se ajusta automaticamente para manter a proporção */
+    /* REAJUSTE: Retornando ao controle de largura para logos largos, com valor maior */
+    max-width: 280px;
+    height: auto; /* Altura se ajusta automaticamente */
     /* Garante que a mudança de cor do logo seja suave e animada */
     transition: filter 0.3s ease-in-out;
 }
@@ -107,8 +107,8 @@
 /* Efeito de "levantar" para botões ao passar o mouse, dando feedback interativo. */
 .btn:hover {
     transform: translateY(-2px);
-    /* EFEITO GLOW: Combina a sombra padrão com um brilho sutil na cor do tema */
-    box-shadow: var(--sombra-botao-hover), 0 0 15px 4px rgba(var(--cor-primaria-rgb), 0.2);
+    /* EFEITO SUTIL: Substituído o brilho por uma sombra de borda mais profissional */
+    box-shadow: var(--sombra-botao-hover), 0 0 0 1px rgba(var(--cor-primaria-rgb), 0.5);
 }
 
 /* Efeito de foco para campos de input.
