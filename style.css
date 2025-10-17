@@ -272,8 +272,16 @@ hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
 .brasao { font-style: italic; text-align: center; color: var(--cor-texto-secundario); margin-bottom: 1.5rem; padding: 0.5rem; background-color: var(--cor-fundo); border-radius: 0; } /* Design quadrado */
 .modal-overlay ul { list-style: none; padding: 0; margin-top: 0.5rem; }
 .modal-overlay li { margin-bottom: 0.5rem; }
+
 /* --- ESTILOS DA TELA DE RELATÓRIOS --- */
-.reports-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; }
+/* CORREÇÃO: Trocado de 'grid' para 'flex' para um layout mais estável, que resolve o problema de renderização do gráfico. */
+.reports-grid { 
+    display: flex; 
+    flex-wrap: wrap; /* Permite que os gráficos quebrem para a linha de baixo em telas menores */
+    gap: 24px; 
+    width: 100%; 
+}
+
 .chart-container { 
     background-color: var(--cor-card); 
     padding: 24px; 
@@ -281,10 +289,11 @@ hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
     box-shadow: var(--sombra-card); 
     border: 1px solid var(--cor-borda); 
     position: relative; 
-    height: 350px; /* Altura ajustada */ 
+    height: 350px; /* Altura ajustada */
     
-    /* CORREÇÃO: Adicionado para resolver o problema de renderização do gráfico dentro da grelha */
-    min-width: 0;
+    /* CORREÇÃO: Define a base flexível para que cada gráfico ocupe o espaço necessário, mas cresça para preencher a linha. */
+    flex: 1 1 400px; /* Cresce, encolhe e tem uma base de 400px (ajuste conforme necessário) */
+    min-width: 0; /* Mantém a correção anterior para garantir que o flexbox se comporte bem. */
 }
 
 /* CORREÇÃO DOS GRÁFICOS */
