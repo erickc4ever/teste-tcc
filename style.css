@@ -67,8 +67,8 @@
 
 /* --- Estilo Adicionado para o Logo Responsivo --- */
 .logo-img {
-    /* Tamanho da logo aumentado para melhor visibilidade */
-    max-width: 150px; 
+    /* AJUSTE: Aumentado o tamanho para um visual mais equilibrado e profissional */
+    max-width: 180px; 
     /* Garante que a mudança de cor do logo seja suave e animada */
     transition: filter 0.3s ease-in-out;
 }
@@ -106,7 +106,8 @@
 /* Efeito de "levantar" para botões ao passar o mouse, dando feedback interativo. */
 .btn:hover {
     transform: translateY(-2px);
-    box-shadow: var(--sombra-botao-hover);
+    /* EFEITO GLOW: Combina a sombra padrão com um brilho sutil na cor do tema */
+    box-shadow: var(--sombra-botao-hover), 0 0 15px 4px rgba(var(--cor-primaria-rgb), 0.2);
 }
 
 /* Efeito de foco para campos de input.
@@ -129,11 +130,19 @@
 /* --- Estilos de Base --- */
 body {
     background-color: var(--cor-fundo);
+    /* EFEITO DE PROFUNDIDADE: Adiciona um gradiente radial sutil ao fundo */
+    background-image: radial-gradient(ellipse at top, hsl(240, 8%, 98%), var(--cor-fundo));
     /* ATUALIZAÇÃO: Fonte principal agora é "serifada" */
     font-family: 'Lora', 'Inter', serif;
     color: var(--cor-texto-primario);
-    transition: background-color 0.3s ease;
+    transition: background 0.3s ease;
 }
+
+/* Adiciona o gradiente também para o tema escuro */
+[data-theme='dark'] body {
+    background-image: radial-gradient(ellipse at top, hsl(240, 4%, 15%), var(--cor-fundo));
+}
+
 
 /* --- Estilo "Página Inteira" --- */
 .calculator-card {
