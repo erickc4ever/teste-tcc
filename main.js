@@ -327,6 +327,9 @@ async function renderSalaryChart() {
     const labels = data.map(item => new Date(item.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }));
     const chartData = data.map(item => item.salario_liquido_calculado);
     salaryChartInstance = new Chart(canvas.getContext('2d'), { type: 'line', data: { labels: labels, datasets: [{ label: 'Salário Líquido', data: chartData, borderColor: '#6D28D9', backgroundColor: 'rgba(109, 40, 217, 0.1)', fill: true, tension: 0.3 }] }, options: { responsive: true, maintainAspectRatio: false } });
+    
+    // LINHA DA VITÓRIA: Força o gráfico a recalcular o seu tamanho e a preencher o contentor.
+    setTimeout(() => salaryChartInstance.resize(), 50);
 }
 
 async function renderInvestmentChart() {
@@ -362,23 +365,20 @@ async function renderInvestmentChart() {
         options: { 
             responsive: true, 
             maintainAspectRatio: false,
-            // --- CORREÇÃO ADICIONADA AQUI ---
-            // Esta nova seção "scales" ajusta os eixos do gráfico.
             scales: {
-                // A configuração a seguir aplica-se ao eixo X (horizontal).
                 x: {
-                    // "ticks" refere-se às etiquetas de texto (os seus labels).
                     ticks: {
-                        // Permite que as etiquetas girem para caber no espaço.
                         maxRotation: 90,
                         minRotation: 45,
-                        // Adiciona um pouco de preenchimento para não ficarem coladas na borda.
                         padding: 10, 
                     }
                 }
             }
         } 
     });
+
+    // LINHA DA VITÓRIA: Força o gráfico a recalcular o seu tamanho e a preencher o contentor.
+    setTimeout(() => investmentChartInstance.resize(), 50);
 }
 
 function renderSummaryCards() {
