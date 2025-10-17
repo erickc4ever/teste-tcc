@@ -404,9 +404,14 @@ dashboard-footer .btn {
 }
 
 /* AJUSTE MINIMALISTA: Cores de barras removidas, pois não serão mais usadas */
-/* --- TESTE DE DEBUG PARA GRÁFICOS --- */
-/* Força a desativação de qualquer transição no card da tela de relatórios */
+
+/* --- CORREÇÃO DEFINITIVA PARA O GRÁFICO --- */
+/* Desativa a animação de entrada 'fadeInUp' APENAS no card da tela de relatórios.
+   Isso garante que o container do gráfico tenha um tamanho estável e final
+   no momento em que o JavaScript tenta desenhar o gráfico, resolvendo o problema de 'timing'. */
 #reports-screen .calculator-card {
-    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
 }
 
