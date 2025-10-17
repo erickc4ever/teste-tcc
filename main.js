@@ -1180,7 +1180,13 @@ if(dashboardButtons.decimoTerceiro) dashboardButtons.decimoTerceiro.addEventList
 if(dashboardButtons.horaValor) dashboardButtons.horaValor.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('horaValor'); });
 if(dashboardButtons.irpf) dashboardButtons.irpf.addEventListener('click', () => showScreen('irpf'));
 if(dashboardButtons.profile) dashboardButtons.profile.addEventListener('click', () => { preencherFormulariosComPerfil(); showScreen('profile'); });
+
+// CORREÇÃO: A ordem das ações foi invertida para resolver o problema dos gráficos.
 if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', async () => {
+    // 1. PRIMEIRO, mostra a tela de relatórios.
+    showScreen('reports');
+
+    // 2. DEPOIS, desenha os gráficos dentro da tela já visível.
     if (!userProfile) {
         reportsElements.content.classList.add('hidden');
         reportsElements.notice.classList.remove('hidden');
@@ -1191,8 +1197,8 @@ if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', 
         await renderInvestmentChart();
         renderSummaryCards();
     }
-    showScreen('reports');
 });
+
 if(dashboardButtons.historico) dashboardButtons.historico.addEventListener('click', carregarHistorico);
 
 // Listener para o botão "Voltar para a Escolha" no painel CLT
@@ -1201,6 +1207,26 @@ if (dashboardButtons.backToWelcomeClt) {
         showScreen('welcome');
     });
 }
+
+
+// --- PAINEL PJ ---
+if(pjDashboardButtons.simples) pjDashboardButtons.simples.addEventListener('click', () => showScreen('simplesNacional'));
+if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListener('click', () => showScreen('pjHoraValor'));
+
+// CORREÇÃO: Listener para o botão "Voltar para a Escolha" do painel PJ que estava em falta.
+if(pjDashboardButtons.backToWelcome) {
+    pjDashboardButtons.backToWelcome.addEventListener('click', () => {
+        showScreen('welcome');
+    });
+}
+
+// CORREÇÃO: Listener para o botão "Sobre e Parâmetros" no painel PJ.
+if (pjDashboardButtons.showAboutPj) {
+    pjDashboardButtons.showAboutPj.addEventListener('click', () => {
+        modalElements.overlay.classList.remove('hidden');
+    });
+}
+
 
 
 // --- PAINEL PJ ---
@@ -1315,4 +1341,4 @@ if (aposentadoriaElements.buttons.voltar) {
 supabaseClient.auth.onAuthStateChange((_event, session) => { updateUserUI(session ? session.user : null); });
 
 console.log("main.js carregado com sucesso. Aplicação pronta.");
-});
+});back-to-welcome-from-pj
