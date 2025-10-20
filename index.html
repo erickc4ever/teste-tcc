@@ -15,10 +15,12 @@
 
     <!-- Botão de Troca de Tema -->
     <button id="theme-toggle-btn" class="theme-toggle-btn">🌙</button>
-<div id="auth-screen" class="screen">
+
+    <!-- TELA DE AUTENTICAÇÃO -->
+    <div id="auth-screen" class="screen">
         <div class="calculator-card">
             <div class="logo-container">
-                <img src="logo.svg" alt="Logo da änalitks" class="logo-img">
+                <img src="logo.png" alt="Logo da änalitks" class="logo-img">
             </div>
             <div class="card-header">
                 <h1>Bem-vindo(a)</h1>
@@ -56,89 +58,74 @@
             </div>
         </div>
     </div>
-
-    
-<!-- TELA DA DASHBOARD (CLT) -->
-<div id="dashboard-screen" class="screen hidden">
-    <div class="calculator-card">
-        <div class="card-header">
-            <h1 id="welcome-message">Dashboard CLT</h1>
-            <p>Passe o rato sobre um cartão para saber mais.</p>
-            <p id="dashboard-quote" class="explanation-text"></p>
-        </div>
-        
-        <div class="dashboard-grid">
-            <!-- Card 1 a 6 (Existentes) -->
-            <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-clt"><h3>Cálculo de Salário</h3></div><div class="card-back card-clt"><p>Descubra o valor líquido do seu salário após todos os descontos de INSS e IRRF.</p><button id="goto-salario-btn" class="btn btn-primary">Calcular Agora</button></div></div></div>
-            <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-clt"><h3>Simulador de Investimentos</h3></div><div class="card-back card-clt"><p>Veja o poder dos juros compostos e projete o crescimento do seu património ao longo do tempo.</p><button id="goto-investimentos-btn" class="btn btn-primary">Simular Agora</button></div></div></div>
-            <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-clt"><h3>Cálculo de Férias</h3></div><div class="card-back card-clt"><p>Planeie o seu descanso e saiba exatamente quanto irá receber, incluindo o terço constitucional.</p><button id="goto-ferias-btn" class="btn btn-primary">Planear Férias</button></div></div></div>
-            <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-clt"><h3>Cálculo de 13º Salário</h3></div><div class="card-back card-clt"><p>Estime o valor do seu 13º, com o detalhe das parcelas e descontos aplicáveis.</p><button id="goto-decimo-terceiro-btn" class="btn btn-primary">Calcular 13º</button></div></div></div>
-            <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-clt"><h3>Quanto Vale a Minha Hora?</h3></div><div class="card-back card-clt"><p>Descubra o valor real de uma hora do seu trabalho com base no seu salário e jornada.</p><button id="goto-hora-valor-btn" class="btn btn-primary">Descobrir Valor</button></div></div></div>
-            <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-clt"><h3>Simulador Anual de IRPF</h3></div><div class="card-back card-clt"><p>Compare a declaração completa com a simplificada e descubra qual é a mais vantajosa para si.</p><button id="goto-irpf-btn" class="btn btn-primary">Simular IRPF</button></div></div></div>
+    <!-- TELA DA DASHBOARD (CLT) -->
+    <div id="dashboard-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1 id="welcome-message">Dashboard CLT</h1>
+                <p>Passe o rato sobre um cartão para saber mais.</p>
+                <p id="dashboard-quote" class="explanation-text"></p>
+            </div>
             
-            <!-- NOVO CARTÃO DE APOSENTADORIA -->
-            <div class="card-container">
-                <div class="flipping-card-inner">
-                    <div class="card-front card-clt"><h3>Projeção de Aposentadoria</h3></div>
-                    <div class="card-back card-clt">
-                        <p>Descubra quanto precisa de juntar para se aposentar com a renda que deseja.</p>
-                        <button id="goto-aposentadoria-btn" class="btn btn-primary">Projetar Futuro</button>
+            <div class="dashboard-grid">
+                <!-- Card 1 a 6 (Existentes) -->
+                <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-clt"><h3>Cálculo de Salário</h3></div><div class="card-back card-clt"><p>Descubra o valor líquido do seu salário após todos os descontos de INSS e IRRF.</p><button id="goto-salario-btn" class="btn btn-primary">Calcular Agora</button></div></div></div>
+                <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-clt"><h3>Simulador de Investimentos</h3></div><div class="card-back card-clt"><p>Veja o poder dos juros compostos e projete o crescimento do seu património ao longo do tempo.</p><button id="goto-investimentos-btn" class="btn btn-primary">Simular Agora</button></div></div></div>
+                <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-clt"><h3>Cálculo de Férias</h3></div><div class="card-back card-clt"><p>Planeie o seu descanso e saiba exatamente quanto irá receber, incluindo o terço constitucional.</p><button id="goto-ferias-btn" class="btn btn-primary">Planear Férias</button></div></div></div>
+                <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-clt"><h3>Cálculo de 13º Salário</h3></div><div class="card-back card-clt"><p>Estime o valor do seu 13º, com o detalhe das parcelas e descontos aplicáveis.</p><button id="goto-decimo-terceiro-btn" class="btn btn-primary">Calcular 13º</button></div></div></div>
+                <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-clt"><h3>Quanto Vale a Minha Hora?</h3></div><div class="card-back card-clt"><p>Descubra o valor real de uma hora do seu trabalho com base no seu salário e jornada.</p><button id="goto-hora-valor-btn" class="btn btn-primary">Descobrir Valor</button></div></div></div>
+                <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-clt"><h3>Simulador Anual de IRPF</h3></div><div class="card-back card-clt"><p>Compare a declaração completa com a simplificada e descubra qual é a mais vantajosa para si.</p><button id="goto-irpf-btn" class="btn btn-primary">Simular IRPF</button></div></div></div>
+                
+                <!-- NOVO CARTÃO DE APOSENTADORIA -->
+                <div class="card-container">
+                    <div class="flipping-card-inner">
+                        <div class="card-front card-clt"><h3>Projeção de Aposentadoria</h3></div>
+                        <div class="card-back card-clt">
+                            <p>Descubra quanto precisa de juntar para se aposentar com a renda que deseja.</p>
+                            <button id="goto-aposentadoria-btn" class="btn btn-primary">Projetar Futuro</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <p id="reports-notice" class="explanation-text text-center hidden">
-            Para ver os seus relatórios, primeiro salve as suas informações na tela 'Meu Perfil'.
-        </p>
-        
-        <!-- BOTÃO DE DEBUG REMOVIDO -->
-        github-pages
-by
-￼erickc4evervia pages-build-deployment #81
-main
-3 days ago
-￼
-commit texte
-Status: Deployed (completed).
-Deployed to
-github-pages
-        <button id="back-to-dashboard-from-reports" class="btn btn-secondary">Voltar para a Dashboard CLT</button>
+            <div class="dashboard-footer">
+                <button id="goto-profile-btn" class="btn btn-secondary">Meu Perfil</button>
+                <button id="goto-reports-btn" class="btn btn-secondary">Minha Visão Geral</button>
+                <button id="show-about-btn" class="btn btn-secondary">Sobre e Parâmetros</button>
+                <button id="logout-btn" class="btn btn-primary">Sair</button>
+            </div>
+        </div>
     </div>
-</div>
+    
+    <!-- TELA DA DASHBOARD PJ -->
+    <div id="pj-dashboard-screen" class="screen hidden">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h1>Dashboard PJ / Freelancer</h1>
+                <p>Passe o rato sobre um cartão para saber mais.</p>
+            </div>
+            <div class="dashboard-grid">
+                <!-- Card 1 e 2 (Existentes) -->
+                <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-pj"><h3>Calcular Simples Nacional</h3></div><div class="card-back card-pj"><p>Estime o valor do seu imposto mensal (DAS) com base no seu faturamento e anexo de serviço.</p><button id="goto-simples-nacional-btn" class="btn btn-primary">Calcular Imposto</button></div></div></div>
+                <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-pj"><h3>Valor da Hora Freelancer</h3></div><div class="card-back card-pj"><p>Defina o preço da sua hora de trabalho incluindo seu salário, custos fixos e dias de descanso.</p><button id="goto-pj-hora-valor-btn" class="btn btn-primary">Definir Preço</button></div></div></div>
 
-<!-- TELA DA DASHBOARD PJ -->
-<div id="pj-dashboard-screen" class="screen hidden">
-    <div class="calculator-card">
-        <div class="card-header">
-            <h1>Dashboard PJ / Freelancer</h1>
-            <p>Passe o rato sobre um cartão para saber mais.</p>
-        </div>
-        <div class="dashboard-grid">
-            <!-- Card 1 e 2 (Existentes) -->
-            <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-pj"><h3>Calcular Simples Nacional</h3></div><div class="card-back card-pj"><p>Estime o valor do seu imposto mensal (DAS) com base no seu faturamento e anexo de serviço.</p><button id="goto-simples-nacional-btn" class="btn btn-primary">Calcular Imposto</button></div></div></div>
-            <div class="card-container"><div class="flipping-card-inner"><div class="card-front card-pj"><h3>Valor da Hora Freelancer</h3></div><div class="card-back card-pj"><p>Defina o preço da sua hora de trabalho incluindo seu salário, custos fixos e dias de descanso.</p><button id="goto-pj-hora-valor-btn" class="btn btn-primary">Definir Preço</button></div></div></div>
-
-            <!-- NOVO CARTÃO DE APOSENTADORIA -->
-            <div class="card-container">
-                <div class="flipping-card-inner">
-                    <div class="card-front card-pj"><h3>Projeção de Aposentadoria</h3></div>
-                    <div class="card-back card-pj">
-                        <p>Descubra quanto precisa de juntar para se aposentar com a renda que deseja.</p>
-                        <button id="goto-aposentadoria-btn-pj" class="btn btn-primary">Projetar Futuro</button>
+                <!-- NOVO CARTÃO DE APOSENTADORIA -->
+                <div class="card-container">
+                    <div class="flipping-card-inner">
+                        <div class="card-front card-pj"><h3>Projeção de Aposentadoria</h3></div>
+                        <div class="card-back card-pj">
+                            <p>Descubra quanto precisa de juntar para se aposentar com a renda que deseja.</p>
+                            <button id="goto-aposentadoria-btn-pj" class="btn btn-primary">Projetar Futuro</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="dashboard-footer">
-            <button id="show-about-btn-pj" class="btn btn-secondary">Sobre e Parâmetros</button>
-            <button id="back-to-welcome-from-pj" class="btn btn-secondary">Voltar para a Escolha</button>
-            <button id="logout-btn-pj" class="btn btn-primary">Sair</button>
+            <div class="dashboard-footer">
+                <button id="back-to-welcome-from-pj" class="btn btn-secondary">Voltar para a Escolha</button>
+                <button id="logout-btn-pj" class="btn btn-primary">Sair</button>
+            </div>
         </div>
     </div>
-</div>
-
-
 
     <!--modal aposentadoria-->
         <!-- TELA DE CÁLCULO DO SIMPLES NACIONAL -->
@@ -678,4 +665,3 @@ github-pages
 
 </body>
 </html>
-
