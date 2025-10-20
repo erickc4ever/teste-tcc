@@ -169,8 +169,8 @@ label {
 .btn-primary { background-color: var(--cor-primaria); color: var(--cor-texto-botao-primario); }
 .btn:hover { 
     transform: translateY(-3px);
-    /* --- ALTERADO: Removido o brilho e mantida a sombra base para um efeito limpo --- */
-    box-shadow: var(--sombra-botao);
+    /* --- CORREÇÃO DEFINITIVA: Sombra removida no hover para garantir que não haja "glow". --- */
+    box-shadow: none;
 }
 .btn-primary:hover { background-color: var(--cor-primaria-hover); }
 .btn:active { transform: translateY(1px) scale(0.99); box-shadow: none; }
