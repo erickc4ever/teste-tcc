@@ -3,9 +3,9 @@
  * style.css - Estilos Visuais e Temas da "änalitks" (Versão "Wall Street")
  * ----------------------------------------------------------------------------------
  * Responsabilidades:
- * 1. Definir a paleta de cores (com CLT roxo) e a tipografia "serifada".
+ * 1. Definir a paleta de cores, incluindo roxo para CLT e laranja para PJ.
  * 2. Implementar os temas claro e escuro com um design de cantos quadrados.
- * 3. Estilizar os componentes com o layout amplo e minimalista.
+ * 3. Estilizar os componentes com o layout amplo e minimalista, sem brilho excessivo.
  * 4. Adicionar estilos para a tela de relatórios e os novos cartões interativos.
  * 5. Corrigir o dimensionamento dos gráficos.
  * ==================================================================================
@@ -17,126 +17,105 @@
 /* --- Definição dos Temas (Variáveis CSS) --- */
 :root {
     /* Cores suavizadas para um visual mais fosco e profissional */
-    --cor-fundo: #f4f4f5; /* Um branco levemente acinzentado */
+    --cor-fundo: #f4f4f5;
     --cor-card: #ffffff;
-    --cor-texto-primario: #2a2a2e; /* Um preto menos intenso */
+    --cor-texto-primario: #2a2a2e;
     --cor-texto-secundario: #5a5a5f;
     --cor-borda: #e1e1e3;
     
-    /* Cores do botão alteradas de azul para o novo esquema preto/branco */
-    --cor-primaria: #2a2a2e; /* Botão preto para o tema claro */
-    --cor-primaria-hover: #414146; /* Efeito hover sutil */
-    --cor-texto-botao-primario: #f4f4f5; /* Texto branco para o botão escuro */
+    /* Cores do botão principal (neutro) */
+    --cor-primaria: #2a2a2e;
+    --cor-primaria-hover: #414146;
+    --cor-texto-botao-primario: #f4f4f5;
 
     --sombra-card: 0 2px 8px rgba(0, 0, 0, 0.07);
     --sombra-botao: 0 1px 3px rgba(0, 0, 0, 0.1);
     
-    /* AJUSTE MINIMALISTA: Cores de tema removidas e substituídas por um cinza neutro */
-    --cor-tema-neutro: #5a5a5f;
+    /* --- ADICIONADO: Sombra interativa e cores de tema --- */
+    --sombra-card-hover: 0 6px 16px rgba(0, 0, 0, 0.1);
+    --cor-tema-clt: #6D28D9;
+    --cor-tema-pj: #EA580C;
+    --cor-tema-clt-hover: #5B21B6;
+    --cor-tema-pj-hover: #C2410C;
 
-    /* --- NOVAS VARIÁVEIS PARA ANIMAÇÕES --- */
-    --sombra-botao-hover: 0 4px 8px rgba(0,0,0,0.15);
-    --cor-primaria-rgb: 42, 42, 46; /* Representação RGB de --cor-primaria */
+    --cor-primaria-rgb: 42, 42, 46;
 }
 
 [data-theme='dark'] {
     /* Cores suavizadas para o tema escuro */
-    --cor-fundo: #161618; /* Um fundo carvão em vez de preto puro */
+    --cor-fundo: #161618;
     --cor-card: #212124;
-    --cor-texto-primario: #e1e1e3; /* Um branco menos brilhante */
+    --cor-texto-primario: #e1e1e3;
     --cor-texto-secundario: #9e9ea3;
     --cor-borda: #3a3a3e;
 
-    /* Cores do botão alteradas de azul para o novo esquema preto/branco */
-    --cor-primaria: #e1e1e3; /* Botão branco para o tema escuro */
-    --cor-primaria-hover: #ffffff; /* AJUSTADO: Hover fica branco puro para mais destaque */
-    --cor-texto-botao-primario: #161618; /* Texto escuro para o botão branco */
+    /* Cores do botão principal (neutro) */
+    --cor-primaria: #e1e1e3;
+    --cor-primaria-hover: #ffffff;
+    --cor-texto-botao-primario: #161618;
 
     --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.2);
     --sombra-botao: 0 2px 4px rgba(0, 0, 0, 0.3);
 
-    /* AJUSTE MINIMALISTA: Cores de tema removidas e substituídas por um cinza neutro claro */
-    --cor-tema-neutro: #9e9ea3;
+    /* --- ADICIONADO: Sombra interativa e cores de tema para o modo escuro --- */
+    --sombra-card-hover: 0 8px 20px rgba(0, 0, 0, 0.25);
+    --cor-tema-clt: #8B5CF6;
+    --cor-tema-pj: #F97316;
+    --cor-tema-clt-hover: #7C3AED;
+    --cor-tema-pj-hover: #FB923C;
 
-    /* --- NOVAS VARIÁVEIS PARA ANIMAÇÕES (TEMA ESCURO) --- */
-    --sombra-botao-hover: 0 4px 10px rgba(0,0,0,0.3);
-    --cor-primaria-rgb: 225, 225, 227; /* Representação RGB de --cor-primaria */
+    --cor-primaria-rgb: 225, 225, 227;
 }
 
-/* --- Estilo Adicionado para o Logo Responsivo --- */
+/* --- Estilo do Logo Responsivo --- */
 .logo-img {
-    /* REAJUSTE: Retornando ao controle de largura para logos largos, com valor maior */
     max-width: 280px;
-    height: auto; /* Altura se ajusta automaticamente */
-    /* Garante que a mudança de cor do logo seja suave e animada */
+    height: auto;
     transition: filter 0.3s ease-in-out;
 }
 
 [data-theme='dark'] .logo-img {
-    /* Inverte a cor da imagem: o logo preto (SVG) se torna branco */
     filter: invert(1);
 }
 
 /* --- ANIMAÇÕES E MICRO-INTERAÇÕES --- */
-
-/* Animação de entrada para elementos principais como os cards */
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Aplica a animação de entrada ao card da calculadora.
-   Isso fará com que ele surja suavemente na tela. */
 .calculator-card {
     animation: fadeInUp 0.5s ease-out forwards;
 }
 
-/* Transições suaves para que as mudanças de estado (hover, focus) não sejam bruscas. */
 .btn, .input-field {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out, outline 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-/* Efeito de foco para campos de input.
-   Quando o usuário clica em um campo, ele ganhava um brilho sutil. */
 .input-field:focus {
     border-color: var(--cor-primaria);
-    /* CORREÇÃO: Removido o brilho (outline) para um visual mais limpo. */
     outline: none;
     outline-offset: 0;
 }
 
-/* Classe que você pode adicionar via JavaScript ao seu elemento de resultado
-   para que ele apareça com uma animação suave. */
 .resultado-animado {
     animation: fadeInUp 0.4s ease-out forwards;
 }
 
-
-
 /* --- Estilos de Base --- */
 body {
     background-color: var(--cor-fundo);
-    /* EFEITO DE PROFUNDIDADE: Adiciona um gradiente radial sutil ao fundo */
     background-image: radial-gradient(ellipse at top, hsl(240, 8%, 98%), var(--cor-fundo));
-    /* ATUALIZAÇÃO: Fonte principal agora é "serifada" */
     font-family: 'Lora', 'Inter', serif;
     color: var(--cor-texto-primario);
     transition: background 0.3s ease;
 }
 
-/* Adiciona o gradiente também para o tema escuro */
 [data-theme='dark'] body {
     background-image: radial-gradient(ellipse at top, hsl(240, 4%, 15%), var(--cor-fundo));
 }
 
-
-/* --- Estilo "Página Inteira" --- */
+/* --- Estrutura dos Cards --- */
 .calculator-card {
     background-color: transparent;
     padding: 48px 0;
@@ -150,82 +129,61 @@ body {
 .modal-overlay .calculator-card {
     background-color: var(--cor-card);
     padding: 32px;
-    border-radius: 0; /* Design quadrado */
+    border-radius: 0;
     box-shadow: var(--sombra-card);
     border: 1px solid var(--cor-borda);
+    max-width: 720px;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 /* --- Tipografia --- */
 h1 { font-family: 'Lora', serif; font-size: 36px; margin: 0; color: var(--cor-texto-primario); }
-h2 { font-family: 'Lora', serif; font-size: 22px; margin-top: 1.5rem; color: var(--cor-texto-primario); border-bottom: 1px solid var(--cor-borda); padding-bottom: 0.5rem; }
-h3 { font-family: 'Lora', serif; font-size: 1.25rem; color: var(--cor-texto-primario); margin: 0; font-weight: 700; letter-spacing: 0.5px; } /* Adicionado espaçamento */
+h2 { font-family: 'Lora', serif; font-size: 22px; margin-top: 1.5rem; color: var(--cor-texto-primario); border-bottom: 1px solid var(--cor-borda); padding-bottom: 0.5rem; transition: border-color 0.3s ease; }
+h3 { font-family: 'Lora', serif; font-size: 1.25rem; color: var(--cor-texto-primario); margin: 0; font-weight: 700; letter-spacing: 0.5px; }
 p { margin: 0; color: var(--cor-texto-secundario); font-size: 16px; line-height: 1.5; }
 a { color: var(--cor-primaria); text-decoration: none; font-weight: 500; transition: color 0.2s ease; }
 a:hover { text-decoration: underline; color: var(--cor-primaria-hover); }
 
-/* --- Estilo dos Formulários --- */
-/* A regra estrutural do .input-group foi movida para main.css */
+/* --- ADICIONADO: Sublinhados com cor de tema --- */
+#salario-screen h2, #investimentos-screen h2, #ferias-screen h2, #decimo-terceiro-screen h2, #hora-valor-screen h2, #irpf-screen h2, #aposentadoria-screen h2, #reports-screen h1, #historico-screen h1 {
+    border-bottom-color: var(--cor-tema-clt);
+}
+#simples-nacional-screen h2, #pj-hora-valor-screen h2 {
+    border-bottom-color: var(--cor-tema-pj);
+}
 
+/* --- Estilo dos Formulários --- */
 label {
-    font-family: 'Inter', sans-serif; /* Manter labels mais "utilitárias" */
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 500;
     color: var(--cor-texto-secundario);
-    text-align: right; /* Alinha a label à direita, perto do input */
+    text-align: right;
 }
-.input-field { width: 100%; padding: 12px; border: 1px solid var(--cor-borda); border-radius: 0; /* Design quadrado */ font-size: 16px; background-color: var(--cor-fundo); color: var(--cor-texto-primario); transition: border-color 0.2s ease, box-shadow 0.2s ease; box-sizing: border-box; }
-.input-field:focus { outline: none; border-color: var(--cor-primaria); box-shadow: none; }
+.input-field { width: 100%; padding: 12px; border: 1px solid var(--cor-borda); border-radius: 0; font-size: 16px; background-color: var(--cor-fundo); color: var(--cor-texto-primario); box-sizing: border-box; }
+.input-field:focus { box-shadow: none; }
 
-/* --- Estilo dos Botões com Animações (UNIFICADO) --- */
-.btn { 
-    width: 100%; 
-    padding: 12px; 
-    border-radius: 0; /* Design quadrado */ 
-    border: none; 
-    font-size: 16px; 
-    font-weight: 700; 
-    cursor: pointer; 
-    box-sizing: border-box; 
-    transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease; 
-    box-shadow: var(--sombra-botao); 
-    text-transform: uppercase; 
-    letter-spacing: 1px; 
-}
-.btn-primary { 
-    background-color: var(--cor-primaria); 
-    color: var(--cor-texto-botao-primario); 
-}
+/* --- Estilo dos Botões (Minimalista) --- */
+.btn { width: 100%; padding: 12px; border-radius: 0; border: none; font-size: 16px; font-weight: 700; cursor: pointer; box-sizing: border-box; transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease; box-shadow: var(--sombra-botao); text-transform: uppercase; letter-spacing: 1px; }
+.btn-primary { background-color: var(--cor-primaria); color: var(--cor-texto-botao-primario); }
 .btn:hover { 
     transform: translateY(-3px);
-    /* CORREÇÃO: A sombra agora não muda no hover, removendo qualquer efeito de 'glow'. */
+    /* --- ALTERADO: Removido o brilho e mantida a sombra base para um efeito limpo --- */
     box-shadow: var(--sombra-botao);
 }
-.btn-primary:hover { 
-    background-color: var(--cor-primaria-hover); 
-}
-.btn:active { 
-    transform: translateY(1px) scale(0.99); 
-    box-shadow: none; 
-}
-.btn-secondary { 
-    background-color: var(--cor-fundo); 
-    color: var(--cor-primaria); 
-    border: 1px solid var(--cor-borda); 
-}
-.btn-secondary:hover { 
-    background-color: var(--cor-primaria); 
-    border-color: var(--cor-primaria); 
-    color: var(--cor-texto-botao-primario); 
-}
+.btn-primary:hover { background-color: var(--cor-primaria-hover); }
+.btn:active { transform: translateY(1px) scale(0.99); box-shadow: none; }
+.btn-secondary { background-color: var(--cor-fundo); color: var(--cor-primaria); border: 1px solid var(--cor-borda); }
+.btn-secondary:hover { background-color: var(--cor-primaria); border-color: var(--cor-primaria); color: var(--cor-texto-botao-primario); }
 
-/* --- ESTILOS PARA OS CARTÕES INTERATIVOS (FLIP CARDS) --- */
+/* --- Cartões Interativos (Flip Cards) --- */
 .card-container {
     background-color: transparent;
     min-height: 180px;
     perspective: 1000px;
     cursor: pointer;
 }
-
 .flipping-card-inner {
     position: relative;
     width: 100%;
@@ -234,17 +192,15 @@ label {
     transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
     transform-style: preserve-3d;
 }
-
 .card-container.is-flipped .flipping-card-inner {
     transform: rotateY(180deg);
 }
-
 .card-front, .card-back {
     position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 0; /* Design quadrado */
+    border-radius: 0;
     box-shadow: var(--sombra-card);
     border: 1px solid var(--cor-borda);
     padding: 24px;
@@ -253,80 +209,53 @@ label {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    /* --- ADICIONADO: Transição suave da sombra --- */
+    transition: box-shadow 0.3s ease;
 }
-
+/* --- ADICIONADO: Efeito de sombra interativa --- */
+.card-container:hover .card-front, 
+.card-container:hover .card-back {
+    box-shadow: var(--sombra-card-hover);
+}
 .card-back {
     transform: rotateY(180deg);
     gap: 15px;
 }
+/* --- ALTERADO: Cores de tema aplicadas aos cartões --- */
+.card-clt { background-color: var(--cor-card); border-left: 4px solid var(--cor-tema-clt); }
+.card-pj { background-color: var(--cor-card); border-left: 4px solid var(--cor-tema-pj); }
 
-/* AJUSTE MINIMALISTA: Removido roxo e laranja, usando o cinza neutro */
-.card-clt, .card-pj {
-    background-color: var(--cor-card);
-    border-left: 4px solid var(--cor-tema-neutro);
-}
 .card-clt h3, .card-pj h3 { color: var(--cor-texto-primario); }
 .card-clt p, .card-pj p { color: var(--cor-texto-secundario); font-family: 'Inter', sans-serif; }
-.card-clt .btn-primary, .card-pj .btn-primary { background-color: var(--cor-tema-neutro); color: #fff; }
 
-[data-theme='dark'] .card-clt .btn-primary:hover, 
-[data-theme='dark'] .card-pj .btn-primary:hover { 
-    background-color: var(--cor-texto-primario); 
-}
+.card-clt .btn-primary { background-color: var(--cor-tema-clt); color: #fff; }
+.card-clt .btn-primary:hover { background-color: var(--cor-tema-clt-hover); }
 
-[data-theme='light'] .card-clt .btn-primary:hover, 
-[data-theme='light'] .card-pj .btn-primary:hover { 
-    background-color: var(--cor-texto-primario); 
-}
+.card-pj .btn-primary { background-color: var(--cor-tema-pj); color: #fff; }
+.card-pj .btn-primary:hover { background-color: var(--cor-tema-pj-hover); }
 
-/* --- Estilos para Resultados e Classes Utilitárias --- */
+/* --- Utilidades e Resultados --- */
 .results-section { border-top: 1px solid var(--cor-borda); margin-top: 20px; padding-top: 30px; }
 hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
 .font-bold { font-weight: 700; }
 .text-center { text-align: center; }
 .explanation-text { font-family: 'Inter', sans-serif; font-size: 14px; font-style: italic; margin-top: 8px !important; }
 
-/* --- Estilo do Botão de Tema --- */
+/* --- Componentes Específicos (Botão de Tema, Modal) --- */
 .theme-toggle-btn { background-color: var(--cor-card); color: var(--cor-texto-primario); border: 1px solid var(--cor-borda); padding: 8px; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; box-shadow: var(--sombra-card); transition: transform 0.2s ease; }
 .theme-toggle-btn:hover { transform: scale(1.1) rotate(15deg); }
 
-/* --- ESTILOS DO MODAL --- */
 .modal-overlay { background-color: rgba(0, 0, 0, 0.6); }
-.modal-overlay .calculator-card { max-width: 500px; border-radius: 0; } /* Design quadrado */
 .close-btn { background: none; border: none; font-size: 2rem; font-weight: 300; line-height: 1; cursor: pointer; color: var(--cor-texto-secundario); transition: color 0.2s ease; }
 .close-btn:hover { color: var(--cor-texto-primario); }
-.brasao { font-style: italic; text-align: center; color: var(--cor-texto-secundario); margin-bottom: 1.5rem; padding: 0.5rem; background-color: var(--cor-fundo); border-radius: 0; } /* Design quadrado */
+.brasao { font-style: italic; text-align: center; color: var(--cor-texto-secundario); margin-bottom: 1.5rem; padding: 0.5rem; background-color: var(--cor-fundo); border-radius: 0; }
 .modal-overlay ul { list-style: none; padding: 0; margin-top: 0.5rem; }
 .modal-overlay li { margin-bottom: 0.5rem; }
 
-/* --- ESTILOS DA TELA DE RELATÓRIOS (VERSÃO FINAL) --- */
-
-.reports-grid { 
-    display: flex; 
-    flex-wrap: wrap;
-    gap: 24px; 
-    width: 100%; 
-}
-
-.chart-container { 
-    background-color: var(--cor-card); 
-    padding: 24px; 
-    border-radius: 0;
-    box-shadow: var(--sombra-card); 
-    border: 1px solid var(--cor-borda); 
-    position: relative; 
-    height: 400px;
-    flex: 1 1 400px;
-    min-width: 0;
-}
-
-/* CORREÇÃO DE ESPECIFICIDADE: Usando o ID dos elementos canvas para
-   garantir que esta regra seja mais forte que qualquer outra regra genérica. */
-#salary-chart, #investment-chart {
-    max-width: 100% !important;
-    max-height: 100% !important;
-}
-
+/* --- Tela de Relatórios --- */
+.reports-grid { display: flex; flex-wrap: wrap; gap: 24px; width: 100%; }
+.chart-container { background-color: var(--cor-card); padding: 24px; border-radius: 0; box-shadow: var(--sombra-card); border: 1px solid var(--cor-borda); position: relative; height: 400px; flex: 1 1 400px; min-width: 0; }
+#salary-chart, #investment-chart { max-width: 100% !important; max-height: 100% !important; }
 .summary-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
 .summary-card { background-color: var(--cor-card); padding: 24px; border-radius: 0; box-shadow: var(--sombra-card); border: 1px solid var(--cor-borda); text-align: center; }
 .summary-card p { font-size: 28px; color: var(--cor-texto-primario); margin: 0; }
@@ -334,103 +263,17 @@ hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
 @media (max-width: 768px) {
     .reports-grid, .summary-cards-grid { grid-template-columns: 1fr; }
 }
-
-/* ATUALIZAÇÃO: Ajusta o alinhamento das labels em telas pequenas */
 @media (max-width: 640px) {
-    label {
-        text-align: left;
-        margin-bottom: 2px;
-    }
+    label { text-align: left; margin-bottom: 2px; }
 }
 
-/* --- ESTILOS DO MODAL --- */
-.modal-overlay {
-    background-color: rgba(0, 0, 0, 0.6);
-}
+/* --- Outros Componentes --- */
+.param-chart { display: flex; flex-direction: column; gap: 6px; margin-top: 1rem; font-family: 'Inter', sans-serif; font-size: 12px; }
+.chart-bar { padding: 8px 12px; border-radius: 0; color: var(--cor-texto-primario); display: flex; justify-content: space-between; font-weight: 500; border: 1px solid var(--cor-borda); background-color: var(--cor-fundo); }
+.dashboard-footer .btn { width: auto; padding-left: 28px; padding-right: 28px; }
+.chart-bar span:last-child { font-weight: 700; }
 
-.modal-overlay .calculator-card {
-    /* ATUALIZAÇÃO: Aumentado para dar mais espaço ao conteúdo das abas */
-    max-width: 720px;
-    border-radius: 0;
-    
-    /* CORREÇÃO DO SCROLL: */
-    max-height: 90vh; /* Limita a altura do modal a 90% da altura da tela */
-    overflow-y: auto; /* Adiciona a barra de scroll vertical apenas quando necessário */
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    font-weight: 300;
-    line-height: 1;
-    cursor: pointer;
-    color: var(--cor-texto-secundario);
-    transition: color 0.2s ease;
-}
-
-.close-btn:hover {
-    color: var(--cor-texto-primario);
-}
-
-.brasao {
-    font-style: italic;
-    text-align: center;
-    color: var(--cor-texto-secundario);
-    margin-bottom: 1.5rem;
-    padding: 0.5rem;
-    background-color: var(--cor-fundo);
-    border-radius: 0;
-}
-
-.modal-overlay ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 0.5rem;
-}
-
-.modal-overlay li {
-    margin-bottom: 0.5rem;
-}
-
-/* Estilos para os "mini-gráficos" de parâmetros */
-.param-chart {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 1rem;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-}
-
-.chart-bar {
-    padding: 8px 12px;
-    border-radius: 0; /* Design Quadrado */
-    color: var(--cor-texto-primario);
-    display: flex;
-    justify-content: space-between;
-    font-weight: 500;
-    border: 1px solid var(--cor-borda);
-    background-color: var(--cor-fundo);
-}
-
-dashboard-footer .btn {
-    width: auto; /* Remove a largura de 100% */
-    padding-left: 28px;  /* Adiciona um espaçamento horizontal */
-    padding-right: 28px; /* para um visual mais equilibrado */
-}
-
-
-.chart-bar span:last-child {
-    font-weight: 700;
-}
-
-/* AJUSTE MINIMALISTA: Cores de barras removidas, pois não serão mais usadas */
-
-/* --- CORREÇÃO DEFINITIVA PARA O GRÁFICO --- */
-/* Desativa a animação de entrada 'fadeInUp' APENAS no card da tela de relatórios.
-   Isso garante que o container do gráfico tenha um tamanho estável e final
-   no momento em que o JavaScript tenta desenhar o gráfico, resolvendo o problema de 'timing'. */
+/* --- Correção do Gráfico --- */
 #reports-screen .calculator-card {
     animation: none !important;
     opacity: 1 !important;
