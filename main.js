@@ -1194,12 +1194,11 @@ if(welcomeScreenElements.buttons.pj) welcomeScreenElements.buttons.pj.addEventLi
 // SEÇÕES DE LISTENERS CORRIGIDAS E REORGANIZADAS (8.2 a 8.6)
 // ==================================================================================
 
-// ADICIONADO: Variável para lembrar qual foi o último painel visitado.
-// Isso corrige o bug do botão "Voltar" na tela de aposentadoria.
 let lastDashboard = 'dashboard';
 
 
 // --- 8.2: Listeners dos Botões das Dashboards (CLT e PJ) ---
+
 // --- PAINEL CLT ---
 if(dashboardButtons.salario) dashboardButtons.salario.addEventListener('click', () => { lastDashboard = 'dashboard'; preencherFormulariosComPerfil(); showScreen('salario'); });
 if(dashboardButtons.investimentos) dashboardButtons.investimentos.addEventListener('click', () => { lastDashboard = 'dashboard'; showScreen('investimentos'); });
@@ -1210,8 +1209,7 @@ if(dashboardButtons.irpf) dashboardButtons.irpf.addEventListener('click', () => 
 if(dashboardButtons.profile) dashboardButtons.profile.addEventListener('click', () => { lastDashboard = 'dashboard'; preencherFormulariosComPerfil(); showScreen('profile'); });
 if(dashboardButtons.historico) dashboardButtons.historico.addEventListener('click', () => { lastDashboard = 'dashboard'; carregarHistorico(); });
 
-// CORREÇÃO DEFINITIVA: Trocado 'setTimeout' por 'requestAnimationFrame' para sincronizar com o ciclo de renderização do navegador.
-if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', async () => {
+if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', () => {
     lastDashboard = 'dashboard';
     showScreen('reports');
     if (!userProfile) {
@@ -1220,15 +1218,15 @@ if(dashboardButtons.reports) dashboardButtons.reports.addEventListener('click', 
     } else {
         reportsElements.content.classList.remove('hidden');
         reportsElements.notice.classList.add('hidden');
-        
-        // Esta técnica garante que o código só roda depois que o navegador calculou o layout da tela.
-        requestAnimationFrame(() => {
-            // Usamos um segundo requestAnimationFrame para uma garantia extra em alguns navegadores.
-            requestAnimationFrame(async () => {
-                await renderSalaryChart();
-                await renderInvestmentChart();
-                renderSummaryCards();
-            });
+
+        // CORREÇÃO DEFINITIVA: Usar requestAnimationFrame.
+        // Isto garante que a renderização dos gráficos aconteça apenas quando
+        // o navegador estiver completamente pronto para a próxima "pintura" da tela,
+        // resolvendo o problema de timing de forma robusta.
+        requestAnimationFrame(async () => {
+            await renderSalaryChart();
+            await renderInvestmentChart();
+            renderSummaryCards();
         });
     }
 });
@@ -1244,7 +1242,6 @@ if(pjDashboardButtons.horaValorPj) pjDashboardButtons.horaValorPj.addEventListen
 if(pjDashboardButtons.backToWelcome) {
     pjDashboardButtons.backToWelcome.addEventListener('click', () => showScreen('welcome'));
 }
-
 
 // --- 8.3: Listeners dos Botões Internos das Ferramentas (Calcular e Voltar) ---
 
@@ -1355,6 +1352,7 @@ if (aposentadoriaElements.buttons.calcular) {
 if (aposentadoriaElements.buttons.voltar) {
     aposentadoriaElements.buttons.voltar.addEventListener('click', () => showScreen(lastDashboard));
 }
+
 
 // ==================================================================================
 // PARTE 9: INICIALIZAÇÃO FINAL
