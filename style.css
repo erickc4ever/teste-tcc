@@ -1,13 +1,13 @@
 /**
  * ==================================================================================
- * style.css - Estilos Visuais e Temas da "änalitks" (Versão "Wall Street")
+ * style.css - Versão 2.0 (Reescrita)
  * ----------------------------------------------------------------------------------
  * Responsabilidades:
- * 1. Definir a paleta de cores, incluindo roxo para CLT e laranja para PJ.
- * 2. Implementar os temas claro e escuro com um design de cantos quadrados.
- * 3. Estilizar os componentes com o layout amplo e minimalista, sem brilho excessivo.
- * 4. Adicionar estilos para a tela de relatórios e os novos cartões interativos.
- * 5. Corrigir o dimensionamento dos gráficos.
+ * 1. Definir uma paleta de cores limpa e organizada, com roxo (CLT) e laranja (PJ).
+ * 2. Implementar temas claro e escuro com um design minimalista e de cantos quadrados.
+ * 3. Estilizar componentes com regras claras e específicas para evitar conflitos.
+ * 4. Garantir que todas as animações sejam fluidas e que o "glow" nos botões seja
+ * definitivamente removido.
  * ==================================================================================
  */
 
@@ -16,113 +16,84 @@
 
 /* --- Definição dos Temas (Variáveis CSS) --- */
 :root {
-    /* Cores suavizadas para um visual mais fosco e profissional */
+    /* Cores de Base (Tema Claro) */
     --cor-fundo: #f4f4f5;
     --cor-card: #ffffff;
     --cor-texto-primario: #2a2a2e;
     --cor-texto-secundario: #5a5a5f;
     --cor-borda: #e1e1e3;
     
-    /* Cores do botão principal (neutro) */
+    /* Cores de Botões Neutros (Tema Claro) */
     --cor-primaria: #2a2a2e;
     --cor-primaria-hover: #414146;
     --cor-texto-botao-primario: #f4f4f5;
 
+    /* Sombras (Tema Claro) */
     --sombra-card: 0 2px 8px rgba(0, 0, 0, 0.07);
+    --sombra-card-hover: 0 6px 16px rgba(0, 0, 0, 0.1);
     --sombra-botao: 0 1px 3px rgba(0, 0, 0, 0.1);
     
-    /* --- ADICIONADO: Sombra interativa e cores de tema --- */
-    --sombra-card-hover: 0 6px 16px rgba(0, 0, 0, 0.1);
+    /* Cores de Identidade Visual */
     --cor-tema-clt: #6D28D9;
     --cor-tema-pj: #EA580C;
     --cor-tema-clt-hover: #5B21B6;
     --cor-tema-pj-hover: #C2410C;
-
-    --cor-primaria-rgb: 42, 42, 46;
 }
 
 [data-theme='dark'] {
-    /* Cores suavizadas para o tema escuro */
+    /* Cores de Base (Tema Escuro) */
     --cor-fundo: #161618;
     --cor-card: #212124;
     --cor-texto-primario: #e1e1e3;
     --cor-texto-secundario: #9e9ea3;
     --cor-borda: #3a3a3e;
 
-    /* Cores do botão principal (neutro) */
+    /* Cores de Botões Neutros (Tema Escuro) */
     --cor-primaria: #e1e1e3;
     --cor-primaria-hover: #ffffff;
     --cor-texto-botao-primario: #161618;
 
+    /* Sombras (Tema Escuro) */
     --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --sombra-card-hover: 0 8px 20px rgba(0, 0, 0, 0.25);
     --sombra-botao: 0 2px 4px rgba(0, 0, 0, 0.3);
 
-    /* --- ADICIONADO: Sombra interativa e cores de tema para o modo escuro --- */
-    --sombra-card-hover: 0 8px 20px rgba(0, 0, 0, 0.25);
+    /* Cores de Identidade Visual (Tema Escuro) */
     --cor-tema-clt: #8B5CF6;
     --cor-tema-pj: #F97316;
     --cor-tema-clt-hover: #7C3AED;
     --cor-tema-pj-hover: #FB923C;
-
-    --cor-primaria-rgb: 225, 225, 227;
 }
 
-/* --- Estilo do Logo Responsivo --- */
-.logo-img {
-    max-width: 280px;
-    height: auto;
-    transition: filter 0.3s ease-in-out;
-}
-
-[data-theme='dark'] .logo-img {
-    filter: invert(1);
-}
-
-/* --- ANIMAÇÕES E MICRO-INTERAÇÕES --- */
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.calculator-card {
-    animation: fadeInUp 0.5s ease-out forwards;
-}
-
-.btn, .input-field {
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out, outline 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-
-.input-field:focus {
-    border-color: var(--cor-primaria);
-    outline: none;
-    outline-offset: 0;
-}
-
-.resultado-animado {
-    animation: fadeInUp 0.4s ease-out forwards;
-}
-
-/* --- Estilos de Base --- */
+/* --- Estilos de Base e Reset --- */
 body {
     background-color: var(--cor-fundo);
     background-image: radial-gradient(ellipse at top, hsl(240, 8%, 98%), var(--cor-fundo));
     font-family: 'Lora', 'Inter', serif;
     color: var(--cor-texto-primario);
-    transition: background 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 [data-theme='dark'] body {
     background-image: radial-gradient(ellipse at top, hsl(240, 4%, 15%), var(--cor-fundo));
 }
 
-/* --- Estrutura dos Cards --- */
+/* --- Tipografia --- */
+h1 { font-family: 'Lora', serif; font-size: 36px; margin: 0; color: var(--cor-texto-primario); }
+h2 { font-family: 'Lora', serif; font-size: 22px; margin-top: 1.5rem; color: var(--cor-texto-primario); border-bottom: 1px solid var(--cor-borda); padding-bottom: 0.5rem; transition: border-color 0.3s ease; }
+h3 { font-family: 'Lora', serif; font-size: 1.25rem; color: var(--cor-texto-primario); margin: 0; font-weight: 700; letter-spacing: 0.5px; }
+p { margin: 0; color: var(--cor-texto-secundario); font-size: 16px; line-height: 1.5; }
+a { color: var(--cor-primaria); text-decoration: none; font-weight: 500; transition: color 0.2s ease; }
+a:hover { text-decoration: underline; color: var(--cor-primaria-hover); }
+
+/* --- Estrutura Principal dos Cards --- */
 .calculator-card {
     background-color: transparent;
     padding: 48px 0;
     border-radius: 0;
     box-shadow: none;
     border: none;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    animation: fadeInUp 0.5s ease-out forwards;
 }
 
 #auth-screen .calculator-card,
@@ -137,23 +108,7 @@ body {
     overflow-y: auto;
 }
 
-/* --- Tipografia --- */
-h1 { font-family: 'Lora', serif; font-size: 36px; margin: 0; color: var(--cor-texto-primario); }
-h2 { font-family: 'Lora', serif; font-size: 22px; margin-top: 1.5rem; color: var(--cor-texto-primario); border-bottom: 1px solid var(--cor-borda); padding-bottom: 0.5rem; transition: border-color 0.3s ease; }
-h3 { font-family: 'Lora', serif; font-size: 1.25rem; color: var(--cor-texto-primario); margin: 0; font-weight: 700; letter-spacing: 0.5px; }
-p { margin: 0; color: var(--cor-texto-secundario); font-size: 16px; line-height: 1.5; }
-a { color: var(--cor-primaria); text-decoration: none; font-weight: 500; transition: color 0.2s ease; }
-a:hover { text-decoration: underline; color: var(--cor-primaria-hover); }
-
-/* --- ADICIONADO: Sublinhados com cor de tema --- */
-#salario-screen h2, #investimentos-screen h2, #ferias-screen h2, #decimo-terceiro-screen h2, #hora-valor-screen h2, #irpf-screen h2, #aposentadoria-screen h2, #reports-screen h1, #historico-screen h1 {
-    border-bottom-color: var(--cor-tema-clt);
-}
-#simples-nacional-screen h2, #pj-hora-valor-screen h2 {
-    border-bottom-color: var(--cor-tema-pj);
-}
-
-/* --- Estilo dos Formulários --- */
+/* --- Formulários --- */
 label {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
@@ -161,47 +116,97 @@ label {
     color: var(--cor-texto-secundario);
     text-align: right;
 }
-.input-field { width: 100%; padding: 12px; border: 1px solid var(--cor-borda); border-radius: 0; font-size: 16px; background-color: var(--cor-fundo); color: var(--cor-texto-primario); box-sizing: border-box; }
-.input-field:focus { box-shadow: none; }
 
-/* --- Estilo dos Botões (Minimalista) --- */
-.btn { width: 100%; padding: 12px; border-radius: 0; border: none; font-size: 16px; font-weight: 700; cursor: pointer; box-sizing: border-box; transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease; box-shadow: var(--sombra-botao); text-transform: uppercase; letter-spacing: 1px; }
-.btn-primary { background-color: var(--cor-primaria); color: var(--cor-texto-botao-primario); }
-.btn:hover { 
+.input-field { 
+    width: 100%; 
+    padding: 12px; 
+    border: 1px solid var(--cor-borda); 
+    border-radius: 0; 
+    font-size: 16px; 
+    background-color: var(--cor-fundo); 
+    color: var(--cor-texto-primario); 
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.input-field:focus { 
+    outline: none;
+    border-color: var(--cor-primaria); 
+}
+
+/* --- Botões (Seção Reescrita para Clareza e Correção) --- */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 0;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    /* Estado inicial: com sombra */
+    box-shadow: var(--sombra-botao);
+    transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn:hover {
     transform: translateY(-3px);
-    /* --- CORREÇÃO DEFINITIVA: Sombra removida no hover para garantir que não haja "glow". --- */
+    /* Estado hover: SEM NENHUMA SOMBRA. Esta é a correção definitiva. */
     box-shadow: none;
 }
-.btn-primary:hover { background-color: var(--cor-primaria-hover); }
-.btn:active { transform: translateY(1px) scale(0.99); box-shadow: none; }
-.btn-secondary { background-color: var(--cor-fundo); color: var(--cor-primaria); border: 1px solid var(--cor-borda); }
-.btn-secondary:hover { background-color: var(--cor-primaria); border-color: var(--cor-primaria); color: var(--cor-texto-botao-primario); }
 
-/* --- Cartões Interativos (Flip Cards) --- */
+.btn:active {
+    transform: translateY(1px) scale(0.99);
+    box-shadow: none;
+}
+
+.btn-primary { 
+    background-color: var(--cor-primaria); 
+    color: var(--cor-texto-botao-primario); 
+}
+.btn-primary:hover { 
+    background-color: var(--cor-primaria-hover); 
+}
+
+.btn-secondary { 
+    background-color: var(--cor-fundo); 
+    color: var(--cor-primaria); 
+    border: 1px solid var(--cor-borda); 
+}
+.btn-secondary:hover { 
+    background-color: var(--cor-primaria); 
+    border-color: var(--cor-primaria); 
+    color: var(--cor-texto-botao-primario); 
+}
+
+/* --- Cartões Interativos da Dashboard (Flip Cards) --- */
 .card-container {
     background-color: transparent;
     min-height: 180px;
     perspective: 1000px;
     cursor: pointer;
-    /* ADICIONADO: Transição para o efeito de 'pop-out' */
     transition: transform 0.3s cubic-bezier(.3, 0, 0, 1.3);
 }
-/* ADICIONADO: Efeito de 'pop-out' no hover */
+
 .card-container:hover {
-    transform: scale(1.03);
+    transform: scale(1.03); /* Efeito 'pop-out' */
 }
+
 .flipping-card-inner {
     position: relative;
     width: 100%;
     height: 100%;
     text-align: center;
-    /* ALTERADO: Animação mais rápida e elástica */
-    transition: transform 0.6s cubic-bezier(.3, 0, 0, 1.3);
     transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(.3, 0, 0, 1.3); /* Animação elástica */
 }
+
 .card-container.is-flipped .flipping-card-inner {
     transform: rotateY(180deg);
 }
+
 .card-front, .card-back {
     position: absolute;
     width: 100%;
@@ -216,74 +221,56 @@ label {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* --- ADICIONADO: Transição suave da sombra --- */
     transition: box-shadow 0.3s ease;
 }
-/* --- ADICIONADO: Efeito de sombra interativa --- */
+
 .card-container:hover .card-front, 
 .card-container:hover .card-back {
-    box-shadow: var(--sombra-card-hover);
+    box-shadow: var(--sombra-card-hover); /* Sombra interativa */
 }
+
 .card-back {
     transform: rotateY(180deg);
     gap: 15px;
 }
-/* --- ALTERADO: Cores de tema aplicadas aos cartões --- */
-.card-clt { background-color: var(--cor-card); border-left: 4px solid var(--cor-tema-clt); }
-.card-pj { background-color: var(--cor-card); border-left: 4px solid var(--cor-tema-pj); }
 
-.card-clt h3, .card-pj h3 { color: var(--cor-texto-primario); }
-.card-clt p, .card-pj p { color: var(--cor-texto-secundario); font-family: 'Inter', sans-serif; }
-
+/* Cores de tema aplicadas aos cartões */
+.card-clt { border-left: 4px solid var(--cor-tema-clt); }
+.card-pj { border-left: 4px solid var(--cor-tema-pj); }
 .card-clt .btn-primary { background-color: var(--cor-tema-clt); color: #fff; }
 .card-clt .btn-primary:hover { background-color: var(--cor-tema-clt-hover); }
-
 .card-pj .btn-primary { background-color: var(--cor-tema-pj); color: #fff; }
 .card-pj .btn-primary:hover { background-color: var(--cor-tema-pj-hover); }
 
-/* --- Utilidades e Resultados --- */
-.results-section { border-top: 1px solid var(--cor-borda); margin-top: 20px; padding-top: 30px; }
-hr { border: none; border-top: 1px solid var(--cor-borda); margin: 15px 0; }
-.font-bold { font-weight: 700; }
-.text-center { text-align: center; }
-.explanation-text { font-family: 'Inter', sans-serif; font-size: 14px; font-style: italic; margin-top: 8px !important; }
-
-/* --- Componentes Específicos (Botão de Tema, Modal) --- */
-.theme-toggle-btn { background-color: var(--cor-card); color: var(--cor-texto-primario); border: 1px solid var(--cor-borda); padding: 8px; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; box-shadow: var(--sombra-card); transition: transform 0.2s ease; }
-.theme-toggle-btn:hover { transform: scale(1.1) rotate(15deg); }
-
-.modal-overlay { background-color: rgba(0, 0, 0, 0.6); }
-.close-btn { background: none; border: none; font-size: 2rem; font-weight: 300; line-height: 1; cursor: pointer; color: var(--cor-texto-secundario); transition: color 0.2s ease; }
-.close-btn:hover { color: var(--cor-texto-primario); }
-.brasao { font-style: italic; text-align: center; color: var(--cor-texto-secundario); margin-bottom: 1.5rem; padding: 0.5rem; background-color: var(--cor-fundo); border-radius: 0; }
-.modal-overlay ul { list-style: none; padding: 0; margin-top: 0.5rem; }
-.modal-overlay li { margin-bottom: 0.5rem; }
-
-/* --- Tela de Relatórios --- */
+/* --- Tela de Relatórios e Gráficos --- */
 .reports-grid { display: flex; flex-wrap: wrap; gap: 24px; width: 100%; }
 .chart-container { background-color: var(--cor-card); padding: 24px; border-radius: 0; box-shadow: var(--sombra-card); border: 1px solid var(--cor-borda); position: relative; height: 400px; flex: 1 1 400px; min-width: 0; }
 #salary-chart, #investment-chart { max-width: 100% !important; max-height: 100% !important; }
-.summary-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+.summary-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 24px; }
 .summary-card { background-color: var(--cor-card); padding: 24px; border-radius: 0; box-shadow: var(--sombra-card); border: 1px solid var(--cor-borda); text-align: center; }
 .summary-card p { font-size: 28px; color: var(--cor-texto-primario); margin: 0; }
 
+/* Correção Final do Gráfico (Animação) */
+#reports-screen .calculator-card {
+    animation: none !important;
+}
+
+/* --- Componentes e Classes Utilitárias --- */
+.logo-img { max-width: 280px; height: auto; transition: filter 0.3s ease-in-out; }
+[data-theme='dark'] .logo-img { filter: invert(1); }
+.theme-toggle-btn { background-color: var(--cor-card); color: var(--cor-texto-primario); border: 1px solid var(--cor-borda); padding: 8px; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; box-shadow: var(--sombra-card); transition: transform 0.2s ease; }
+.theme-toggle-btn:hover { transform: scale(1.1) rotate(15deg); }
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 1rem; box-sizing: border-box; }
+.close-btn { background: none; border: none; font-size: 2rem; font-weight: 300; line-height: 1; cursor: pointer; color: var(--cor-texto-secundario); transition: color 0.2s ease; }
+.close-btn:hover { color: var(--cor-texto-primario); }
+.explanation-text { font-family: 'Inter', sans-serif; font-size: 14px; font-style: italic; margin-top: 8px !important; }
+.dashboard-footer .btn { width: auto; padding-left: 28px; padding-right: 28px; }
+
+/* --- Media Queries --- */
 @media (max-width: 768px) {
     .reports-grid, .summary-cards-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
     label { text-align: left; margin-bottom: 2px; }
-}
-
-/* --- Outros Componentes --- */
-.param-chart { display: flex; flex-direction: column; gap: 6px; margin-top: 1rem; font-family: 'Inter', sans-serif; font-size: 12px; }
-.chart-bar { padding: 8px 12px; border-radius: 0; color: var(--cor-texto-primario); display: flex; justify-content: space-between; font-weight: 500; border: 1px solid var(--cor-borda); background-color: var(--cor-fundo); }
-.dashboard-footer .btn { width: auto; padding-left: 28px; padding-right: 28px; }
-.chart-bar span:last-child { font-weight: 700; }
-
-/* --- Correção do Gráfico --- */
-#reports-screen .calculator-card {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
 }
 
