@@ -166,27 +166,40 @@ body {
     gap: 24px; 
     width: 100%; 
 }
-
+/* --- CORREÇÃO DEFINITIVA DOS GRÁFICOS --- */
 .chart-container { 
     background-color: var(--cor-card); 
     padding: 24px; 
-    border-radius: 0; /* Design quadrado */ 
+    border-radius: 0;
     box-shadow: var(--sombra-card); 
     border: 1px solid var(--cor-borda); 
     position: relative; 
-    height: 350px; /* Altura ajustada */
+    height: 350px;
+    flex: 1 1 400px;
+    min-width: 0;
     
-    /* CORREÇÃO: Define a base flexível para que cada gráfico ocupe o espaço necessário, mas cresça para preencher a linha. */
-    flex: 1 1 400px; /* Cresce, encolhe e tem uma base de 400px (ajuste conforme necessário) */
-    min-width: 0; /* Mantém a correção anterior para garantir que o flexbox se comporte bem. */
+    /* NOVO: Container de gráfico com overflow controlado */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-/* CORREÇÃO DOS GRÁFICOS */
-.chart-container canvas {
-    max-width: 100%;
-    max-height: 100%;
+.chart-container h2 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    text-align: center;
+    flex-shrink: 0; /* Impede que o título seja esmagado */
 }
-#reports-screen .calculator-card {
-    animation: none;
-    transition: none;
+
+/* CORREÇÃO DOS GRÁFICOS - Container interno */
+.chart-wrapper {
+    position: relative;
+    flex: 1; /* Ocupa todo espaço restante */
+    min-height: 0; /* Permite que o flex shrink funcione */
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
 }

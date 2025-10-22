@@ -643,126 +643,158 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return { anos, meses: mesesRestantes };
     }
-
-    /**
-     * Renderiza o gráfico de evolução do salário líquido ao longo do tempo
-     */
-    async function renderSalaryChart() {
-        if (salaryChartInstance) { salaryChartInstance.destroy(); }
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (!user) return;
-        const canvas = reportsElements.salaryChart;
-        const container = canvas.parentElement;
-        const existingMessage = container.querySelector('.chart-notice');
-        if (existingMessage) existingMessage.remove();
-        const { data, error } = await supabaseClient.from('historico_salarios').select('created_at, salario_liquido_calculado').eq('user_id', user.id).order('created_at', { ascending: true });
-        if (error || !data || data.length === 0) {
-            canvas.style.display = 'none';
-            const noDataMessage = document.createElement('p');
-            noDataMessage.className = 'explanation-text text-center chart-notice';
-            noDataMessage.textContent = 'Salve o seu primeiro cálculo de salário para ver a sua evolução aqui!';
-            container.appendChild(noDataMessage);
-            return;
-        }
-        canvas.style.display = 'block';
-        const labels = data.map(item => new Date(item.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }));
-        const chartData = data.map(item => item.salario_liquido_calculado);
-        salaryChartInstance = new Chart(canvas.getContext('2d'), { 
-            type: 'line', 
-            data: { 
-                labels: labels, 
-                datasets: [{ 
-                    label: 'Salário Líquido', 
-                    data: chartData, 
-                    borderColor: '#6D28D9', 
-                    backgroundColor: 'rgba(109, 40, 217, 0.1)', 
-                    fill: true, 
-                    tension: 0.3 
-                }] 
-            }, 
-            options: { 
-                responsive: true, 
-                maintainAspectRatio: false 
-            } 
-        });
-        
-        // Força o gráfico a recalcular o seu tamanho e a preencher o contentor
-        setTimeout(() => salaryChartInstance.resize(), 50);
+/**
+ * Renderiza o gráfico de evolução do salário líquido ao longo do tempo
+ */
+async function renderSalaryChart() {
+    if (salaryChartInstance) { salaryChartInstance.destroy(); }
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return;
+    const canvas = reportsElements.salaryChart;
+    const container = canvas.parentElement;
+    const existingMessage = container.querySelector('.chart-notice');
+    if (existingMessage) existingMessage.remove();
+    const { data, error } = await supabaseClient.from('historico_salarios').select('created_at, salario_liquido_calculado').eq('user_id', user.id).order('created_at', { ascending: true });
+    if (error || !data || data.length === 0) {
+        canvas.style.display = 'none';
+        const noDataMessage = document.createElement('p');
+        noDataMessage.className = 'explanation-text text-center chart-notice';
+        noDataMessage.textContent = 'Salve o seu primeiro cálculo de salário para ver a sua evolução aqui!';
+        container.appendChild(noDataMessage);
+        return;
     }
+    canvas.style.display = 'block';
+    const labels = data.map(item => new Date(item.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }));
+    const chartData = data.map(item => item.salario_liquido_calculado);
+    salaryChartInstance = new Chart(canvas.getContext('2d'), { 
+        type: 'line', 
+        data: { 
+            labels: labels, 
+            datasets: [{ 
+                label: 'Salário Líquido', 
+                data: chartData, 
+                borderColor: '#6D28D9', 
+                backgroundColor: 'rgba(109, 40, 217, 0.1)', 
+                fill: true, 
+                tension: 0.3 
+            }] 
+        }, 
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    top: 10,
+                    right: 15,
+                    bottom: 10,
+                    left: 15
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                }
+            }
+        } 
+    });
+    
+    // Força o gráfico a recalcular o seu tamanho e a preencher o contentor
+    setTimeout(() => salaryChartInstance.resize(), 50);
+}
 
-    /**
-     * Renderiza o gráfico de comparação entre diferentes simulações de investimento
-     */
-    async function renderInvestmentChart() {
-        if (investmentChartInstance) { investmentChartInstance.destroy(); }
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (!user) return;
-        const canvas = reportsElements.investmentChart;
-        const container = canvas.parentElement;
-        const existingMessage = container.querySelector('.chart-notice');
-        if (existingMessage) existingMessage.remove();
-        const { data, error } = await supabaseClient.from('historico_investimentos').select('created_at, valor_final_calculado, periodo_anos_informado').eq('user_id', user.id).order('created_at', { ascending: true });
-        if (error || !data || data.length === 0) {
-            canvas.style.display = 'none';
-            const noDataMessage = document.createElement('p');
-            noDataMessage.className = 'explanation-text text-center chart-notice';
-            noDataMessage.textContent = 'Salve a sua primeira simulação de investimento para comparar cenários aqui!';
-            container.appendChild(noDataMessage);
-            return;
-        }
-        canvas.style.display = 'block';
-        const labels = data.map(item => `Salvo em ${new Date(item.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })} (${item.periodo_anos_informado} anos)`);
-        const chartData = data.map(item => item.valor_final_calculado);
-        investmentChartInstance = new Chart(canvas.getContext('2d'), { 
-            type: 'bar', 
-            data: { 
-                labels: labels, 
-                datasets: [{ 
-                    label: 'Valor Final Projetado', 
-                    data: chartData, 
-                    backgroundColor: '#8B5CF6' 
-                }] 
-            }, 
-            options: { 
-                responsive: true, 
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        ticks: {
-                            maxRotation: 90,
-                            minRotation: 45,
-                            padding: 10, 
+/**
+ * Renderiza o gráfico de comparação entre diferentes simulações de investimento
+ */
+async function renderInvestmentChart() {
+    if (investmentChartInstance) { investmentChartInstance.destroy(); }
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return;
+    const canvas = reportsElements.investmentChart;
+    const container = canvas.parentElement;
+    const existingMessage = container.querySelector('.chart-notice');
+    if (existingMessage) existingMessage.remove();
+    const { data, error } = await supabaseClient.from('historico_investimentos').select('created_at, valor_final_calculado, periodo_anos_informado').eq('user_id', user.id).order('created_at', { ascending: true });
+    if (error || !data || data.length === 0) {
+        canvas.style.display = 'none';
+        const noDataMessage = document.createElement('p');
+        noDataMessage.className = 'explanation-text text-center chart-notice';
+        noDataMessage.textContent = 'Salve a sua primeira simulação de investimento para comparar cenários aqui!';
+        container.appendChild(noDataMessage);
+        return;
+    }
+    canvas.style.display = 'block';
+    const labels = data.map(item => `Salvo em ${new Date(item.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })} (${item.periodo_anos_informado} anos)`);
+    const chartData = data.map(item => item.valor_final_calculado);
+    investmentChartInstance = new Chart(canvas.getContext('2d'), { 
+        type: 'bar', 
+        data: { 
+            labels: labels, 
+            datasets: [{ 
+                label: 'Valor Final Projetado', 
+                data: chartData, 
+                backgroundColor: '#8B5CF6' 
+            }] 
+        }, 
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    top: 10,
+                    right: 15,
+                    bottom: 10,
+                    left: 15
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 45,
+                        padding: 5,
+                        font: {
+                            size: 10
                         }
                     }
+                },
+                y: {
+                    beginAtZero: true
                 }
-            } 
-        });
+            }
+        } 
+    });
 
-        // Força o gráfico a recalcular o seu tamanho e a preencher o contentor
-        setTimeout(() => investmentChartInstance.resize(), 50);
+    // Força o gráfico a recalcular o seu tamanho e a preencher o contentor
+    setTimeout(() => investmentChartInstance.resize(), 50);
+}
+
+/**
+ * Renderiza os cartões de resumo com valores diários e do 13º salário
+ */
+function renderSummaryCards() {
+    if (!userProfile || !userProfile.salario_bruto || !userProfile.horas_dia || !userProfile.dias_semana) {
+        reportsElements.summary.dailyValue.textContent = 'N/A';
+        reportsElements.summary.thirteenthValue.textContent = 'N/A';
+        return;
     }
-
-    /**
-     * Renderiza os cartões de resumo com valores diários e do 13º salário
-     */
-    function renderSummaryCards() {
-        if (!userProfile || !userProfile.salario_bruto || !userProfile.horas_dia || !userProfile.dias_semana) {
-            reportsElements.summary.dailyValue.textContent = 'N/A';
-            reportsElements.summary.thirteenthValue.textContent = 'N/A';
-            return;
-        }
-        const salarioBruto = userProfile.salario_bruto;
-        const diasSemana = userProfile.dias_semana;
-        const descontoINSS = calcularINSS(salarioBruto);
-        const salarioLiquido = salarioBruto - descontoINSS - calcularIRRF(salarioBruto - descontoINSS, userProfile.dependentes || 0);
-        const diasTrabalhadosMes = diasSemana * 4.5;
-        const valorDiaLiquido = salarioLiquido / diasTrabalhadosMes;
-        reportsElements.summary.dailyValue.textContent = `R$ ${valorDiaLiquido.toFixed(2)}`;
-        const decimoTerceiroBruto = (salarioBruto / 12) * 12;
-        const decimoTerceiroLiquido = (decimoTerceiroBruto - calcularINSS(decimoTerceiroBruto) - calcularIRRF(decimoTerceiroBruto - calcularINSS(decimoTerceiroBruto), userProfile.dependentes || 0));
-        reportsElements.summary.thirteenthValue.textContent = `R$ ${decimoTerceiroLiquido.toFixed(2)}`;
-    }
-
+    const salarioBruto = userProfile.salario_bruto;
+    const diasSemana = userProfile.dias_semana;
+    const descontoINSS = calcularINSS(salarioBruto);
+    const salarioLiquido = salarioBruto - descontoINSS - calcularIRRF(salarioBruto - descontoINSS, userProfile.dependentes || 0);
+    const diasTrabalhadosMes = diasSemana * 4.5;
+    const valorDiaLiquido = salarioLiquido / diasTrabalhadosMes;
+    reportsElements.summary.dailyValue.textContent = `R$ ${valorDiaLiquido.toFixed(2)}`;
+    const decimoTerceiroBruto = (salarioBruto / 12) * 12;
+    const decimoTerceiroLiquido = (decimoTerceiroBruto - calcularINSS(decimoTerceiroBruto) - calcularIRRF(decimoTerceiroBruto - calcularINSS(decimoTerceiroBruto), userProfile.dependentes || 0));
+    reportsElements.summary.thirteenthValue.textContent = `R$ ${decimoTerceiroLiquido.toFixed(2)}`;
+}
     // ==================================================================================
     // PARTE 6: LÓGICA DAS FERRAMENTAS (ATUALIZADA)
     // ----------------------------------------------------------------------------------
