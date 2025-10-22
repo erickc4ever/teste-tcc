@@ -274,3 +274,41 @@ label {
     label { text-align: left; margin-bottom: 2px; }
 }
 
+
+/* === REMOÇÃO TOTAL DE GLOW - CORREÇÃO DEFINITIVA === */
+
+/* Remove TUDO de todos os elementos */
+*:focus,
+*:active,
+*:hover {
+    outline: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+}
+
+/* Específico para botões e inputs */
+.btn,
+button,
+input,
+select,
+textarea {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove glow do Firefox */
+::-moz-focus-inner {
+    border: 0 !important;
+    outline: none !important;
+}
+
+/* Remove glow do Chrome/Safari */
+*::-webkit-focus-ring-color {
+    display: none !important;
+}
+
+/* Garante que NADA tenha glow */
+* {
+    --glow-color: transparent !important;
+}
