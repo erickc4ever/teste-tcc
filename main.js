@@ -141,29 +141,28 @@ document.addEventListener('DOMContentLoaded', () => {
         lista: document.getElementById('historico-lista'), 
         voltar: document.getElementById('back-to-dashboard-from-historico') 
     };
-    
-    // Elementos da calculadora de aposentadoria
-    const aposentadoriaElements = {
-        screen: document.getElementById('aposentadoria-screen'),
-        form: {
-            idadeAtual: document.getElementById('aposentadoria-idade-atual'),
-            idadeObjetivo: document.getElementById('aposentadoria-idade-objetivo'),
-            patrimonioAtual: document.getElementById('aposentadoria-patrimonio-atual'),
-            aporteMensal: document.getElementById('aposentadoria-aporte-mensal'),
-            rendaDesejada: document.getElementById('aposentadoria-renda-desejada')
-        },
-        buttons: {
-            calcular: document.getElementById('calcular-aposentadoria-btn'),
-            voltar: document.getElementById('back-to-dashboard-from-aposentadoria'),
-            salvar: document.getElementById('salvar-aposentadoria-btn')
-        },
-        results: {
-            container: document.getElementById('aposentadoria-results-section'),
-            objetivo: document.getElementById('resultado-aposentadoria-objetivo'),
-            projecao: document.getElementById('resultado-aposentadoria-projecao'),
-            recomendacao: document.getElementById('aposentadoria-recomendacao').querySelector('p')
-        }
-    };
+    // Elementos da calculadora de aposentadoria - VERSÃO CORRIGIDA
+const aposentadoriaElements = {
+    screen: document.getElementById('aposentadoria-screen'),
+    form: {
+        idadeAtual: document.getElementById('aposentadoria-idade-atual'),
+        idadeObjetivo: document.getElementById('aposentadoria-idade-objetivo'),
+        patrimonioAtual: document.getElementById('aposentadoria-patrimonio-atual'),
+        aporteMensal: document.getElementById('aposentadoria-aporte-mensal'),
+        rendaDesejada: document.getElementById('aposentadoria-renda-desejada')
+    },
+    buttons: {
+        calcular: document.getElementById('calcular-aposentadoria-btn'),
+        voltar: document.getElementById('back-to-dashboard-from-aposentadoria'),
+        salvar: document.getElementById('salvar-aposentadoria-btn')
+    },
+    results: {
+        container: document.getElementById('aposentadoria-results-section'),
+        objetivo: document.getElementById('resultado-aposentadoria-objetivo'),
+        projecao: document.getElementById('resultado-aposentadoria-projecao'),
+        recomendacao: document.getElementById('aposentadoria-recomendacao').querySelector('p')
+    }
+};
 
     // Elementos da calculadora de salário
     const salarioElements = { 
