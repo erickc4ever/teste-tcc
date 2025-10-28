@@ -71,8 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             pj: document.getElementById('goto-pj-dashboard-btn') 
         } 
     };
-    
-    // Botões do PAINEL CLT (CORRIGIDO E COMPLETO)
+        // Botões do PAINEL CLT (CORRIGIDO E COMPLETO)
     const dashboardButtons = { 
         salario: document.getElementById('goto-salario-btn'), 
         investimentos: document.getElementById('goto-investimentos-btn'), 
@@ -1588,6 +1587,12 @@ function renderSummaryCards() {
         showScreen('irpf'); 
     });
     
+    // ✅ BOTÃO DE APOSENTADORIA CLT ADICIONADO
+    if(dashboardButtons.aposentadoria) dashboardButtons.aposentadoria.addEventListener('click', () => { 
+        lastDashboard = 'dashboard'; 
+        showScreen('aposentadoria'); 
+    });
+    
     if(dashboardButtons.profile) dashboardButtons.profile.addEventListener('click', () => { 
         lastDashboard = 'dashboard'; 
         preencherFormulariosComPerfil(); 
@@ -1633,10 +1638,15 @@ function renderSummaryCards() {
         showScreen('pjHoraValor'); 
     });
 
+    // ✅ BOTÃO DE APOSENTADORIA PJ ADICIONADO
+    if(pjDashboardButtons.aposentadoriaPj) pjDashboardButtons.aposentadoriaPj.addEventListener('click', () => { 
+        lastDashboard = 'pjDashboard'; 
+        showScreen('aposentadoria'); 
+    });
+
     if(pjDashboardButtons.backToWelcome) {
         pjDashboardButtons.backToWelcome.addEventListener('click', () => showScreen('welcome'));
     }
-
     // --- 8.3: Listeners dos Botões Internos das Ferramentas (Calcular e Voltar) ---
 
     // CORREÇÃO GERAL: Todos os botões "Voltar" agora usam a variável `lastDashboard`
